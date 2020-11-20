@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../Descan/main.cpp \
-		../Descan/mainwindow.cpp moc_mainwindow.cpp
+		../Descan/mainwindow.cpp qrc_resources.cpp \
+		moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		qrc_resources.o \
 		moc_mainwindow.o
 DIST          = ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/common/unix.conf \
@@ -213,6 +215,7 @@ DIST          = ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf \
+		../Descan/.qmake.stash \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -402,6 +405,7 @@ Makefile: ../Descan/Descan.pro ../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -422,7 +426,8 @@ Makefile: ../Descan/Descan.pro ../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
-		../Descan/Descan.pro
+		../Descan/Descan.pro \
+		../Descan/resources.qrc
 	$(QMAKE) -o Makefile ../Descan/Descan.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/common/unix.conf:
@@ -580,6 +585,7 @@ Makefile: ../Descan/Descan.pro ../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -601,6 +607,7 @@ Makefile: ../Descan/Descan.pro ../../../Qt/5.15.2/gcc_64/mkspecs/linux-g++/qmake
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf:
 ../../../Qt/5.15.2/gcc_64/mkspecs/features/lex.prf:
 ../Descan/Descan.pro:
+../Descan/resources.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Descan/Descan.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 
@@ -615,6 +622,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../Descan/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Descan/mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Descan/main.cpp ../Descan/mainwindow.cpp $(DISTDIR)/
@@ -642,8 +650,26 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resources.cpp
+qrc_resources.cpp: ../Descan/resources.qrc \
+		../../../Qt/5.15.2/gcc_64/bin/rcc \
+		../Descan/iconfinder_gmail_1220367.png \
+		../Descan/import4.png \
+		../Descan/iconfinder_1-02_511559.png \
+		../Descan/file.png \
+		../Descan/1.png \
+		../Descan/iconfinder_check_1930264.png \
+		../Descan/next.png \
+		../Descan/import2.png \
+		../Descan/openDirectory.png \
+		../Descan/crop.png \
+		../Descan/import.png \
+		../Descan/iconfinder_google-drive_317713.png \
+		../Descan/split.png
+	/home/dusica97/Qt/5.15.2/gcc_64/bin/rcc -name resources ../Descan/resources.qrc -o qrc_resources.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -778,7 +804,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -999,8 +1025,34 @@ mainwindow.o: ../Descan/mainwindow.cpp ../Descan/mainwindow.h \
 		../../../Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.2/gcc_64/include/QtGui/QIcon \
+		../../../Qt/5.15.2/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.2/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.2/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/QStackedWidget \
+		../../../Qt/5.15.2/gcc_64/include/QtWidgets/qstackedwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Descan/mainwindow.cpp
+
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
