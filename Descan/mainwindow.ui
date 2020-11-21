@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -612,7 +612,182 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page"/>
+   <widget class="QWidget" name="page">
+    <widget class="QPushButton" name="pbFinish">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>580</y>
+       <width>161</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Ubuntu Condensed</family>
+       <pointsize>14</pointsize>
+       <italic>true</italic>
+      </font>
+     </property>
+     <property name="text">
+      <string>Finish </string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/iconfinder_check_1930264.png</normaloff>:/icons/icons/iconfinder_check_1930264.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="laImage">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>240</y>
+       <width>371</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/icons/icons/main2.gif</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>210</y>
+       <width>247</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pbDownload">
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Download   </string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/download.png</normaloff>:/icons/icons/download.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbDrive">
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Send to Drive   </string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/iconfinder_google-drive_317713.png</normaloff>:/icons/icons/iconfinder_google-drive_317713.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbMail">
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Send to Mail    </string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/iconfinder_gmail_1220367.png</normaloff>:/icons/icons/iconfinder_gmail_1220367.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbConvert">
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Convert to PDF  </string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/iconfinder_1-02_511559.png</normaloff>:/icons/icons/iconfinder_1-02_511559.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="laThanks">
+     <property name="geometry">
+      <rect>
+       <x>139</x>
+       <y>110</y>
+       <width>681</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Waree</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#01030c;&quot;&gt;Thank you for using our app! &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources>
