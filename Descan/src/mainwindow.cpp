@@ -23,3 +23,13 @@ void MainWindow::on_pbNextEdit_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
+
+void MainWindow::on_pbNextFinish_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_pbBack1_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}

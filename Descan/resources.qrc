@@ -13,5 +13,6 @@
         <file>icons/openDirectory.png</file>
         <file>icons/file.png</file>
         <file>icons/split.png</file>
+        <file>icons/back.png</file>
     </qresource>
 </RCC>

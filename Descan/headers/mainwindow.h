@@ -20,6 +20,8 @@ private:
 
 private slots:
     void on_pbNextEdit_clicked();
+    void on_pbNextFinish_clicked();
+    void on_pbBack1_clicked();
 };
 
 #endif // MAINWINDOW_H
