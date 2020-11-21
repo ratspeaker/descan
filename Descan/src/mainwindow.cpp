@@ -1,5 +1,10 @@
-#include "mainwindow.h"
+#include "headers/mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include<QAction>
+#include<QMessageBox>
+#include<QMenu>
+#include<QMenuBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)

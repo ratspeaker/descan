@@ -15,10 +15,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_pbNextEdit_clicked();
-
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void on_pbNextEdit_clicked();
 };
+
 #endif // MAINWINDOW_H
+

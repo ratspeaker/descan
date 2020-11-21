@@ -1,17 +1,17 @@
 <RCC>
-    <qresource prefix="/img">
-        <file>1.png</file>
-        <file>crop.png</file>
-        <file>iconfinder_1-02_511559.png</file>
-        <file>iconfinder_check_1930264.png</file>
-        <file>iconfinder_gmail_1220367.png</file>
-        <file>iconfinder_google-drive_317713.png</file>
-        <file>import.png</file>
-        <file>import2.png</file>
-        <file>import4.png</file>
-        <file>next.png</file>
-        <file>openDirectory.png</file>
-        <file>file.png</file>
-        <file>split.png</file>
+    <qresource prefix="/icons">
+        <file>icons/1.png</file>
+        <file>icons/crop.png</file>
+        <file>icons/iconfinder_1-02_511559.png</file>
+        <file>icons/iconfinder_check_1930264.png</file>
+        <file>icons/iconfinder_gmail_1220367.png</file>
+        <file>icons/iconfinder_google-drive_317713.png</file>
+        <file>icons/import.png</file>
+        <file>icons/import2.png</file>
+        <file>icons/import4.png</file>
+        <file>icons/next.png</file>
+        <file>icons/openDirectory.png</file>
+        <file>icons/file.png</file>
+        <file>icons/split.png</file>
     </qresource>
 </RCC>

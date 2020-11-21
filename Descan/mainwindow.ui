@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>950</width>
-    <height>709</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,11 +19,17 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="layoutDirection">
+   <enum>Qt::RightToLeft</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>-20</x>
-     <y>20</y>
+     <x>0</x>
+     <y>50</y>
      <width>1021</width>
      <height>681</height>
     </rect>
@@ -38,8 +44,8 @@
     <widget class="QLabel" name="lblDescan">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>40</y>
+       <x>130</x>
+       <y>50</y>
        <width>591</width>
        <height>151</height>
       </rect>
@@ -48,7 +54,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/img/1.png</pixmap>
+      <pixmap resource="resources.qrc">:/icons/icons/1.png</pixmap>
      </property>
     </widget>
     <widget class="QPushButton" name="pbNextEdit">
@@ -67,14 +73,15 @@
        <italic>true</italic>
       </font>
      </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="text">
       <string>Next   </string>
      </property>
      <property name="icon">
-      <iconset>
-       <selectedoff>next.png</selectedoff>
-       <selectedon>:/img/next.png</selectedon>
-      </iconset>
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -83,7 +90,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>151</x>
@@ -93,32 +100,6 @@
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="2">
-       <widget class="QPushButton" name="pbImportMultiple">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>15</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>Ubuntu Condensed</family>
-          <pointsize>16</pointsize>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="text">
-         <string>Choose multiple images...</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="pbImport">
         <property name="font">
@@ -128,13 +109,15 @@
           <italic>true</italic>
          </font>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="text">
          <string>Import image    </string>
         </property>
         <property name="icon">
-         <iconset>
-          <selectedon>:/img/import4.png</selectedon>
-         </iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/import4.png</normaloff>:/icons/icons/import4.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -153,13 +136,15 @@
           <italic>true</italic>
          </font>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="text">
          <string> Split PDF   </string>
         </property>
         <property name="icon">
-         <iconset>
-          <selectedon>:/img/split.png</selectedon>
-         </iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/split.png</normaloff>:/icons/icons/split.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -194,13 +179,41 @@
           <italic>true</italic>
          </font>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="text">
          <string>Merge PDF   </string>
         </property>
         <property name="icon">
-         <iconset>
-          <selectedon>:/img/file.png</selectedon>
-         </iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/file.png</normaloff>:/icons/icons/file.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="pbImportMultiple">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>15</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <pointsize>16</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Choose multiple images...</string>
         </property>
         <property name="iconSize">
          <size>
