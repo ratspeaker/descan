@@ -29,25 +29,25 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
-     <width>1021</width>
-     <height>681</height>
+     <y>80</y>
+     <width>921</width>
+     <height>661</height>
     </rect>
    </property>
    <property name="layoutDirection">
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>-20</x>
        <y>50</y>
-       <width>591</width>
-       <height>151</height>
+       <width>741</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="text">
@@ -224,6 +224,26 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="laError">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>270</y>
+       <width>561</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Ubuntu Condensed</family>
+       <pointsize>17</pointsize>
+       <italic>true</italic>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="editImg">
@@ -496,55 +516,6 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>591</width>
-       <height>451</height>
-      </rect>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>589</width>
-        <height>449</height>
-       </rect>
-      </property>
-      <widget class="QScrollBar" name="horizontalScrollBar">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>430</y>
-         <width>571</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-      <widget class="QScrollBar" name="verticalScrollBar">
-       <property name="geometry">
-        <rect>
-         <x>570</x>
-         <y>0</y>
-         <width>20</width>
-         <height>431</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </widget>
-    </widget>
     <widget class="QPushButton" name="pbNextFinish">
      <property name="geometry">
       <rect>
@@ -609,6 +580,19 @@
        <width>20</width>
        <height>20</height>
       </size>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelImage">
+     <property name="geometry">
+      <rect>
+       <x>36</x>
+       <y>10</y>
+       <width>581</width>
+       <height>531</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
