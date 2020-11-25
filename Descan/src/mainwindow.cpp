@@ -17,16 +17,17 @@
 #include<QGraphicsPixmapItem>
 #include<QGraphicsItem>
 #include<QPixmap>
-
+#include"headers/image.hpp"
 #include<opencv4/opencv2/highgui/highgui.hpp>
 #include<opencv4/opencv2/imgproc/imgproc.hpp>
 #include<opencv4/opencv2/imgcodecs/imgcodecs.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), m_img(new Image())
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -56,28 +57,22 @@ cv::Mat img = cv::imread(fileName.toUtf8().constData());
 // TODO srediti lepo ovaj double
 double scale = float(581)/img.size().width;
 
-//Skaliramo sliku na odgovarajucu velicinu labele
-cv::resize(img,img,cv::Size(0,0),scale,scale);
-
-//kastovanje u tip slike koji se koristi u Qt
-QImage imdisplay((uchar*)img.data, img.cols, img.rows, img.step, QImage::Format_RGB888);
-//Hendlujemo problem kad je slika veca od prostora
-
-/*I nacin --> scroll bar */
-//QGraphicsItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(imdisplay));
-//QGraphicsScene* scene = new QGraphicsScene(this);
-//ui->graphicsView->setScene(scene);
-//scene->addItem(item);
-
-/*II nacin --> Skaliranje */
-ui->labelImage->setPixmap(QPixmap::fromImage(imdisplay));
-}
-
-// Otvara se dijalog za odabir slika
+//otvara se dijalog za odabir slika i prikazuje se u labeli
 void MainWindow::on_pbImport_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Import image"),"/home/",tr("Images (*.png *.xpm *.jpg *.bmp)"));
-    qDebug() << fileName;
-    DisplayImage(fileName);
+    m_img->m_filePath = QFileDialog::getOpenFileName(this,tr("Import image"),"/home/",tr("Images (*.png *.xpm *.jpg *.bmp)"));
+    qDebug() << m_filePath;
 
+    QPixmap pixmap = m_img->DisplayImage();
+
+    ui->labelImage->setPixmap(pixmap);
+}
+
+void MainWindow::on_pbImportMultiple_clicked()
+{
+    QStringList files = QFileDialog::getOpenFileNames(
+                            this,
+                            "Select one or more files to open",
+                            "/home",
+                            "Images (*.png *.xpm *.jpg)");
 }

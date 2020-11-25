@@ -3,7 +3,7 @@
 #include<opencv4/opencv2/core.hpp>
 #include<opencv4/opencv2/imgproc.hpp>
 #include<opencv4/opencv2/imgcodecs.hpp>
-#include <QApplication>
+#include<QApplication>
 
 int main(int argc, char *argv[])
 {
