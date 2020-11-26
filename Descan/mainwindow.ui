@@ -252,7 +252,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -566,20 +566,35 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>60</y>
+       <y>40</y>
        <width>600</width>
-       <height>501</height>
+       <height>521</height>
       </rect>
+     </property>
+     <property name="sizeIncrement">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QToolButton" name="toolButton">
      <property name="geometry">
       <rect>
        <x>660</x>
-       <y>30</y>
+       <y>40</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -596,7 +611,7 @@
      <property name="geometry">
       <rect>
        <x>730</x>
-       <y>30</y>
+       <y>40</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -613,7 +628,7 @@
      <property name="geometry">
       <rect>
        <x>800</x>
-       <y>30</y>
+       <y>40</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -630,7 +645,7 @@
      <property name="geometry">
       <rect>
        <x>870</x>
-       <y>30</y>
+       <y>40</y>
        <width>41</width>
        <height>41</height>
       </rect>
