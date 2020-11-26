@@ -575,6 +575,74 @@
       <string/>
      </property>
     </widget>
+    <widget class="QToolButton" name="toolButton">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>30</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/Undo.ico</normaloff>:/icons/icons/Undo.ico</iconset>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButton_2">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>30</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/Redo.ico</normaloff>:/icons/icons/Redo.ico</iconset>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButton_3">
+     <property name="geometry">
+      <rect>
+       <x>800</x>
+       <y>30</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/trash.png</normaloff>:/icons/icons/trash.png</iconset>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButton_4">
+     <property name="geometry">
+      <rect>
+       <x>870</x>
+       <y>30</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/icons/icons/question-mark.png</normaloff>:/icons/icons/question-mark.png</iconset>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="pbFinish">

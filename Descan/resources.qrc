@@ -17,6 +17,10 @@
         <file>icons/download.png</file>
         <file>icons/main.jpg</file>
         <file>icons/main2.gif</file>
+        <file>icons/Undo.ico</file>
+        <file>icons/Redo.ico</file>
+        <file>icons/trash.png</file>
+        <file>icons/question-mark.png</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/1.png</file>
