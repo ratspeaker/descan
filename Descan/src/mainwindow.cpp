@@ -1,5 +1,5 @@
-#include "headers/mainwindow.h"
-#include "ui_mainwindow.h"
+#include"headers/mainwindow.h"
+#include"ui_mainwindow.h"
 
 #include<QAction>
 #include<QMessageBox>
@@ -27,14 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), m_img(new Image())
 {
     ui->setupUi(this);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 void MainWindow::on_pbNextEdit_clicked()
 {
@@ -46,16 +44,15 @@ void MainWindow::on_pbNextFinish_clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_pbBack1_clicked()
+void MainWindow::on_pbBackStart_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::DisplayImage(QString& fileName) {
-//ucitavamo sliku
-cv::Mat img = cv::imread(fileName.toUtf8().constData());
-// TODO srediti lepo ovaj double
-double scale = float(581)/img.size().width;
+void MainWindow::on_pbBackEdit_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
 
 //otvara se dijalog za odabir slika i prikazuje se u labeli
 void MainWindow::on_pbImport_clicked()

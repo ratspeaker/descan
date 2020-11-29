@@ -1,8 +1,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include<QWidget>
 #include"image.hpp"
+#include<QWidget>
+#include<QAction>
+#include<QMessageBox>
+#include<QMenu>
+#include<QMenuBar>
+#include<QFileDialog>
+#include<QtAlgorithms>
+#include<QLabel>
+#include<algorithm>
+#include<QTimer>
+#include<QGraphicsScene>
+#include<QGraphicsPixmapItem>
+#include<QGraphicsItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,14 +27,13 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void DisplayImage();
-    QString m_filePath;
 
-
+public:
+    //polja
 
 private:
     Ui::MainWindow *ui;
-    Image* m_img;
+    Image *m_img;
 
 private slots:
     void on_pbNextEdit_clicked();
@@ -30,6 +41,7 @@ private slots:
     void on_pbBack1_clicked();
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
+    void on_hsBrightness_3_sliderMoved(int position);
 };
 
 #endif // MAINWINDOW_H
