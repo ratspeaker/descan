@@ -27,9 +27,11 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    cv::Mat Rotate_clicked(cv::Mat img, int i);
 
 public:
     //polja
+    int angle = 0;
 
 private:
     Ui::MainWindow *ui;
@@ -42,6 +44,8 @@ private slots:
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
     void on_hsBrightness_3_sliderMoved(int position);
+    void on_toolButton_5_clicked();
+    void on_toolButton_6_clicked();
 };
 
 #endif // MAINWINDOW_H
