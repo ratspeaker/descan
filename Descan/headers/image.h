@@ -5,14 +5,13 @@
 #include <QImage>
 #include <QString>
 #include <QDebug>
+#include <QPixmap>
 
-class Image : public QWidget
+class Image
 {
-    Q_OBJECT
 
 public:
-    explicit Image(QWidget *parent = nullptr);
-
+    Image(const QString& filePath);
     void loadImage(QString filePath);
     QImage getImage();
     QString getFilePath();
@@ -24,7 +23,7 @@ public:
 
 private:
     QImage m_image;
-    QString m_filePath;
+    QString m_filePath ;
 
 //signals:
 

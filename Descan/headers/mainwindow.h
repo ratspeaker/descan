@@ -2,19 +2,26 @@
 #define MAINWINDOW_H
 
 #include "headers/image.h"
-#include <QWidget>
-#include <QAction>
-#include <QMessageBox>
-#include <QMenu>
-#include <QMenuBar>
-#include <QFileDialog>
-#include <QtAlgorithms>
-#include <QLabel>
-#include <algorithm>
-#include <QTimer>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsItem>
+#include "headers/displayarea.h"
+
+#include<QWidget>
+#include<QAction>
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QtAlgorithms>
+#include<QLabel>
+#include<algorithm>
+#include<QTimer>
+#include<QGraphicsScene>
+#include<QGraphicsPixmapItem>
+#include<QGraphicsItem>
+#include<QMainWindow>
+#include<QScrollArea>
+#include<QDir>
+#include<QDebug>
+#include<QScrollBar>
+#include<QVector>
+#include<QPixmap>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,9 +39,8 @@ public:
     //polja
     int angle = 0;
 
-private:
     Ui::MainWindow *ui;
-    Image *img;
+    DisplayArea* display;
 
 private slots:
     void on_pbNextEdit_clicked();

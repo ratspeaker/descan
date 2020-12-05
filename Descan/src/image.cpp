@@ -1,5 +1,10 @@
 #include "headers/image.h"
 
+Image::Image(const QString& filePath)
+{
+    m_filePath = filePath;
+    loadImage(filePath);
+}
 
 void Image::loadImage(QString filePath)
 {
@@ -52,5 +57,4 @@ void Image::resizeImage(double factor, char option)
 
     QSize newSize(newWidth, newHeight);
     m_image = m_image.scaled(newSize, Qt::IgnoreAspectRatio);
-
 }
