@@ -19,7 +19,7 @@ public:
     void setFilePath(QString filePath);
     QSize size();
     bool isNull();
-    void resizeImage(double factor, char option);
+    QImage resizeImage(double factor, char option);
 
     QImage changeBrightness(double brightnessFactor);
     QImage changeContrast(double contrastFactor);
