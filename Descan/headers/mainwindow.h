@@ -41,6 +41,7 @@ public:
 
     Ui::MainWindow *ui;
     DisplayArea* display;
+    QImage image_copy; //ovo za sada jedino resenje za kompoziciju efekata
 
 private slots:
     void on_pbNextEdit_clicked();
@@ -49,12 +50,20 @@ private slots:
     void on_pbBackEdit_clicked();
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
-    void on_hsBrightness_3_sliderMoved(int position);
     void on_toolButton_5_clicked();
     void on_toolButton_6_clicked();
     void on_hsScale_2_sliderMoved(int position);
     void on_hsHorizontal_2_sliderMoved(int position);
     void on_hsVertical_2_sliderMoved(int position);
+    void on_pbGreyscale_clicked();
+    void on_hsBrightness_sliderMoved(int position);
+    void on_hsBrightness_sliderReleased();
+    void on_hsContrast_sliderMoved(int position);
+    void on_hsContrast_sliderReleased();
+    void on_hsCorrection_sliderMoved(int position);
+    void on_hsCorrection_sliderReleased();
+    void on_hsSaturation_sliderMoved(int position);
+    void on_hsSaturation_sliderReleased();
 };
 
 #endif // MAINWINDOW_H

@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     display->getLabel()->installEventFilter(this); //za crop
 
     ui->scrollArea->setWidget(display->getLabel());
+     ui->pbNextEdit->setDisabled(true);
 }
 
 
@@ -64,7 +65,7 @@ void MainWindow::on_pbImport_clicked()
              QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
              return;
          }
-
+          ui->pbNextEdit->setDisabled(false);
          display->setScaleFactor(1.0);
          setCursor(Qt::ArrowCursor);
 
@@ -99,10 +100,6 @@ void MainWindow::on_pbImportMultiple_clicked()
 
 }
 
-void MainWindow::on_hsBrightness_3_sliderMoved(int position)
-{
-
-}
 
 void MainWindow::on_toolButton_5_clicked()
 {
@@ -145,3 +142,60 @@ void MainWindow::on_hsVertical_2_sliderMoved(int position)
     display->setImageInLabel();
 }
 
+
+
+void MainWindow::on_pbGreyscale_clicked()
+{
+    image_copy = display->getElement()->greyScale();
+    display->setImageInLabel(image_copy);
+}
+
+void MainWindow::on_hsBrightness_sliderMoved(int position)
+{
+    double brightnessFactor = (((position * (100 - (-100)))) / 100) -100;
+    image_copy = display->getElement()->changeBrightness(brightnessFactor);
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+}
+
+void MainWindow::on_hsBrightness_sliderReleased()
+{
+     display->setImageInLabel(image_copy);
+}
+
+
+
+void MainWindow::on_hsContrast_sliderMoved(int position)
+{
+    double contrastFactor = (((position * (100 - (-100)))) / 100) -100;
+    image_copy = display->getElement()->changeContrast(contrastFactor);
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+}
+
+
+
+void MainWindow::on_hsContrast_sliderReleased()
+{
+    display->setImageInLabel(image_copy);
+}
+
+void MainWindow::on_hsCorrection_sliderMoved(int position)
+{
+    image_copy = display->getElement()->gammaCorrection(position*0.02);
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+}
+
+void MainWindow::on_hsCorrection_sliderReleased()
+{
+     display->setImageInLabel(image_copy);
+}
+
+void MainWindow::on_hsSaturation_sliderMoved(int position)
+{
+    image_copy = display->getElement()->changeSaturation(position*0.02);
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+}
+
+void MainWindow::on_hsSaturation_sliderReleased()
+{
+    display->setImageInLabel(image_copy);
+}

@@ -21,6 +21,15 @@ public:
     bool isNull();
     void resizeImage(double factor, char option);
 
+    QImage changeBrightness(double brightnessFactor);
+    QImage changeContrast(double contrastFactor);
+    QImage gammaCorrection(double gamma);
+    QImage greyScale();
+    QImage changeSaturation(double saturationChange);
+
+    int width();
+    int height();
+
 private:
     QImage m_image;
     QString m_filePath ;
@@ -28,5 +37,7 @@ private:
 //signals:
 
 };
+
+double truncate(double x);
 
 #endif // IMAGE_H
