@@ -155,6 +155,25 @@ QImage Image::changeSaturation(double saturationChange)
 
 }
 
+void Image::saveAction()
+{
+    undoStack.push(m_image);
+}
+
+void Image::undoAction()
+{
+    redoStack.push(m_image);
+    m_image = undoStack.top();
+    undoStack.pop();
+}
+
+void Image::redoAction()
+{
+    undoStack.push(m_image);
+    m_image = redoStack.top();
+    redoStack.pop();
+}
+
 double truncate(double x) {
     if (x > 255)
         return 255;

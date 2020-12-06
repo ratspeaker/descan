@@ -22,6 +22,7 @@
 #include<QScrollBar>
 #include<QVector>
 #include<QPixmap>
+#include<QObject>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,8 +51,8 @@ private slots:
     void on_pbBackEdit_clicked();
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
-    void on_toolButton_5_clicked();
-    void on_toolButton_6_clicked();
+    //void on_toolButton_5_clicked();
+    //void on_toolButton_6_clicked();
     void on_hsScale_2_sliderMoved(int position);
     void on_hsHorizontal_2_sliderMoved(int position);
     void on_hsVertical_2_sliderMoved(int position);
@@ -64,6 +65,15 @@ private slots:
     void on_hsCorrection_sliderReleased();
     void on_hsSaturation_sliderMoved(int position);
     void on_hsSaturation_sliderReleased();
+
+    void enableUndo();
+
+    void on_toolButton_clicked();
+
+    void on_toolButton_2_clicked();
+
+signals:
+    void enableUndoSignal();
 };
 
 #endif // MAINWINDOW_H
