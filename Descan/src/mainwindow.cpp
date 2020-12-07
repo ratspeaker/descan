@@ -78,43 +78,11 @@ void MainWindow::on_pbImport_clicked()
     }
 }
 
-/*
-void MainWindow::on_pbImportMultiple_clicked()
-{
-    QStringList files = QFileDialog::getOpenFileNames(
-                            this,
-                            "Select one or more files to open",
-                            "/home",
-                            "Images (*.png *.xpm *.jpg)");
-}
-
-void MainWindow::on_hsBrightness_3_sliderMoved(int position)
-{
-    //qDebug() << position;
-    cv::Mat image = m_img->LoadImage();
-    cv::multiply(image, cv::Scalar(position/10, position/10, position/10), image);
-    m_img->ScaleImage(image);
-    QPixmap pixmap = m_img->DisplayImage(image);
-    ui->labelImage->setPixmap(pixmap);
-}
-*/
-
 void MainWindow::on_pbImportMultiple_clicked()
 {
 
 }
 
-/*
-void MainWindow::on_toolButton_5_clicked()
-{
-
-}
-
-void MainWindow::on_toolButton_6_clicked()
-{
-
-}
-*/
 // TODO: treba izmeniti da ne menja direktno sliku(kopija objekta ili naci bolje resenje?)
 void MainWindow::on_hsScale_2_sliderMoved(int position)
 {
@@ -125,6 +93,12 @@ void MainWindow::on_hsScale_2_sliderMoved(int position)
 
     image_copy = display->getElement()->resizeImage(resizeFactor, 's');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
+}
+
+void MainWindow::on_hsScale_2_sliderReleased()
+{
+    display->getElement()->saveAction();
+    display->setImageInLabel(image_copy);
 }
 
 void MainWindow::on_hsHorizontal_2_sliderMoved(int position)
@@ -138,6 +112,13 @@ void MainWindow::on_hsHorizontal_2_sliderMoved(int position)
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
 
+void MainWindow::on_hsHorizontal_2_sliderReleased()
+{
+    display->getElement()->saveAction();
+    display->setImageInLabel(image_copy);
+}
+
+
 void MainWindow::on_hsVertical_2_sliderMoved(int position)
 {
     emit enableUndoSignal();
@@ -149,6 +130,11 @@ void MainWindow::on_hsVertical_2_sliderMoved(int position)
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
 
+void MainWindow::on_hsVertical_2_sliderReleased()
+{
+    display->getElement()->saveAction();
+    display->setImageInLabel(image_copy);
+}
 
 
 void MainWindow::on_pbGreyscale_clicked()
@@ -226,7 +212,7 @@ void MainWindow::enableUndo()
 void MainWindow::on_toolButton_clicked()
 {
     display->getElement()->undoAction();
-    //qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
+    qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
 
     if((display->getElement()->undoStack.size())==0){
         ui->toolButton->setDisabled(true);
@@ -244,7 +230,7 @@ void MainWindow::on_toolButton_clicked()
 void MainWindow::on_toolButton_2_clicked()
 {
     display->getElement()->redoAction();
-    //qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();;
+    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();;
 
     if(display->getElement()->redoStack.size()==0){
         ui->toolButton_2->setDisabled(true);
@@ -257,6 +243,16 @@ void MainWindow::on_toolButton_2_clicked()
 
     display->setImageInLabel();
 }
+
+/*crop*/
+void MainWindow::on_toolButton_5_clicked()
+{
+    display->getElement()->saveAction();
+    emit enableUndoSignal();
+    cropPressed = true;
+    setCursor(Qt::ArrowCursor);
+}
+
 
 /*Prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom.*/
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
@@ -306,13 +302,4 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             return true;
         }
     return false;
-}
-
-/*crop*/
-void MainWindow::on_toolButton_5_clicked()
-{
-    display->getElement()->saveAction();
-    emit enableUndoSignal();
-    cropPressed = true;
-    setCursor(Qt::ArrowCursor);
 }

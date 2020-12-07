@@ -33,7 +33,7 @@ public:
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
 
-    void saveAction(/*QImage image*/);
+    void saveAction();
     void undoAction();
     void redoAction();
 
