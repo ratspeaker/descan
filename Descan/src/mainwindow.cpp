@@ -15,10 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     display->getLabel()->resize(0, 0);
     display->getLabel()->setMouseTracking(true);
-    display->getLabel()->installEventFilter(this); //za crop
-    display->getLabel()->setAlignment(Qt::AlignCenter);
+    display->getLabel()->installEventFilter(this);
 
     ui->scrollArea->setWidget(display->getLabel());
+
     ui->pbNextEdit->setDisabled(true);
 }
 
@@ -54,8 +54,6 @@ void MainWindow::on_pbImport_clicked()
     if (!fileName.isEmpty()) {
          display->setElement(fileName);
 
-         ui->pbNextEdit->setDisabled(false);
-
          QImage image = display->getElement()->getImage();
          qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
 
@@ -64,8 +62,8 @@ void MainWindow::on_pbImport_clicked()
              return;
          }
 
+         ui->pbNextEdit->setDisabled(false);
          setCursor(Qt::ArrowCursor);
-
          display->setImageInLabel();
          display->getLabel()->adjustSize();
          display->setScaleFactor(1.0);
@@ -205,14 +203,15 @@ void MainWindow::on_toolButton_clicked()
     display->getElement()->undoAction();
     qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
 
-    if((display->getElement()->undoStack.size())==0){
+    if ((display->getElement()->undoStack.size())==0) {
         ui->toolButton->setDisabled(true);
     }
-    else{
-        if((display->getElement()->redoStack.size())!=0)
+    else {
+        if ((display->getElement()->redoStack.size())!=0) {
             ui->toolButton_2->setDisabled(false);
-        ui->toolButton->setDisabled(false);
         }
+        ui->toolButton->setDisabled(false);
+    }
 
     display->setImageInLabel();
 }
@@ -223,12 +222,13 @@ void MainWindow::on_toolButton_2_clicked()
     display->getElement()->redoAction();
     qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();;
 
-    if(display->getElement()->redoStack.size()==0){
+    if (display->getElement()->redoStack.size()==0) {
         ui->toolButton_2->setDisabled(true);
     }
-    else{
-        if((display->getElement()->undoStack.size())!=0)
+    else {
+        if ((display->getElement()->undoStack.size())!=0) {
             ui->toolButton->setDisabled(false);
+        }
         ui->toolButton_2->setDisabled(false);
     }
 
@@ -241,14 +241,13 @@ void MainWindow::on_toolButton_5_clicked()
     display->getElement()->saveAction();
     emit enableUndoSignal();
     cropPressed = true;
-    setCursor(Qt::ArrowCursor);
 }
 
 //prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if(watched == display->getLabel() && cropPressed!=false){
-        if(event->type()== QEvent::MouseButtonPress){
+    if (watched == display->getLabel() && cropPressed!=false) {
+        if (event->type()== QEvent::MouseButtonPress) {
             QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
 
             //pamtimo gornje levo teme pravougaonika
@@ -262,35 +261,34 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             rubberBand->setGeometry(QRect(startPoint, QSize()));
             rubberBand->show();
         }
-        else if(event->type() == QEvent::MouseMove){
-                QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
-                setCursor(Qt::CrossCursor);
-                if(rubberBandCreated){
-                    rubberBand->setGeometry(QRect(startPoint, newEvent->pos()));
-                    rubberBand->show();
-                }
+        else if (event->type() == QEvent::MouseMove) {
+            QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
+            setCursor(Qt::CrossCursor);
+            if (rubberBandCreated) {
+                rubberBand->setGeometry(QRect(startPoint, newEvent->pos()));
+                rubberBand->show();
             }
-        else if(event->type() == QEvent::MouseButtonRelease){
-                display->getElement()->saveAction();
-                QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
-                setCursor(Qt::ArrowCursor);
-
-                //pamtimo gornje levo teme pravougaonika
-                endPoint = newEvent->pos()/* / scaleFactor*/;
-
-                if(rubberBandCreated)
-                    rubberBand->deleteLater();
-
-                //sečemo selektovani deo
-                display->getElement()->cropImage(startPoint, endPoint);
-                display->setImageInLabel();
-
-                rubberBandCreated = false;
-                cropPressed = false;
-
-            }
-            return true;
         }
+        else if (event->type() == QEvent::MouseButtonRelease) {
+            display->getElement()->saveAction();
+            QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
+            setCursor(Qt::ArrowCursor);
+
+            //pamtimo gornje levo teme pravougaonika
+            endPoint = newEvent->pos()/* / scaleFactor*/;
+
+            if (rubberBandCreated)
+                rubberBand->deleteLater();
+
+            //sečemo selektovani deo
+            display->getElement()->cropImage(startPoint, endPoint);
+            display->setImageInLabel();
+
+            rubberBandCreated = false;
+            cropPressed = false;
+        }
+        return true;
+    }
     return false;
 }
 
@@ -329,16 +327,23 @@ void MainWindow::on_toolButton_4_clicked()
     }
 
     display->scaleImage(scaleBy/display->getScaleFactor());
+
+    ui->toolButton_3->setEnabled(display->getScaleFactor() < 2);
+    ui->toolButton_6->setEnabled(display->getScaleFactor() > 0.4);
 }
 
 //zoom in
 void MainWindow::on_toolButton_3_clicked()
 {
     display->scaleImage(1.25);
+    ui->toolButton_3->setDisabled(display->getScaleFactor() > 2);
+    ui->toolButton_6->setEnabled(display->getScaleFactor() > 0.4);
 }
 
 //zoom out
 void MainWindow::on_toolButton_6_clicked()
 {
     display->scaleImage(0.80);
+    ui->toolButton_6->setDisabled(display->getScaleFactor() < 0.4);
+    ui->toolButton_3->setEnabled(display->getScaleFactor() < 2);
 }

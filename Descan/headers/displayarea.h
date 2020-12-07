@@ -11,23 +11,25 @@
 class DisplayArea : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit DisplayArea(QWidget *parent = nullptr);
-
     QLabel* getLabel();
     Image* getElement();
-    double getScaleFactor();
     void setElement(const QString& filePath);
-    void setScaleFactor(double factor);
     void setImageInLabel(QImage img);
     void setImageInLabel();
+    double getScaleFactor();
+    void setScaleFactor(double factor);
     void scaleImage(double factor);
 
+public:
     QLabel* m_label; //zbog smestanja privremene kopije TODO napraviti ovaj metod da ne bi bilo public
-private:
 
+private:
     Image* m_element;
     double scaleFactor;
+
 //signals:
 
 };

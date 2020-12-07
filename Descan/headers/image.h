@@ -7,20 +7,22 @@
 #include <QDebug>
 #include <QPixmap>
 #include <stack>
+
 class Image
 {
 
 public:
     Image(const QString& filePath);
     void loadImage(QString filePath);
+
     QImage getImage();
-    QString getFilePath();
     void setImage(QImage img);
+    QString getFilePath();
     void setFilePath(QString filePath);
     QSize size();
     bool isNull();
-    QImage resizeImage(double factor, char option);
 
+    QImage resizeImage(double factor, char option);
     QImage changeBrightness(double brightnessFactor);
     QImage changeContrast(double contrastFactor);
     QImage gammaCorrection(double gamma);
