@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     display->getLabel()->resize(0, 0);
     display->getLabel()->setMouseTracking(true);
     display->getLabel()->installEventFilter(this); //za crop
-    display->getLabel()->setAlignment(Qt::AlignHCenter);
+    display->getLabel()->setAlignment(Qt::AlignCenter);
 
     ui->scrollArea->setWidget(display->getLabel());
      ui->pbNextEdit->setDisabled(true);
@@ -76,7 +76,6 @@ void MainWindow::on_pbImport_clicked()
 
          display->setImageInLabel();
          display->getLabel()->adjustSize();
-         qDebug() << display->getLabel()->size().width() << " " << display->getLabel()->size().height();
     }
 }
 
@@ -322,4 +321,22 @@ void MainWindow::on_toolButton_8_clicked()
     display->getElement()->saveAction();
     display->getElement()->rotateImage(90);
     display->setImageInLabel();
+}
+
+void MainWindow::on_toolButton_4_clicked()
+{
+    QSize scrollSize = ui->scrollArea->size();
+    QSize pixmapSize = QPixmap::fromImage(display->getElement()->getImage()).size();
+
+    double imageRatio = static_cast<double>(pixmapSize.height()) / pixmapSize.width();
+
+    double scaleBy;
+    if (scrollSize.width() * imageRatio > scrollSize.height()) {
+        scaleBy = static_cast<double>(scrollSize.height()) / pixmapSize.height();
+    }
+    else {
+        scaleBy = static_cast<double>(scrollSize.width()) / pixmapSize.width();
+    }
+
+    display->scaleImage(scaleBy);
 }

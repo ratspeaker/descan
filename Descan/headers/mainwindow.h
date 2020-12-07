@@ -93,6 +93,8 @@ private slots:
 
     void on_toolButton_8_clicked();
 
+    void on_toolButton_4_clicked();
+
 signals:
     void enableUndoSignal();
 };

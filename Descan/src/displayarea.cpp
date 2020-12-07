@@ -5,15 +5,12 @@ DisplayArea::DisplayArea(QWidget *parent) : QWidget(parent)
     m_label = new QLabel();
 }
 
-QPixmap DisplayArea::scaleImage(double scaleFactor)
+void DisplayArea::scaleImage(double scaleFactor)
 {
     QPixmap pixmap = QPixmap::fromImage(m_element->getImage());
-    qDebug() << "pixmapa" << pixmap.size().width() << " " << pixmap.size().height(); //ovo je ok
-
     pixmap = pixmap.scaled(scaleFactor*pixmap.size());
-    qDebug() << "skalirana pixmapa" << pixmap.size().width() << " " << pixmap.size().height(); //ovo je ok
-    qDebug() << m_element->getImage().size().width() << " " << m_element->getImage().size().height();   //ovo je ok
-    return pixmap;
+    m_label->setPixmap(pixmap);
+    qDebug() << pixmap.size().width() << " " << pixmap.size().height();
 }
 
 QLabel *DisplayArea::getLabel()

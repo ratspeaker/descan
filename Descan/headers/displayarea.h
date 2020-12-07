@@ -21,7 +21,7 @@ public:
     void setScaleFactor(double factor);
     void setImageInLabel(QImage img);
     void setImageInLabel();
-    QPixmap scaleImage(double scaleFactor);
+    void scaleImage(double scaleFactor);
 
     QLabel* m_label; //zbog smestanja privremene kopije TODO napraviti ovaj metod da ne bi bilo public
 private:
