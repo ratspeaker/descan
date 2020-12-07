@@ -89,6 +89,10 @@ private slots:
 
     bool eventFilter(QObject* watched, QEvent* event);
 
+    void on_toolButton_7_clicked();
+
+    void on_toolButton_8_clicked();
+
 signals:
     void enableUndoSignal();
 };

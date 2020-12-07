@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     display->getLabel()->resize(0, 0);
     display->getLabel()->setMouseTracking(true);
     display->getLabel()->installEventFilter(this); //za crop
+    display->getLabel()->setAlignment(Qt::AlignHCenter);
 
     ui->scrollArea->setWidget(display->getLabel());
      ui->pbNextEdit->setDisabled(true);
@@ -75,6 +76,7 @@ void MainWindow::on_pbImport_clicked()
 
          display->setImageInLabel();
          display->getLabel()->adjustSize();
+         qDebug() << display->getLabel()->size().width() << " " << display->getLabel()->size().height();
     }
 }
 
@@ -302,4 +304,22 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             return true;
         }
     return false;
+}
+
+//rotate left
+void MainWindow::on_toolButton_7_clicked()
+{
+    emit enableUndoSignal();
+    display->getElement()->saveAction();
+    display->getElement()->rotateImage(-90);
+    display->setImageInLabel();
+}
+
+//rotate right
+void MainWindow::on_toolButton_8_clicked()
+{
+    emit enableUndoSignal();
+    display->getElement()->saveAction();
+    display->getElement()->rotateImage(90);
+    display->setImageInLabel();
 }
