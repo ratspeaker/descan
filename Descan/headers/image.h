@@ -38,6 +38,7 @@ public:
     void redoAction();
 
     void cropImage(QPoint startPoint, QPoint endPoint);
+    void rotateImage(int angle);
 
 private:
     QImage m_image;

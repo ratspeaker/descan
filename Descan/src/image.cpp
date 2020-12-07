@@ -180,7 +180,16 @@ void Image::cropImage(QPoint startPoint, QPoint endPoint)
 {
     QRect rect = QRect(startPoint, endPoint);
 
-     m_image = m_image.copy(rect);
+    m_image = m_image.copy(rect);
+}
+
+void Image::rotateImage(int angle)
+{
+    QPixmap pixmap = QPixmap::fromImage(m_image);
+    QTransform mat;
+    mat.rotate(angle);
+    pixmap = pixmap.transformed(mat);
+    m_image = pixmap.toImage();
 }
 
 double truncate(double x) {
