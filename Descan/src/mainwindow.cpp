@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    /*Ako se bilo sta promeni na slici, operacija undo ce biti omogucena.*/
+    /*Ako se bilo šta promeni na slici, operacija undo ce biti omogućena.*/
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
 
     display = new DisplayArea();
@@ -222,7 +222,7 @@ void MainWindow::enableUndo()
     ui->toolButton->setDisabled(false);
 }
 
-//undo
+/*undo*/
 void MainWindow::on_toolButton_clicked()
 {
     display->getElement()->undoAction();
@@ -240,7 +240,7 @@ void MainWindow::on_toolButton_clicked()
     display->setImageInLabel();
 }
 
-//redo
+/*redo*/
 void MainWindow::on_toolButton_2_clicked()
 {
     display->getElement()->redoAction();
@@ -256,4 +256,63 @@ void MainWindow::on_toolButton_2_clicked()
     }
 
     display->setImageInLabel();
+}
+
+/*Prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom.*/
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == display->getLabel() && cropPressed!=false){
+        if(event->type()== QEvent::MouseButtonPress){
+            QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
+
+            /*Pamtimo gornje levo teme pravougaonika.*/
+            startPoint = newEvent->pos()/* / scaleFactor*/;
+            qDebug() << startPoint;
+
+            rubberBandCreated = true;
+            setCursor(Qt::CrossCursor);
+
+            rubberBand = new QRubberBand(QRubberBand::Rectangle, display->getLabel());
+            rubberBand->setGeometry(QRect(startPoint, QSize()));
+            rubberBand->show();
+        }
+        else if(event->type() == QEvent::MouseMove){
+                QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
+                setCursor(Qt::CrossCursor);
+                if(rubberBandCreated){
+                    rubberBand->setGeometry(QRect(startPoint, newEvent->pos()));
+                    rubberBand->show();
+                }
+            }
+        else if(event->type() == QEvent::MouseButtonRelease){
+                display->getElement()->saveAction();
+                QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
+                setCursor(Qt::ArrowCursor);
+
+                /*Pamtimo gornje levo teme pravougaonika.*/
+                endPoint = newEvent->pos()/* / scaleFactor*/;
+
+                if(rubberBandCreated)
+                    rubberBand->deleteLater();
+
+                /*Sečemo selektovani deo.*/
+                display->getElement()->cropImage(startPoint, endPoint);
+                display->setImageInLabel();
+
+                rubberBandCreated = false;
+                cropPressed = false;
+
+            }
+            return true;
+        }
+    return false;
+}
+
+/*crop*/
+void MainWindow::on_toolButton_5_clicked()
+{
+    display->getElement()->saveAction();
+    emit enableUndoSignal();
+    cropPressed = true;
+    setCursor(Qt::ArrowCursor);
 }

@@ -37,6 +37,8 @@ public:
     void undoAction();
     void redoAction();
 
+    void cropImage(QPoint startPoint, QPoint endPoint);
+
 private:
     QImage m_image;
     QString m_filePath ;

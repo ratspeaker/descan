@@ -252,7 +252,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -604,6 +604,25 @@
        </property>
        <property name="text">
         <string>Right</string>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="toolButton_5">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>370</y>
+         <width>51</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>crop</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::DelayedPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonIconOnly</enum>
        </property>
       </widget>
      </widget>
