@@ -123,8 +123,8 @@ void MainWindow::on_hsScale_2_sliderMoved(int position)
     if(position)
         resizeFactor = 0.4 + (2-0.4)*position/100;
 
-    display->getElement()->resizeImage(resizeFactor, 's');
-    display->setImageInLabel();
+    image_copy = display->getElement()->resizeImage(resizeFactor, 's');
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
 
 void MainWindow::on_hsHorizontal_2_sliderMoved(int position)
@@ -134,8 +134,8 @@ void MainWindow::on_hsHorizontal_2_sliderMoved(int position)
     if(position)
         resizeFactor = 0.4 + (2-0.4)*position/100;
 
-    display->getElement()->resizeImage(resizeFactor, 'w');
-    display->setImageInLabel();
+    image_copy = display->getElement()->resizeImage(resizeFactor, 'w');
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
 
 void MainWindow::on_hsVertical_2_sliderMoved(int position)
@@ -145,8 +145,8 @@ void MainWindow::on_hsVertical_2_sliderMoved(int position)
     if(position)
         resizeFactor = 0.4 + (2-0.4)*position/100;
 
-    display->getElement()->resizeImage(resizeFactor, 'h');
-    display->setImageInLabel();
+    image_copy = display->getElement()->resizeImage(resizeFactor, 'h');
+    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
 
 

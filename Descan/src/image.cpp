@@ -41,10 +41,12 @@ bool Image::isNull()
     return m_image.isNull();
 }
 
-void Image::resizeImage(double factor, char option)
+QImage Image::resizeImage(double factor, char option)
 {
-    double newWidth = m_image.size().width();
-    double newHeight = m_image.size().height();
+    QImage newImage(m_image);
+
+    double newWidth = m_image.width();
+    double newHeight = m_image.height();
 
     if (option == 'w') {
         newWidth *= factor;
@@ -56,7 +58,7 @@ void Image::resizeImage(double factor, char option)
     }
 
     QSize newSize(newWidth, newHeight);
-    m_image = m_image.scaled(newSize, Qt::IgnoreAspectRatio);
+    return newImage.scaled(newSize, Qt::IgnoreAspectRatio);
 }
 
 
