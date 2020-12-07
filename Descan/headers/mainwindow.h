@@ -49,6 +49,14 @@ public:
 
     bool cropPressed = false;
 
+    /*Oblast koja će biti isečena.*/
+    QRubberBand* rubberBand = nullptr;
+    bool rubberBandCreated = false;
+
+    /*startPoint očitava vrednosti miša kada se desio događaj pressed, a endPoint kad se desi released.*/
+    QPoint startPoint;
+    QPoint endPoint;
+
 private slots:
     void on_pbNextEdit_clicked();
     void on_pbNextFinish_clicked();
@@ -61,6 +69,7 @@ private slots:
     void on_hsHorizontal_2_sliderMoved(int position);
     void on_hsHorizontal_2_sliderReleased();
     void on_hsVertical_2_sliderMoved(int position);
+    void on_hsVertical_2_sliderReleased();
 
     void on_pbGreyscale_clicked();
     void on_hsBrightness_sliderMoved(int position);
@@ -78,11 +87,7 @@ private slots:
     void on_toolButton_2_clicked();
     void on_toolButton_5_clicked();
 
-
-
-
-
-    void on_hsVertical_2_sliderReleased();
+    bool eventFilter(QObject* watched, QEvent* event);
 
 signals:
     void enableUndoSignal();
