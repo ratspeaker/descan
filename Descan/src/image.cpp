@@ -1,5 +1,6 @@
 #include "headers/image.h"
-#include<cmath>
+#include <cmath>
+
 Image::Image(const QString& filePath)
 {
     m_filePath = filePath;
@@ -61,9 +62,7 @@ QImage Image::resizeImage(double factor, char option)
     return newImage.scaled(newSize, Qt::IgnoreAspectRatio);
 }
 
-
-// Brightness efekat
-
+//brightness efekat
 QImage Image::changeBrightness(double brightnessFactor) {
        QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
         double newRed, newBlue, newGreen;

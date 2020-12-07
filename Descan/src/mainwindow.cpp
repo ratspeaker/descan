@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    /*Ako se bilo šta promeni na slici, operacija undo ce biti omogućena.*/
+    //ako se bilo šta promeni na slici, operacija undo ce biti omogućena
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
 
     display = new DisplayArea();
@@ -19,9 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     display->getLabel()->setAlignment(Qt::AlignCenter);
 
     ui->scrollArea->setWidget(display->getLabel());
-     ui->pbNextEdit->setDisabled(true);
+    ui->pbNextEdit->setDisabled(true);
 }
-
 
 MainWindow::~MainWindow()
 {
@@ -50,18 +49,12 @@ void MainWindow::on_pbBackEdit_clicked()
 
 void MainWindow::on_pbImport_clicked()
 {
-
     QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/");
-    if(fileName.isEmpty()){
-        QMessageBox::critical(this, "Choose image", "Can't proceed if image not imported!");
-    }
-    else{
-        ui->pbNextEdit->setDisabled(false);
-    }
 
     if (!fileName.isEmpty()) {
-         //img = Image();
          display->setElement(fileName);
+
+         ui->pbNextEdit->setDisabled(false);
 
          QImage image = display->getElement()->getImage();
          qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
@@ -70,13 +63,12 @@ void MainWindow::on_pbImport_clicked()
              QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
              return;
          }
-          ui->pbNextEdit->setDisabled(false);
-         display->setScaleFactor(1.0);
+
          setCursor(Qt::ArrowCursor);
 
          display->setImageInLabel();
          display->getLabel()->adjustSize();
-         display->setScaleFactor(1);
+         display->setScaleFactor(1.0);
     }
 }
 
@@ -85,13 +77,14 @@ void MainWindow::on_pbImportMultiple_clicked()
 
 }
 
-// TODO: treba izmeniti da ne menja direktno sliku(kopija objekta ili naci bolje resenje?)
+//TODO: treba izmeniti da ne menja direktno sliku (kopija objekta ili naci bolje resenje?)
 void MainWindow::on_hsScale_2_sliderMoved(int position)
 {
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-    if(position)
+    if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
+    }
 
     image_copy = display->getElement()->resizeImage(resizeFactor, 's');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
@@ -107,8 +100,9 @@ void MainWindow::on_hsHorizontal_2_sliderMoved(int position)
 {
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-    if(position)
+    if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
+    }
 
     image_copy = display->getElement()->resizeImage(resizeFactor, 'w');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
@@ -120,13 +114,13 @@ void MainWindow::on_hsHorizontal_2_sliderReleased()
     display->setImageInLabel(image_copy);
 }
 
-
 void MainWindow::on_hsVertical_2_sliderMoved(int position)
 {
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-    if(position)
+    if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
+    }
 
     image_copy = display->getElement()->resizeImage(resizeFactor, 'h');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
@@ -137,7 +131,6 @@ void MainWindow::on_hsVertical_2_sliderReleased()
     display->getElement()->saveAction();
     display->setImageInLabel(image_copy);
 }
-
 
 void MainWindow::on_pbGreyscale_clicked()
 {
@@ -161,8 +154,6 @@ void MainWindow::on_hsBrightness_sliderReleased()
     display->setImageInLabel(image_copy);
 }
 
-
-
 void MainWindow::on_hsContrast_sliderMoved(int position)
 {
     emit enableUndoSignal();
@@ -170,8 +161,6 @@ void MainWindow::on_hsContrast_sliderMoved(int position)
     image_copy = display->getElement()->changeContrast(contrastFactor);
     display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
 }
-
-
 
 void MainWindow::on_hsContrast_sliderReleased()
 {
@@ -210,7 +199,7 @@ void MainWindow::enableUndo()
     ui->toolButton->setDisabled(false);
 }
 
-/*undo*/
+//undo
 void MainWindow::on_toolButton_clicked()
 {
     display->getElement()->undoAction();
@@ -228,7 +217,7 @@ void MainWindow::on_toolButton_clicked()
     display->setImageInLabel();
 }
 
-/*redo*/
+//redo
 void MainWindow::on_toolButton_2_clicked()
 {
     display->getElement()->redoAction();
@@ -246,7 +235,7 @@ void MainWindow::on_toolButton_2_clicked()
     display->setImageInLabel();
 }
 
-/*crop*/
+//crop
 void MainWindow::on_toolButton_5_clicked()
 {
     display->getElement()->saveAction();
@@ -255,15 +244,14 @@ void MainWindow::on_toolButton_5_clicked()
     setCursor(Qt::ArrowCursor);
 }
 
-
-/*Prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom.*/
+//prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
     if(watched == display->getLabel() && cropPressed!=false){
         if(event->type()== QEvent::MouseButtonPress){
             QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
 
-            /*Pamtimo gornje levo teme pravougaonika.*/
+            //pamtimo gornje levo teme pravougaonika
             startPoint = newEvent->pos()/* / scaleFactor*/;
             qDebug() << startPoint;
 
@@ -287,13 +275,13 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                 QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
                 setCursor(Qt::ArrowCursor);
 
-                /*Pamtimo gornje levo teme pravougaonika.*/
+                //pamtimo gornje levo teme pravougaonika
                 endPoint = newEvent->pos()/* / scaleFactor*/;
 
                 if(rubberBandCreated)
                     rubberBand->deleteLater();
 
-                /*Sečemo selektovani deo.*/
+                //sečemo selektovani deo
                 display->getElement()->cropImage(startPoint, endPoint);
                 display->setImageInLabel();
 
@@ -324,6 +312,7 @@ void MainWindow::on_toolButton_8_clicked()
     display->setImageInLabel();
 }
 
+//fit
 void MainWindow::on_toolButton_4_clicked()
 {
     QSize scrollSize = ui->scrollArea->size();
@@ -342,7 +331,14 @@ void MainWindow::on_toolButton_4_clicked()
     display->scaleImage(scaleBy/display->getScaleFactor());
 }
 
+//zoom in
 void MainWindow::on_toolButton_3_clicked()
 {
     display->scaleImage(1.25);
+}
+
+//zoom out
+void MainWindow::on_toolButton_6_clicked()
+{
+    display->scaleImage(0.80);
 }
