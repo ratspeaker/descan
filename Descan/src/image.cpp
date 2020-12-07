@@ -176,13 +176,6 @@ void Image::redoAction()
     redoStack.pop();
 }
 
-void Image::cropImage(QPoint startPoint, QPoint endPoint)
-{
-    QRect rect = QRect(startPoint, endPoint);
-
-     m_image = m_image.copy(rect);
-}
-
 double truncate(double x) {
     if (x > 255)
         return 255;
