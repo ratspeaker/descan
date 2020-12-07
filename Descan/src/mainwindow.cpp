@@ -76,6 +76,7 @@ void MainWindow::on_pbImport_clicked()
 
          display->setImageInLabel();
          display->getLabel()->adjustSize();
+         display->setScaleFactor(1);
     }
 }
 
@@ -338,5 +339,10 @@ void MainWindow::on_toolButton_4_clicked()
         scaleBy = static_cast<double>(scrollSize.width()) / pixmapSize.width();
     }
 
-    display->scaleImage(scaleBy);
+    display->scaleImage(scaleBy/display->getScaleFactor());
+}
+
+void MainWindow::on_toolButton_3_clicked()
+{
+    display->scaleImage(1.25);
 }

@@ -5,8 +5,9 @@ DisplayArea::DisplayArea(QWidget *parent) : QWidget(parent)
     m_label = new QLabel();
 }
 
-void DisplayArea::scaleImage(double scaleFactor)
+void DisplayArea::scaleImage(double factor)
 {
+    scaleFactor *= factor;
     QPixmap pixmap = QPixmap::fromImage(m_element->getImage());
     pixmap = pixmap.scaled(scaleFactor*pixmap.size());
     m_label->setPixmap(pixmap);
