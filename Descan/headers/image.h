@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDebug>
 #include <QPixmap>
-
+#include <stack>
 class Image
 {
 
@@ -29,6 +29,15 @@ public:
 
     int width();
     int height();
+
+    std::stack<QImage> undoStack;
+    std::stack<QImage> redoStack;
+
+    void saveAction(/*QImage image*/);
+    void undoAction();
+    void redoAction();
+
+    void cropImage(QPoint startPoint, QPoint endPoint);
 
 private:
     QImage m_image;

@@ -155,6 +155,32 @@ QImage Image::changeSaturation(double saturationChange)
 
 }
 
+void Image::saveAction()
+{
+    undoStack.push(m_image);
+}
+
+void Image::undoAction()
+{
+    redoStack.push(m_image);
+    m_image = undoStack.top();
+    undoStack.pop();
+}
+
+void Image::redoAction()
+{
+    undoStack.push(m_image);
+    m_image = redoStack.top();
+    redoStack.pop();
+}
+
+void Image::cropImage(QPoint startPoint, QPoint endPoint)
+{
+    QRect rect = QRect(startPoint, endPoint);
+
+     m_image = m_image.copy(rect);
+}
+
 double truncate(double x) {
     if (x > 255)
         return 255;

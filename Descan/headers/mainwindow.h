@@ -22,6 +22,10 @@
 #include<QScrollBar>
 #include<QVector>
 #include<QPixmap>
+#include<QObject>
+#include<QRubberBand>
+#include<QPoint>
+#include<QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,12 +40,24 @@ public:
     ~MainWindow();
 
 public:
-    //polja
+    /*polja*/
     int angle = 0;
 
     Ui::MainWindow *ui;
     DisplayArea* display;
     QImage image_copy; //ovo za sada jedino resenje za kompoziciju efekata
+
+    /*Označava oblast koja će biti isečena.*/
+    QRubberBand* rubberBand = nullptr;
+    bool rubberBandCreated = false;
+
+    bool cropPressed = false;
+
+    /*startPoint očitava vrednosti miša kada se desio događaj pressed,
+    * a endPoint kad se desi released.
+    */
+    QPoint startPoint;
+    QPoint endPoint;
 
 private slots:
     void on_pbNextEdit_clicked();
@@ -50,8 +66,8 @@ private slots:
     void on_pbBackEdit_clicked();
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
-    void on_toolButton_5_clicked();
-    void on_toolButton_6_clicked();
+    //void on_toolButton_5_clicked();
+    //void on_toolButton_6_clicked();
     void on_hsScale_2_sliderMoved(int position);
     void on_hsHorizontal_2_sliderMoved(int position);
     void on_hsVertical_2_sliderMoved(int position);
@@ -64,6 +80,19 @@ private slots:
     void on_hsCorrection_sliderReleased();
     void on_hsSaturation_sliderMoved(int position);
     void on_hsSaturation_sliderReleased();
+
+    void enableUndo();
+
+    void on_toolButton_clicked();
+
+    void on_toolButton_2_clicked();
+
+    bool eventFilter(QObject* watched, QEvent* event);
+
+    void on_toolButton_5_clicked();
+
+signals:
+    void enableUndoSignal();
 };
 
 #endif // MAINWINDOW_H
