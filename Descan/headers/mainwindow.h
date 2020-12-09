@@ -102,9 +102,13 @@ private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
+    void changeUndoState();
+    void changeRedoState();
 
 signals:
     void enableUndoSignal();
+    void changeUndoSignal();
+    void changeRedoSignal();
 };
 
 #endif // MAINWINDOW_H

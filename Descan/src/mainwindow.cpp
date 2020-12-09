@@ -8,9 +8,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //ako se bilo šta promeni na slici, operacija undo ce biti omogućena
-    QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
-
     display = new DisplayArea();
 
     display->getLabel()->resize(0, 0);
@@ -21,6 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
     ui->pbNextEdit->setDisabled(true);
+
+    //ako se bilo šta promeni na slici, operacija undo ce biti omogućena
+    QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
+
+    //za svaku sliku posebno se koristi zaseban undo/redo
+    QObject::connect(this, &MainWindow::changeUndoSignal, this, &MainWindow::changeUndoState);
+    QObject::connect(this, &MainWindow::changeRedoSignal, this, &MainWindow::changeRedoState);
 }
 
 MainWindow::~MainWindow()
@@ -220,16 +224,9 @@ void MainWindow::on_toolButton_clicked()
 {
     display->getElement()->undoAction();
     qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
+    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();
 
-    if ((display->getElement()->undoStack.size())==0) {
-        ui->toolButton->setDisabled(true);
-    }
-    else {
-        if ((display->getElement()->redoStack.size())!=0) {
-            ui->toolButton_2->setDisabled(false);
-        }
-        ui->toolButton->setDisabled(false);
-    }
+    emit changeUndoSignal();
 
     display->setImageInLabel();
 }
@@ -238,17 +235,10 @@ void MainWindow::on_toolButton_clicked()
 void MainWindow::on_toolButton_2_clicked()
 {
     display->getElement()->redoAction();
-    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();;
+    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();
+    qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
 
-    if (display->getElement()->redoStack.size()==0) {
-        ui->toolButton_2->setDisabled(true);
-    }
-    else {
-        if ((display->getElement()->undoStack.size())!=0) {
-            ui->toolButton->setDisabled(false);
-        }
-        ui->toolButton_2->setDisabled(false);
-    }
+    emit changeRedoSignal();
 
     display->setImageInLabel();
 }
@@ -288,7 +278,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             }
         }
         else if (event->type() == QEvent::MouseButtonRelease) {
-            display->getElement()->saveAction();
+            //display->getElement()->saveAction();
             QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
             setCursor(Qt::ArrowCursor);
 
@@ -376,6 +366,9 @@ void MainWindow::on_pushButton_clicked()
     ui->toolButton_3->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->toolButton_6->setEnabled(display->getElement()->getScaleFactor() > 0.4);
     qDebug() << "prev" << display->getElement()->getScaleFactor();
+
+    emit changeUndoSignal();
+    emit changeRedoSignal();
 }
 
 //next
@@ -386,4 +379,33 @@ void MainWindow::on_pushButton_2_clicked()
     ui->toolButton_3->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->toolButton_6->setEnabled(display->getElement()->getScaleFactor() > 0.4);
     qDebug() << "next" << display->getElement()->getScaleFactor();
+
+    emit changeUndoSignal();
+    emit changeRedoSignal();
+}
+
+void MainWindow::changeUndoState()
+{
+    if ((display->getElement()->undoStack.size())==0) {
+        ui->toolButton->setDisabled(true);
+    }
+    else {
+        if ((display->getElement()->redoStack.size())!=0) {
+            ui->toolButton_2->setDisabled(false);
+        }
+        ui->toolButton->setDisabled(false);
+    }
+}
+
+void MainWindow::changeRedoState()
+{
+    if (display->getElement()->redoStack.size()==0) {
+        ui->toolButton_2->setDisabled(true);
+    }
+    else {
+        if ((display->getElement()->undoStack.size())!=0) {
+            ui->toolButton->setDisabled(false);
+        }
+        ui->toolButton_2->setDisabled(false);
+    }
 }
