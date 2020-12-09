@@ -187,3 +187,13 @@ double truncate(double x) {
         return 0;
     return x;
 }
+
+double Image::getScaleFactor()
+{
+    return scaleFactor;
+}
+
+void Image::setScaleFactor(double factor)
+{
+    scaleFactor = factor;
+}

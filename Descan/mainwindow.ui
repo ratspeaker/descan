@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -821,6 +821,32 @@
       <string>-</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>left</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>right</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="pbFinish">
@@ -911,7 +937,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Download   </string>
+         <string>Save   </string>
         </property>
         <property name="icon">
          <iconset resource="resources.qrc">

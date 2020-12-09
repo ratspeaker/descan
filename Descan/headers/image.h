@@ -42,9 +42,13 @@ public:
     void cropImage(QPoint startPoint, QPoint endPoint);
     void rotateImage(int angle);
 
+    double getScaleFactor();
+    void setScaleFactor(double factor);
+
 private:
     QImage m_image;
     QString m_filePath ;
+    double scaleFactor;
 
 //signals:
 
