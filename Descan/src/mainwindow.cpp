@@ -430,3 +430,59 @@ void MainWindow::changeRedoState()
         ui->tbRedo->setDisabled(false);
     }
 }
+
+
+/* Konvertovanje jedne i/ili vise slika u PDF */
+/*TODO: refaktorisanje koda -> klasa PDF i izdvajanje metode za konvertovanje u tu klasu */
+void MainWindow::on_pbConvert_clicked()
+{
+    /* Trenutno se cuva pdf fajl ovde
+      U kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme download */
+    const QString fileName("/home/dusica97/Desktop/test.pdf");
+    /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
+    QPdfWriter pdfWriter(fileName);
+    pdfWriter.setResolution(150);
+    pdfWriter.setPageMargins(QMargins(0,0,0,0));
+    pdfWriter.setPageSize(QPageSize(QPageSize::A4));
+    //pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+    /*Ako su slike horizontalne menjamo orjentaciju *
+     *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
+      Ne znam kako to da resimo
+     */
+    if(display->getElement()->width() > display->getElement()->height()) {
+      qDebug() << "ulazi";
+      pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+    }
+
+    /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
+    QPainter painter(&pdfWriter);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    /* Vratimo iterator na pocetak ako je koristik editovao slike */
+    display->setToBeginning();
+    /* Prolazimo kroz svaku sliku u vektoru */
+    for(unsigned i = 0; i!=display->getSize();i++) {
+        /* Uzimamo trenutnu sliku */
+        Image* curr = display->getElement();
+        /*Skaliramo sliku da bude preko celog A4 papira */
+        double img_width = static_cast<double>(curr->width());
+        double img_height = static_cast<double>(curr->height());
+        qDebug()<<"visina" << img_height << "sirina" << img_width;
+        QRect source(0,0,img_width,img_height);
+        QRect target(0,0,painter.device()->width(),painter.device()->height());
+        /*Uzimamo piksmapu i iscrtavamo je u pdf fajl */
+        QPixmap imgPixmap = QPixmap::fromImage(curr->getImage());
+
+
+        painter.drawPixmap(target,imgPixmap,source);
+        display->getNextElement();
+
+        /* Nakon poslednje se ne stampa nova strana */
+        if(i!=(display->getSize() - 1)) {
+            pdfWriter.newPage();
+        }
+    }
+
+}

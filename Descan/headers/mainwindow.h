@@ -109,7 +109,7 @@ private slots:
 
 
 
-   // void on_pbConvert_clicked();
+    void on_pbConvert_clicked();
 
 
     void changeUndoState();
