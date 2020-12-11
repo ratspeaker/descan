@@ -64,13 +64,16 @@ private slots:
     void on_pbBackEdit_clicked();
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
-    void on_hsScale_2_sliderMoved(int position);
-    void on_hsScale_2_sliderReleased();
-    void on_hsHorizontal_2_sliderMoved(int position);
-    void on_hsHorizontal_2_sliderReleased();
-    void on_hsVertical_2_sliderMoved(int position);
-    void on_hsVertical_2_sliderReleased();
 
+    /*Slotovi za hendlovanje dimenzija */
+    void on_hsScale_sliderMoved(int position);
+    void on_hsScale_sliderReleased();
+    void on_hsHorizontal_sliderMoved(int position);
+    void on_hsHorizontal_sliderReleased();
+    void on_hsVertical_sliderMoved(int position);
+    void on_hsVertical_sliderReleased();
+
+    /* Slotovi za hendlovanje boja slike */
     void on_pbGreyscale_clicked();
     void on_hsBrightness_sliderMoved(int position);
     void on_hsBrightness_sliderReleased();
@@ -81,27 +84,34 @@ private slots:
     void on_hsSaturation_sliderMoved(int position);
     void on_hsSaturation_sliderReleased();
 
+    /*Slotovi i pomocne funkcije za hendlovanje undo i redo akcija */
     void enableUndo();
+    void on_tbUndo_clicked();
+    void on_tbRedo_clicked();
 
-    void on_toolButton_clicked();
-    void on_toolButton_2_clicked();
-    void on_toolButton_5_clicked();
+    /*Slotovi za uvecan/umanjen prikaz slike*/
+    void on_tbZoomIn_clicked();
+    void on_tbZoomOut_clicked();
+    void on_tbFit_clicked();
+
+    /*Slot za kropovanje slike*/
+    void on_tbCrop_clicked();
+    /*Slotovi za rotaciju*/
+    void on_tbRotateLeft_clicked();
+    void on_tbRotateRight_clicked();
+
+
 
     bool eventFilter(QObject* watched, QEvent* event);
 
-    void on_toolButton_7_clicked();
+    void on_pbLeftImage_clicked();
+    void on_pbRightImage_clicked();
 
-    void on_toolButton_8_clicked();
 
-    void on_toolButton_4_clicked();
 
-    void on_toolButton_3_clicked();
+   // void on_pbConvert_clicked();
 
-    void on_toolButton_6_clicked();
 
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
     void changeUndoState();
     void changeRedoState();
 

@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -260,7 +260,7 @@
        <height>16</height>
       </size>
      </property>
-     <widget class="QWidget" name="Resize_2">
+     <widget class="QWidget" name="Resite_Rotate">
       <property name="font">
        <font>
         <family>Ubuntu Condensed</family>
@@ -270,7 +270,7 @@
       <attribute name="title">
        <string>Resize &amp;&amp; rotate</string>
       </attribute>
-      <widget class="QSlider" name="hsScale_2">
+      <widget class="QSlider" name="hsScale">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -309,7 +309,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QSlider" name="hsHorizontal_2">
+      <widget class="QSlider" name="hsHorizontal">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -348,7 +348,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QSlider" name="hsVertical_2">
+      <widget class="QSlider" name="hsVertical">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -400,7 +400,7 @@
         <string>Rotate</string>
        </property>
       </widget>
-      <widget class="QToolButton" name="toolButton_7">
+      <widget class="QToolButton" name="tbRotateLeft">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -413,7 +413,7 @@
         <string>Left</string>
        </property>
       </widget>
-      <widget class="QToolButton" name="toolButton_8">
+      <widget class="QToolButton" name="tbRotateRight">
        <property name="geometry">
         <rect>
          <x>100</x>
@@ -426,7 +426,7 @@
         <string>Right</string>
        </property>
       </widget>
-      <widget class="QToolButton" name="toolButton_5">
+      <widget class="QToolButton" name="tbCrop">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -719,7 +719,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton">
+    <widget class="QToolButton" name="tbUndo">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -739,7 +739,7 @@
        <normaloff>:/icons/icons/Undo.ico</normaloff>:/icons/icons/Undo.ico</iconset>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_2">
+    <widget class="QToolButton" name="tbRedo">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -759,7 +759,7 @@
        <normaloff>:/icons/icons/Redo.ico</normaloff>:/icons/icons/Redo.ico</iconset>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_3">
+    <widget class="QToolButton" name="tbZoomIn">
      <property name="geometry">
       <rect>
        <x>770</x>
@@ -772,7 +772,7 @@
       <string>+</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_4">
+    <widget class="QToolButton" name="tbFit">
      <property name="geometry">
       <rect>
        <x>870</x>
@@ -808,7 +808,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QToolButton" name="toolButton_6">
+    <widget class="QToolButton" name="tbZoomOut">
      <property name="geometry">
       <rect>
        <x>820</x>
@@ -821,7 +821,7 @@
       <string>-</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pbLeftImage">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -834,7 +834,7 @@
       <string>left</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="pbRightImage">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -848,7 +848,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="FinishPage">
     <widget class="QPushButton" name="pbFinish">
      <property name="geometry">
       <rect>

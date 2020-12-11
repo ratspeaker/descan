@@ -23,6 +23,10 @@ public:
     void setElements(const QStringList& filePaths);
     void getNextElement();
     void getPreviousElement();
+    size_t getSize();
+    void setToBeginning();
+
+    void freeImages();
 
     void setImageInLabel(QImage img);
     void setImageInLabel();
@@ -32,7 +36,7 @@ public:
 public:
     QLabel* m_label; //zbog smestanja privremene kopije TODO napraviti ovaj metod da ne bi bilo public
 
-private:
+public:
     std::vector<Image*> m_elements;
     std::vector<Image*>::iterator m_current;
 

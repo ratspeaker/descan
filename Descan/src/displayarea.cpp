@@ -14,7 +14,7 @@ Image *DisplayArea::getElement()
 {
     return *m_current;
 }
-
+/*Popunjava vektor objekata Image * */
 void DisplayArea::setElements(const QStringList &filePaths)
 {
     for (auto i=filePaths.cbegin(); i != filePaths.cend(); i++) {
@@ -23,23 +23,41 @@ void DisplayArea::setElements(const QStringList &filePaths)
     for (auto i=m_elements.begin(); i != m_elements.end(); i++) {
         (*i)->setScaleFactor(1.0);
     }
-    m_current = m_elements.begin();
+    /*postavlja se iterator na pocetak*/
+    //m_current = m_elements.begin();
+    setToBeginning();
 }
-
+/* Postavlja se iterator na naredni element */
 void DisplayArea::getNextElement()
 {
     if (std::next(m_current) != m_elements.cend()) {
         m_current++;
     }
 }
-
+/* Postavlja se iterator na prethodni element */
 void DisplayArea::getPreviousElement()
 {
     if (m_current != m_elements.begin()) {
         m_current--;
     }
 }
+/* Vraca velicinu vektora Slika */
+size_t DisplayArea::getSize()
+{
+    return m_elements.size();
+}
+/* Vraca iterator na pocetak */
+void DisplayArea::setToBeginning()
+{
+    m_current=m_elements.begin();
+}
+/* Cisti vektor slika */
+void DisplayArea::freeImages()
+{
+    m_elements.clear();
+}
 
+/*Postavlja sliku u labelu*/
 void DisplayArea::setImageInLabel(QImage img)
 {
     (*m_current)->setImage(img);

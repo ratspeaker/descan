@@ -41,7 +41,7 @@ bool Image::isNull()
 {
     return m_image.isNull();
 }
-
+/*Funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat*/
 QImage Image::resizeImage(double factor, char option)
 {
     QImage newImage(m_image);
@@ -62,11 +62,13 @@ QImage Image::resizeImage(double factor, char option)
     return newImage.scaled(newSize, Qt::IgnoreAspectRatio);
 }
 
-//brightness efekat
+/*Funkcija koja menja svetlost same slike */
+/*TODO: 4 funkcije na isti nacin rade, promeniti tako da se pozivaju iste funkcije samo sa odgovarajucim parametrima */
 QImage Image::changeBrightness(double brightnessFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
+    /*Prolazi kroz svaki piksel i povecava ga za odredjen faktor */
     for (int x = 0; x < m_image.width(); ++x)
         for (int y = 0; y < m_image.height(); ++y) {
             QRgb color =m_image.pixel(x, y);
@@ -79,8 +81,7 @@ QImage Image::changeBrightness(double brightnessFactor)
    return newImage;
 }
 
-//contrast efekat
-//TODO: Napisati genericku funkciju za sve efekte koja ce se pozivati u svakom ovom metodu (slicne funkcije)
+/*Funkcija koja menja kontrast slike i vraca izmenjen objekat */
 QImage Image::changeContrast(double contrastFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -97,7 +98,7 @@ QImage Image::changeContrast(double contrastFactor)
     return newImage;
 }
 
-//gamma correction
+/*Gama korekcija za sliku, svaki piksel se zamenjuje novim pikselom koji se racuna po formuli */
 QImage Image::gammaCorrection(double gamma)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -114,7 +115,7 @@ QImage Image::gammaCorrection(double gamma)
     return newImage;
 }
 
-//grey scale
+/*Funkcija koja vraca crno belu sliku */
 QImage Image::greyScale()
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -122,13 +123,15 @@ QImage Image::greyScale()
     for (int x = 0; x < m_image.width(); ++x)
         for (int y = 0; y < m_image.height(); ++y) {
             QRgb color = m_image.pixel(x, y);
+            /*lepo namesteni tezinski faktori za racunanje odgovarajuce nijanse sive *
+             *alternativa je da se uzme aritmeticka sredina vrednosti RGB boja piksela */
             value = (0.299) * qRed(color) + (0.587) * qGreen(color) + (0.114)*qBlue(color);
             newImage.setPixel(x, y, qRgb(value,value,value));
         }
     return newImage;
 }
 
-//saturation
+
 QImage Image::changeSaturation(double saturationChange)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -144,7 +147,16 @@ QImage Image::changeSaturation(double saturationChange)
         }
     return newImage;
 }
+/*Geteri za visinu i sirinu slike*/
+int Image::width()
+{
+    return m_image.width();
+}
 
+int Image::height() {
+    return m_image.height();
+}
+/*Cuva se na steku slika, za potrebe undo opcije*/
 void Image::saveAction()
 {
     undoStack.push(m_image);
@@ -169,7 +181,7 @@ void Image::cropImage(QPoint startPoint, QPoint endPoint)
     QRect rect = QRect(startPoint, endPoint);
     m_image = m_image.copy(rect);
 }
-
+/*Rotira se slika za odredjeni ugao*/
 void Image::rotateImage(int angle)
 {
     QPixmap pixmap = QPixmap::fromImage(m_image);
@@ -180,6 +192,7 @@ void Image::rotateImage(int angle)
 }
 
 //videti sta sa ovim
+/*Pomocna funkcija koja vodi racuna da vrednost piksela bude u intervalu [-255,255]*/
 double truncate(double x) {
     if (x > 255)
         return 255;
