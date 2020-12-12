@@ -252,7 +252,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -436,7 +436,18 @@
         </rect>
        </property>
        <property name="text">
-        <string>crop</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <selectedon>:/icons/icons/cropping-tool.png</selectedon>
+        </iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
        </property>
        <property name="popupMode">
         <enum>QToolButton::DelayedPopup</enum>
@@ -826,25 +837,47 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>89</width>
+       <width>51</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>left</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/icons/icons/iconfinder_back_32384.png</selectedon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
     </widget>
     <widget class="QPushButton" name="pbRightImage">
      <property name="geometry">
       <rect>
-       <x>560</x>
+       <x>588</x>
        <y>10</y>
-       <width>89</width>
+       <width>51</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>right</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/icons/icons/iconfinder_forward_32404.png</selectedon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>31</height>
+      </size>
      </property>
     </widget>
    </widget>

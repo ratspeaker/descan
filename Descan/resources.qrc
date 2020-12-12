@@ -21,6 +21,9 @@
         <file>icons/Redo.ico</file>
         <file>icons/trash.png</file>
         <file>icons/question-mark.png</file>
+        <file>icons/iconfinder_back_32384.png</file>
+        <file>icons/cropping-tool.png</file>
+        <file>icons/iconfinder_forward_32404.png</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/1.png</file>
