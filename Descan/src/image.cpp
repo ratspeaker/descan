@@ -41,6 +41,22 @@ bool Image::isNull()
 {
     return m_image.isNull();
 }
+
+void Image::setScaleFactor(double factor)
+{
+    scaleFactor = factor;
+}
+
+void Image::setSlider(QString str, int position)
+{
+    sliders[str] = position;
+}
+
+std::map<QString, int> Image::getSlider()
+{
+    return sliders;
+}
+
 /*Funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat*/
 QImage Image::resizeImage(double factor, char option)
 {
@@ -159,20 +175,25 @@ int Image::height() {
 /*Cuva se na steku slika, za potrebe undo opcije*/
 void Image::saveAction()
 {
-    undoStack.push(m_image);
+    undoStack.push({m_image, sliders});
 }
 
 void Image::undoAction()
 {
-    redoStack.push(m_image);
-    m_image = undoStack.top();
+    redoStack.push({m_image, sliders});
+    auto tmp = undoStack.top();;
+    m_image = tmp.first;
+    sliders = tmp.second;
+    //qDebug() << sliders;
     undoStack.pop();
 }
 
 void Image::redoAction()
 {
-    undoStack.push(m_image);
-    m_image = redoStack.top();
+    undoStack.push({m_image, sliders});
+    auto tmp = redoStack.top();;
+    m_image = tmp.first;
+    sliders = tmp.second;
     redoStack.pop();
 }
 
@@ -204,9 +225,4 @@ double truncate(double x) {
 double Image::getScaleFactor()
 {
     return scaleFactor;
-}
-
-void Image::setScaleFactor(double factor)
-{
-    scaleFactor = factor;
 }

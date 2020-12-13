@@ -72,6 +72,9 @@ public:
     QPoint startPoint;
     QPoint endPoint;
 
+    //current slider position
+    int poss = 0;
+
 private slots:
     void on_pbNextEdit_clicked();
     void on_pbNextFinish_clicked();
@@ -115,17 +118,14 @@ private slots:
     void on_tbRotateLeft_clicked();
     void on_tbRotateRight_clicked();
 
-
-
     bool eventFilter(QObject* watched, QEvent* event);
+
+    void moveSliders();
 
     void on_pbLeftImage_clicked();
     void on_pbRightImage_clicked();
 
-
-
     void on_pbConvert_clicked();
-
 
     void changeUndoState();
     void changeRedoState();
@@ -133,13 +133,13 @@ private slots:
     void on_pbSplitPdf_clicked();
     void on_pbMergePdf_clicked();
 
-
     void on_pbFinish_clicked();
 
 signals:
     void enableUndoSignal();
     void changeUndoSignal();
     void changeRedoSignal();
+    void moveSlidersSignal();
 };
 
 #endif // MAINWINDOW_H

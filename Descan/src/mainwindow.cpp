@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     //za svaku sliku posebno se koristi zaseban undo/redo
     QObject::connect(this, &MainWindow::changeUndoSignal, this, &MainWindow::changeUndoState);
     QObject::connect(this, &MainWindow::changeRedoSignal, this, &MainWindow::changeRedoState);
+
+    //pomeraju se slajderi u zavisnosti da li se promeni slika ili se pritisnu undo/redo
+    QObject::connect(this, &MainWindow::moveSlidersSignal, this, &MainWindow::moveSliders);
 }
 
 MainWindow::~MainWindow()
@@ -105,6 +108,7 @@ void MainWindow::on_pbImportMultiple_clicked()
 /*Funkcija koja skalira sliku u zavisnosti od pozicije slajdera*/
 void MainWindow::on_hsScale_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
     if (position) {
@@ -119,11 +123,13 @@ void MainWindow::on_hsScale_sliderMoved(int position)
 void MainWindow::on_hsScale_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("scale", poss);
     display->setImageInLabel(image_copy);
 }
 /*Menja visinu u zavisnosti od parametra*/
 void MainWindow::on_hsHorizontal_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
     /*Odredjuje faktor na osnovu pozicije slajdera*/
@@ -138,11 +144,13 @@ void MainWindow::on_hsHorizontal_sliderMoved(int position)
 void MainWindow::on_hsHorizontal_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("hor", poss);
     display->setImageInLabel(image_copy);
 }
 /*Menja sirinu u zavisnosti od parametra*/
 void MainWindow::on_hsVertical_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
     if (position) {
@@ -156,6 +164,7 @@ void MainWindow::on_hsVertical_sliderMoved(int position)
 void MainWindow::on_hsVertical_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("ver", poss);
     display->setImageInLabel(image_copy);
 }
 
@@ -169,6 +178,7 @@ void MainWindow::on_pbGreyscale_clicked()
 
 void MainWindow::on_hsBrightness_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     double brightnessFactor = (((position * (100 - (-100)))) / 100) -100;
     image_copy = display->getElement()->changeBrightness(brightnessFactor);
@@ -178,11 +188,13 @@ void MainWindow::on_hsBrightness_sliderMoved(int position)
 void MainWindow::on_hsBrightness_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("brigh", poss);
     display->setImageInLabel(image_copy);
 }
 
 void MainWindow::on_hsContrast_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     double contrastFactor = (((position * (100 - (-100)))) / 100) -100;
     image_copy = display->getElement()->changeContrast(contrastFactor);
@@ -192,11 +204,13 @@ void MainWindow::on_hsContrast_sliderMoved(int position)
 void MainWindow::on_hsContrast_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("con", poss);
     display->setImageInLabel(image_copy);
 }
 
 void MainWindow::on_hsCorrection_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     image_copy = display->getElement()->gammaCorrection(position*0.02);
     display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
@@ -205,11 +219,13 @@ void MainWindow::on_hsCorrection_sliderMoved(int position)
 void MainWindow::on_hsCorrection_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("gam", poss);
     display->setImageInLabel(image_copy);
 }
 
 void MainWindow::on_hsSaturation_sliderMoved(int position)
 {
+    poss = position;
     emit enableUndoSignal();
     image_copy = display->getElement()->changeSaturation(position*0.02);
     display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
@@ -219,6 +235,7 @@ void MainWindow::on_hsSaturation_sliderMoved(int position)
 void MainWindow::on_hsSaturation_sliderReleased()
 {
     display->getElement()->saveAction();
+    display->getElement()->setSlider("sat", poss);
     display->setImageInLabel(image_copy);
 }
 /*Funkcija za omogucavanje klika na dugme Undo*/
@@ -231,24 +248,23 @@ void MainWindow::enableUndo()
 void MainWindow::on_tbUndo_clicked()
 {   /* Vracamo prethodno stanje slike */
     display->getElement()->undoAction();
-    qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
-    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();
 
     emit changeUndoSignal();
      /* Prikazuje se u labeli prethodna izmena slike */
     display->setImageInLabel();
+
+    emit moveSlidersSignal();
 }
 
 /* Funkcija koja obradjuje akciju Redo*/
 void MainWindow::on_tbRedo_clicked()
 {
     display->getElement()->redoAction();
-    qDebug() << "redoStack: " << display->getElement()->redoStack.size() << " " << display->getElement()->undoStack.size();
-    qDebug() << "undoStack: " << display->getElement()->undoStack.size() << " " << display->getElement()->redoStack.size();
-
     emit changeRedoSignal();
 
     display->setImageInLabel();
+
+    emit moveSlidersSignal();
 }
 
 /* Funkcija za cropovanje slike */
@@ -307,6 +323,26 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         return true;
     }
     return false;
+}
+
+void MainWindow::moveSliders()
+{
+    for(auto it: display->getElement()->getSlider()){
+        if(it.first=="scale")
+            ui->hsScale->setValue(it.second);
+        else if(it.first=="hor")
+            ui->hsHorizontal->setValue(it.second);
+        else if(it.first=="ver")
+            ui->hsVertical->setValue(it.second);
+        else if(it.first=="brigh")
+            ui->hsBrightness->setValue(it.second);
+        else if(it.first=="con")
+            ui->hsContrast->setValue(it.second);
+        else if(it.first=="gam")
+            ui->hsCorrection->setValue(it.second);
+        else if(it.first=="sat")
+            ui->hsSaturation->setValue(it.second);
+    }
 }
 
 /*Funkcija koja rotira sliku ulevo */
@@ -383,6 +419,8 @@ void MainWindow::on_pbLeftImage_clicked()
     /*Signali za undo i redo */
     emit changeUndoSignal();
     emit changeRedoSignal();
+
+    emit moveSlidersSignal();
 }
 
 /* Prelazi na narednu sliku */
@@ -402,6 +440,8 @@ void MainWindow::on_pbRightImage_clicked()
     /*Signali za undo i redo */
     emit changeUndoSignal();
     emit changeRedoSignal();
+
+    emit moveSlidersSignal();
 }
 /*Funkcija koja ako nema vise akcija na koje se vraca stavlja da je onemoguceno pritiskanje undo dugmeta *
  *kao i obrnuto za dugme Redo */
@@ -438,7 +478,7 @@ void MainWindow::on_pbConvert_clicked()
 {
     /* Trenutno se cuva pdf fajl ovde
       U kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme download */
-    const QString fileName("/home/dusica97/Desktop/test.pdf");
+    const QString fileName("/home/maja/Desktop/gitlab/test.pdf");
     /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
     QPdfWriter pdfWriter(fileName);
     pdfWriter.setResolution(150);

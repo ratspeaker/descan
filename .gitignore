@@ -31,6 +31,7 @@ Makefile*
 *build-*
 *.qm
 *.prl
+PDFNetC64
 
 # Qt unit tests
 target_wrapper.*

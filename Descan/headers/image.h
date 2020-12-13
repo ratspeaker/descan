@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <stack>
+#include<map>
 
 class Image
 {
@@ -22,6 +23,9 @@ public:
     QSize size();
     bool isNull();
 
+    void setSlider(QString str, int position);
+    std::map<QString, int> getSlider();
+
     QImage resizeImage(double factor, char option);
     QImage changeBrightness(double brightnessFactor);
     QImage changeContrast(double contrastFactor);
@@ -32,8 +36,12 @@ public:
     int width();
     int height();
 
-    std::stack<QImage> undoStack;
-    std::stack<QImage> redoStack;
+    std::stack<std::pair<QImage, std::map<QString, int>>> undoStack;
+    std::stack<std::pair<QImage, std::map<QString, int>>> redoStack;
+
+    std::map<QString, int>sliders =  {{"scale", 0}, {"hor", 0}, {"ver", 0}, {"brigh", 0},
+                                     {"con", 0}, {"gam", 0}, {"sat", 0}};
+
 
     void saveAction();
     void undoAction();

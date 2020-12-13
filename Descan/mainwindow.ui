@@ -835,7 +835,7 @@
     <widget class="QPushButton" name="pbLeftImage">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>280</x>
        <y>10</y>
        <width>51</width>
        <height>25</height>
@@ -859,7 +859,7 @@
     <widget class="QPushButton" name="pbRightImage">
      <property name="geometry">
       <rect>
-       <x>588</x>
+       <x>330</x>
        <y>10</y>
        <width>51</width>
        <height>25</height>
