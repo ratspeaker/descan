@@ -42,7 +42,7 @@ public:
     std::map<QString, int>sliders =  {{"scale", 0}, {"hor", 0}, {"ver", 0}, {"brigh", 0},
                                      {"con", 0}, {"gam", 0}, {"sat", 0}};
 
-
+    void printImageIntoPdf(QPainter &painter);
     void saveAction();
     void undoAction();
     void redoAction();

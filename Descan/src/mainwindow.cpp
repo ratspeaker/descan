@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     //pomeraju se slajderi u zavisnosti da li se promeni slika ili se pritisnu undo/redo
     QObject::connect(this, &MainWindow::moveSlidersSignal, this, &MainWindow::moveSliders);
+
+    QObject::connect(ui->pbBackEdit,&QPushButton::clicked,this,&MainWindow::showPreviousPage);
+    QObject::connect(ui->pbBackStart,&QPushButton::clicked,this,&MainWindow::showPreviousPage);
+    QObject::connect(ui->pbNextEdit,&QPushButton::clicked,this,&MainWindow::showNextPage);
+    QObject::connect(ui->pbNextFinish,&QPushButton::clicked,this,&MainWindow::showNextPage);
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +42,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pbNextEdit_clicked()
+/*void MainWindow::on_pbNextEdit_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
@@ -45,23 +50,39 @@ void MainWindow::on_pbNextEdit_clicked()
 void MainWindow::on_pbNextFinish_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
+}*/
+
+/* Implementacija slotova za prelazak na prethodnu/narednu stranu */
+void MainWindow::showPreviousPage()
+{
+    int currentIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(--currentIndex);
 }
 
-void MainWindow::on_pbBackStart_clicked()
+void MainWindow::showNextPage()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+    int currentIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(++currentIndex);
+}
+
+//void MainWindow::on_pbBackStart_clicked()
+//{
+  //  ui->stackedWidget->setCurrentIndex(0);
     /* Treba osloboditi prostor za nove slike */
-    display->freeImages();
+    //display->freeImages();
 
-}
+//}
 
-void MainWindow::on_pbBackEdit_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(1);
-}
+//void MainWindow::on_pbBackEdit_clicked()
+//{
+  // int currentIndex = ui->stackedWidget->currentIndex();
+  // ui->stackedWidget->setCurrentIndex(--currentIndex);
+//}
+
 
 void MainWindow::on_pbImport_clicked()
 {
+    cleanDisplayArea();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/");
 
     if (!fileName.isEmpty()) {
@@ -84,6 +105,7 @@ void MainWindow::on_pbImport_clicked()
 
 void MainWindow::on_pbImportMultiple_clicked()
 {
+    cleanDisplayArea();
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/");
 
     if (!fileNames.isEmpty()) {
@@ -325,6 +347,12 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
     return false;
 }
 
+void MainWindow::cleanDisplayArea()
+{
+    display->freeImages();
+}
+
+
 void MainWindow::moveSliders()
 {
     for(auto it: display->getElement()->getSlider()){
@@ -362,6 +390,55 @@ void MainWindow::on_tbRotateRight_clicked()
     display->getElement()->rotateImage(90);
     display->setImageInLabel();
 }
+
+
+
+void MainWindow::convertImagesIntoPdf(QString& filename)
+{
+
+        /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
+        QPdfWriter pdfWriter(filename);
+        pdfWriter.setResolution(150);
+        pdfWriter.setPageMargins(QMargins(0,0,0,0));
+        pdfWriter.setPageSize(QPageSize(QPageSize::A4));
+        //pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+        /*Ako su slike horizontalne menjamo orjentaciju *
+         *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
+          Ne znam kako to da resimo
+         */
+        if(display->getElement()->width() > display->getElement()->height()) {
+          qDebug() << "ulazi";
+          pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+        }
+
+        /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
+        QPainter painter(&pdfWriter);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        /* Vratimo iterator na pocetak ako je koristik editovao slike */
+        display->setToBeginning();
+        /* Prolazimo kroz svaku sliku u vektoru */
+        for(unsigned i = 0; i!=display->getSize();i++) {
+            /* Uzimamo trenutnu sliku */
+            Image* curr = display->getElement();
+            curr->printImageIntoPdf(painter);
+            display->getNextElement();
+
+            /* Nakon poslednje se ne stampa nova strana */
+            if(i!=(display->getSize() - 1)) {
+                pdfWriter.newPage();
+            }
+        }
+
+  }
+
+
+
+
+
+
 
 /* Funkcija koja fituje sliku u Skrol deo */
 void MainWindow::on_tbFit_clicked()
@@ -476,54 +553,13 @@ void MainWindow::changeRedoState()
 /*TODO: refaktorisanje koda -> klasa PDF i izdvajanje metode za konvertovanje u tu klasu */
 void MainWindow::on_pbConvert_clicked()
 {
-    /* Trenutno se cuva pdf fajl ovde
-      U kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme download */
-    const QString fileName("/home/maja/Desktop/gitlab/test.pdf");
-    /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
-    QPdfWriter pdfWriter(fileName);
-    pdfWriter.setResolution(150);
-    pdfWriter.setPageMargins(QMargins(0,0,0,0));
-    pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-    //pdfWriter.setPageOrientation(QPageLayout::Landscape);
+    /* Trenutno korisnik bira gde se cuva fajl
+    U kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme download */
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
+                               "/home/",
+                               tr("PDF Files(*.pdf)"));
 
-    /*Ako su slike horizontalne menjamo orjentaciju *
-     *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
-      Ne znam kako to da resimo
-     */
-    if(display->getElement()->width() > display->getElement()->height()) {
-      qDebug() << "ulazi";
-      pdfWriter.setPageOrientation(QPageLayout::Landscape);
-
-    }
-
-    /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
-    QPainter painter(&pdfWriter);
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    /* Vratimo iterator na pocetak ako je koristik editovao slike */
-    display->setToBeginning();
-    /* Prolazimo kroz svaku sliku u vektoru */
-    for(unsigned i = 0; i!=display->getSize();i++) {
-        /* Uzimamo trenutnu sliku */
-        Image* curr = display->getElement();
-        /*Skaliramo sliku da bude preko celog A4 papira */
-        double img_width = static_cast<double>(curr->width());
-        double img_height = static_cast<double>(curr->height());
-        qDebug()<<"visina" << img_height << "sirina" << img_width;
-        QRect source(0,0,img_width,img_height);
-        QRect target(0,0,painter.device()->width(),painter.device()->height());
-        /*Uzimamo piksmapu i iscrtavamo je u pdf fajl */
-        QPixmap imgPixmap = QPixmap::fromImage(curr->getImage());
-
-
-        painter.drawPixmap(target,imgPixmap,source);
-        display->getNextElement();
-
-        /* Nakon poslednje se ne stampa nova strana */
-        if(i!=(display->getSize() - 1)) {
-            pdfWriter.newPage();
-        }
-    }
+    convertImagesIntoPdf(fileName);
 
 }
 

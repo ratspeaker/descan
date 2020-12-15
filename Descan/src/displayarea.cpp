@@ -82,3 +82,5 @@ void DisplayArea::scaleImage(double factor)
     m_label->resize(pixmap.size().width(), pixmap.size().height());
     qDebug() << pixmap.size().width() << " " << pixmap.size().height();
 }
+
+

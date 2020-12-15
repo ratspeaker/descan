@@ -76,12 +76,14 @@ public:
     int poss = 0;
 
 private slots:
-    void on_pbNextEdit_clicked();
-    void on_pbNextFinish_clicked();
-    void on_pbBackStart_clicked();
-    void on_pbBackEdit_clicked();
+
+    void showPreviousPage();
+    void showNextPage();
+
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
+
+
 
     /*Slotovi za hendlovanje dimenzija */
     void on_hsScale_sliderMoved(int position);
@@ -120,6 +122,9 @@ private slots:
 
     bool eventFilter(QObject* watched, QEvent* event);
 
+
+    void cleanDisplayArea();
+    void convertImagesIntoPdf(QString& filename);
     void moveSliders();
 
     void on_pbLeftImage_clicked();

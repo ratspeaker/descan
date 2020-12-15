@@ -28,6 +28,8 @@ public:
 
     void freeImages();
 
+
+
     void setImageInLabel(QImage img);
     void setImageInLabel();
 

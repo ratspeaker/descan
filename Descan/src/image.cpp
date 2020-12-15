@@ -1,6 +1,7 @@
 #include "headers/image.h"
 #include <cmath>
-
+#include<QPdfWriter>
+#include<QPainter>
 Image::Image(const QString& filePath)
 {
     m_filePath = filePath;
@@ -172,6 +173,21 @@ int Image::width()
 int Image::height() {
     return m_image.height();
 }
+
+void Image::printImageIntoPdf(QPainter &painter)
+{
+    /*Skaliramo sliku da bude preko celog A4 papira */
+    double img_width = static_cast<double>(m_image.width());
+    double img_height = static_cast<double>(m_image.height());
+    qDebug()<<"visina" << img_height << "sirina" << img_width;
+    QRect source(0,0,img_width,img_height);
+    QRect target(0,0,painter.device()->width(),painter.device()->height());
+    /*Uzimamo piksmapu i iscrtavamo je u pdf fajl */
+    QPixmap imgPixmap = QPixmap::fromImage(m_image);
+    painter.drawPixmap(target,imgPixmap,source);
+
+}
+
 /*Cuva se na steku slika, za potrebe undo opcije*/
 void Image::saveAction()
 {
