@@ -3,11 +3,7 @@
 
 #include "headers/image.h"
 #include "headers/displayarea.h"
-
-#include "../PDFNetC64/Headers/PDF/PDFNet.h"
-#include "../PDFNetC64/Headers/PDF/PDFDoc.h"
-#include "../PDFNetC64/Headers/PDF/PDFDocInfo.h"
-#include "../PDFNetC64/Headers/SDF/SDFDoc.h"
+#include "headers/pdfhandler.h"
 
 #include<QWidget>
 #include<QAction>
@@ -32,15 +28,7 @@
 #include<QPoint>
 #include<QMouseEvent>
 #include<QInputDialog>
-#include<QFileDialog>
 #include<vector>
-
-using namespace std;
-
-using namespace pdftron;
-using namespace SDF;
-using namespace PDF;
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

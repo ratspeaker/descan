@@ -565,121 +565,24 @@ void MainWindow::on_pbConvert_clicked()
 
 void MainWindow::on_pbSplitPdf_clicked()
 {
-    PDFNet::Initialize();
+    PDFHandler* pdf = new PDFHandler();
+
     QString filePath = QFileDialog::getOpenFileName(this, tr("Import PDF"), "/home/",  tr("*.pdf"));
 
-    if(!filePath.isEmpty()) {
-        int index = filePath.lastIndexOf("/");
-        int size = filePath.length() - index - 4;
-        QString fileName = filePath.mid(index, size);
-
-        PDFDoc inputDocument(filePath.toStdString());
-        inputDocument.InitSecurityHandler();
-        int pageCount = inputDocument.GetPageCount();
-
-        if(pageCount == 1) {
-            QMessageBox::warning(this, tr("Split PDF"),
-                                       tr("Can't split single page document"),
-                                       QMessageBox::Cancel | QMessageBox::Ok,
-                                       QMessageBox::Cancel);
-
-        } else {
-            bool ok;
-            QString input = QInputDialog::getText(this, tr("Split PDF"),
-                                                  tr("Split on pages:"), QLineEdit::Normal, "", &ok, Qt::Dialog);
-
-            vector<int> pages;
-            if (ok && !input.isEmpty()) {
-                QStringList list(input.split(","));
-
-                for(auto page = list.cbegin(); page != list.cend(); page++)
-                {
-                    int indx = (*page).toInt();
-
-                    if(indx > 0 && indx <= pageCount) {
-                        pages.push_back(indx);
-                    } else {
-                        QMessageBox::warning(this, tr("Split PDF"),
-                                                   tr("Entered page number out of range"),
-                                                   QMessageBox::Cancel | QMessageBox::Ok,
-                                                   QMessageBox::Cancel);
-                    }
-
-                }
-
-                pages.push_back(pageCount);
-            }
-
-
-             QString outputPath = QFileDialog::getExistingDirectory(this, tr("Save"), "/home/", QFileDialog::ShowDirsOnly);
-
-             int i = 1;
-             if(!outputPath.isEmpty()) {
-                int prev = 1;
-
-                  for (auto it = pages.cbegin(); it != pages.cend(); it++)
-                  {
-
-                    if(it != pages.cbegin()) {
-                        if((*it) == pageCount && std::next(it) == pages.cend()) {
-                            prev = pageCount;
-                        } else {
-                            prev = (*std::prev(it))+1;
-                        }
-                     }
-
-                     PDFDoc newDocument;
-                     QString outputFileName(QString("%1_%2.pdf").arg(fileName).arg(i));
-                     QString outputFile(outputPath + outputFileName);
-                     newDocument.InsertPages(0, inputDocument, prev, (*it), PDFDoc::e_none);
-                     newDocument.Save(outputFile.toStdString(), SDFDoc::e_remove_unused, 0);
-                     i++;
-                   }
-
-                   QMessageBox mb;
-                   mb.setText("Your file has been successfully split!");
-                   mb.exec();
-
-                   ui->stackedWidget->setCurrentIndex(2);
-             }
-      }
-    }
-
-    PDFNet::Terminate();
+    pdf->setInputFileSplit(filePath);
+    pdf->splitPdf();
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::on_pbMergePdf_clicked()
 {
-    PDFNet::Initialize();
+    PDFHandler* pdf = new PDFHandler();
 
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
 
-    if (!fileNames.isEmpty()) {
-        QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
-
-        if(!outputFile.isEmpty()) {
-
-            qDebug() << "Spajanje više PDF-ova u jedan";
-            PDFDoc newDocument;
-            newDocument.InitSecurityHandler();
-
-            for (auto i = 0; i< fileNames.size(); i++) {
-                QString inputFile(fileNames[i]);
-                PDFDoc inDocument(inputFile.toStdString());
-                newDocument.InsertPages(i, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
-             }
-
-             newDocument.Save(outputFile.toStdString(), SDFDoc::e_remove_unused, 0);
-
-             QMessageBox mb;
-             mb.setText("Your files have been successfully merged!");
-             mb.exec();
-
-             ui->stackedWidget->setCurrentIndex(2);
-        }
-    }
-
-    PDFNet::Terminate();
+    pdf->setInputFilesMerge(fileNames);
+    pdf->mergePdf();
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::on_pbFinish_clicked()

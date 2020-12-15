@@ -14,12 +14,14 @@ SOURCES += \
     src/displayarea.cpp \
     src/image.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/pdfhandler.cpp
 
 HEADERS += \
     headers/displayarea.h \
     headers/image.h \
-    headers/mainwindow.h
+    headers/mainwindow.h \
+    headers/pdfhandler.h
 
 FORMS += \
     mainwindow.ui
