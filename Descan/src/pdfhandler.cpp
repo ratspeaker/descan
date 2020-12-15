@@ -7,6 +7,7 @@ PDFHandler::PDFHandler(QWidget *parent) : QWidget(parent)
 
 PDFHandler::~PDFHandler()
 {
+    qDebug() << "cao";
     PDFNet::Terminate();
 }
 
@@ -92,7 +93,6 @@ void PDFHandler::splitPdf()
                     if(it != pages.cbegin()) {
                         if((*it) == pageCount && std::next(it) == pages.cend() && (*std::prev(it)) == (*it)) {
                             prev = pageCount;
-                            qDebug() << prev;
                         } else {
                             prev = (*std::prev(it))+1;
                         }

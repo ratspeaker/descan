@@ -571,7 +571,10 @@ void MainWindow::on_pbSplitPdf_clicked()
 
     pdf->setInputFileSplit(filePath);
     pdf->splitPdf();
+
     ui->stackedWidget->setCurrentIndex(2);
+
+    delete pdf;
 }
 
 void MainWindow::on_pbMergePdf_clicked()
@@ -582,7 +585,10 @@ void MainWindow::on_pbMergePdf_clicked()
 
     pdf->setInputFilesMerge(fileNames);
     pdf->mergePdf();
+
     ui->stackedWidget->setCurrentIndex(2);
+
+    delete pdf;
 }
 
 void MainWindow::on_pbFinish_clicked()

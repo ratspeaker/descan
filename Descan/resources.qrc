@@ -43,5 +43,9 @@
         <file>icons/next.png</file>
         <file>icons/openDirectory.png</file>
         <file>icons/split.png</file>
+        <file>icons/Zoom-In-icon.png</file>
+        <file>icons/Zoom-Out-icon.png</file>
+        <file>icons/shape-rotate-anticlockwise-icon.png</file>
+        <file>icons/shape-rotate-clockwise-icon.png</file>
     </qresource>
 </RCC>
