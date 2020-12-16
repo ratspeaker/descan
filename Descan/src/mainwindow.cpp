@@ -391,55 +391,6 @@ void MainWindow::on_tbRotateRight_clicked()
     display->setImageInLabel();
 }
 
-
-
-void MainWindow::convertImagesIntoPdf(QString& filename)
-{
-
-        /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
-        QPdfWriter pdfWriter(filename);
-        pdfWriter.setResolution(150);
-        pdfWriter.setPageMargins(QMargins(0,0,0,0));
-        pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-        //pdfWriter.setPageOrientation(QPageLayout::Landscape);
-
-        /*Ako su slike horizontalne menjamo orjentaciju *
-         *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
-          Ne znam kako to da resimo
-         */
-        if(display->getElement()->width() > display->getElement()->height()) {
-          qDebug() << "ulazi";
-          pdfWriter.setPageOrientation(QPageLayout::Landscape);
-
-        }
-
-        /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
-        QPainter painter(&pdfWriter);
-        painter.setRenderHint(QPainter::Antialiasing);
-
-        /* Vratimo iterator na pocetak ako je koristik editovao slike */
-        display->setToBeginning();
-        /* Prolazimo kroz svaku sliku u vektoru */
-        for(unsigned i = 0; i!=display->getSize();i++) {
-            /* Uzimamo trenutnu sliku */
-            Image* curr = display->getElement();
-            curr->printImageIntoPdf(painter);
-            display->getNextElement();
-
-            /* Nakon poslednje se ne stampa nova strana */
-            if(i!=(display->getSize() - 1)) {
-                pdfWriter.newPage();
-            }
-        }
-
-  }
-
-
-
-
-
-
-
 /* Funkcija koja fituje sliku u Skrol deo */
 void MainWindow::on_tbFit_clicked()
 {   /*Uzimamo velicine skrol dela i piksmape slike */
@@ -559,7 +510,8 @@ void MainWindow::on_pbConvert_clicked()
                                "/home/",
                                tr("PDF Files(*.pdf)"));
 
-    convertImagesIntoPdf(fileName);
+
+    PDFHandler::convertImagesIntoPdf(fileName,display->m_elements);
 
 }
 

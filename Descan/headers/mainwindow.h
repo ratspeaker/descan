@@ -112,7 +112,7 @@ private slots:
 
 
     void cleanDisplayArea();
-    void convertImagesIntoPdf(QString& filename);
+    //void convertImagesIntoPdf(QString& filename);
     void moveSliders();
 
     void on_pbLeftImage_clicked();

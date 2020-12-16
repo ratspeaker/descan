@@ -7,6 +7,10 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDebug>
+#include<QPdfWriter>
+#include<QPainter>
+
+#include "image.h"
 
 #include "../PDFNetC64/Headers/PDF/PDFNet.h"
 #include "../PDFNetC64/Headers/PDF/PDFDoc.h"
@@ -33,6 +37,7 @@ public:
     void setInputFilesMerge(const QStringList &fileName);
     void setInputFileSplit(const QString &fileName);
 
+   static void convertImagesIntoPdf(QString& filename,std::vector<Image*>&imageElements);
 private:
     QStringList inputFilesMerge;
     QString inputFileSplit;

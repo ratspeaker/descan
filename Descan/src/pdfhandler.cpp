@@ -11,6 +11,53 @@ PDFHandler::~PDFHandler()
     PDFNet::Terminate();
 }
 
+
+
+void PDFHandler::convertImagesIntoPdf(QString& filename,std::vector<Image*> &imageElements)
+{
+
+        /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
+        QPdfWriter pdfWriter(filename);
+        pdfWriter.setResolution(150);
+        pdfWriter.setPageMargins(QMargins(0,0,0,0));
+        pdfWriter.setPageSize(QPageSize(QPageSize::A4));
+        //pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+        /*Ako su slike horizontalne menjamo orjentaciju *
+         *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
+          Ne znam kako to da resimo
+         */
+        Image* firstImage = *(imageElements.begin());
+
+        if( firstImage->width() > firstImage->height()) {
+          qDebug() << "ulazi";
+          pdfWriter.setPageOrientation(QPageLayout::Landscape);
+
+        }
+
+        /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
+        QPainter painter(&pdfWriter);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        /* Vratimo iterator na pocetak ako je koristik editovao slike */
+        /* Prolazimo kroz svaku sliku u vektoru */
+        unsigned i =0;
+        for(auto& image: imageElements) {
+            /* Uzimamo trenutnu sliku */
+            image->printImageIntoPdf(painter);
+            /* Nakon poslednje se ne stampa nova strana */
+            if(i!=(imageElements.size() - 1)) {
+                pdfWriter.newPage();
+            }
+
+        i++;
+        }
+
+  }
+
+
+
+
 void PDFHandler::mergePdf()
 {
     if (!inputFilesMerge.isEmpty()) {

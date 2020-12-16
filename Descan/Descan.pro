@@ -28,7 +28,7 @@ FORMS += \
 
 INCLUDEPATH += ../PDFNetC64/Headers
 #LIBS += -L../PDFNetC64/Lib -lPDFNetC -lstdc++17 -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

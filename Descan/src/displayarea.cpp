@@ -24,7 +24,6 @@ void DisplayArea::setElements(const QStringList &filePaths)
         (*i)->setScaleFactor(1.0);
     }
     /*postavlja se iterator na pocetak*/
-    //m_current = m_elements.begin();
     setToBeginning();
 }
 /* Postavlja se iterator na naredni element */
