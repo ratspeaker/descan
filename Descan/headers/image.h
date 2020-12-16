@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <stack>
-#include<map>
+#include <map>
 
 class Image
 {
@@ -18,10 +18,15 @@ public:
 
     QImage getImage();
     void setImage(QImage img);
+
     QString getFilePath();
     void setFilePath(QString filePath);
+
     QSize size();
     bool isNull();
+
+    double getScaleFactor();
+    void setScaleFactor(double factor);
 
     void setSlider(QString str, int position);
     std::map<QString, int> getSlider();
@@ -50,16 +55,10 @@ public:
     void cropImage(QPoint startPoint, QPoint endPoint);
     void rotateImage(int angle);
 
-    double getScaleFactor();
-    void setScaleFactor(double factor);
-
 private:
     QImage m_image;
     QString m_filePath ;
     double scaleFactor;
-
-//signals:
-
 };
 
 double truncate(double x);

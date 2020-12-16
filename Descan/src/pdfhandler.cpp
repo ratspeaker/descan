@@ -11,65 +11,47 @@ PDFHandler::~PDFHandler()
     PDFNet::Terminate();
 }
 
-
-
-void PDFHandler::convertImagesIntoPdf(QString& filename,std::vector<Image*> &imageElements)
+void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> &imageElements)
 {
+    //instanciranje objekta za pravljenje pdfa i neka njegova podesavanja
+    QPdfWriter pdfWriter(filename);
+    pdfWriter.setResolution(150);
+    pdfWriter.setPageMargins(QMargins(20, 20, 20, 30));
+    pdfWriter.setPageSize(QPageSize(QPageSize::A4));
 
-        /*Instanciranje objekta za pravljenje pdfa i neka njegova podesavanja */
-        QPdfWriter pdfWriter(filename);
-        pdfWriter.setResolution(150);
-        pdfWriter.setPageMargins(QMargins(0,0,0,0));
-        pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-        //pdfWriter.setPageOrientation(QPageLayout::Landscape);
+    //instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl
+    QPainter painter(&pdfWriter);
+    painter.setRenderHint(QPainter::Antialiasing);
 
-        /*Ako su slike horizontalne menjamo orjentaciju *
-         *NAPOMENA: ovo resenje nece raditi ako su neke slike horizontalne neke vertikalne
-          Ne znam kako to da resimo
-         */
-        Image* firstImage = *(imageElements.begin());
+    //prolazimo kroz svaku sliku u vektoru
+    unsigned i=0;
+    for (auto& image: imageElements) {
+        //uzimamo trenutnu sliku
+        image->printImageIntoPdf(painter);
 
-        if( firstImage->width() > firstImage->height()) {
-          qDebug() << "ulazi";
-          pdfWriter.setPageOrientation(QPageLayout::Landscape);
+        //stampa se watermark
+        painter.drawText(QPoint(0, painter.device()->height() + 30), "Descan");
 
+        //nakon poslednje se ne stampa nova strana
+        if (i != (imageElements.size()-1)) {
+            pdfWriter.newPage();
         }
-
-        /*Instanciranje objekta Painter koji ce stampati slike u ovaj pdf fajl */
-        QPainter painter(&pdfWriter);
-        painter.setRenderHint(QPainter::Antialiasing);
-
-        /* Vratimo iterator na pocetak ako je koristik editovao slike */
-        /* Prolazimo kroz svaku sliku u vektoru */
-        unsigned i =0;
-        for(auto& image: imageElements) {
-            /* Uzimamo trenutnu sliku */
-            image->printImageIntoPdf(painter);
-            /* Nakon poslednje se ne stampa nova strana */
-            if(i!=(imageElements.size() - 1)) {
-                pdfWriter.newPage();
-            }
-
         i++;
-        }
-
-  }
-
-
-
+    }
+}
 
 void PDFHandler::mergePdf()
 {
     if (!inputFilesMerge.isEmpty()) {
         QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
 
-        if(!outputFile.isEmpty()) {
+        if (!outputFile.isEmpty()) {
 
             qDebug() << "Spajanje više PDF-ova u jedan";
             PDFDoc newDocument;
             newDocument.InitSecurityHandler();
 
-            for (auto i = 0; i< inputFilesMerge.size(); i++) {
+            for (auto i = 0; i < inputFilesMerge.size(); i++) {
                 QString inputFile(inputFilesMerge[i]);
                 PDFDoc inDocument(inputFile.toStdString());
                 newDocument.InsertPages(i, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
@@ -79,15 +61,15 @@ void PDFHandler::mergePdf()
 
              QMessageBox::information(this, tr("Merge PDF"),
                                             tr("Your files have been successfully merged!"),
-                                          QMessageBox::Cancel | QMessageBox::Ok,
-                                          QMessageBox::Cancel);
+                                            QMessageBox::Cancel | QMessageBox::Ok,
+                                            QMessageBox::Cancel);
         }
     }
 }
 
 void PDFHandler::splitPdf()
 {
-    if(!inputFileSplit.isEmpty()) {
+    if (!inputFileSplit.isEmpty()) {
         int index = inputFileSplit.lastIndexOf("/");
         int size = inputFileSplit.length() - index - 4;
         QString fileName = inputFileSplit.mid(index, size);
@@ -96,7 +78,7 @@ void PDFHandler::splitPdf()
         inputDocument.InitSecurityHandler();
         int pageCount = inputDocument.GetPageCount();
 
-        if(pageCount == 1) {
+        if (pageCount == 1) {
             QMessageBox::warning(this, tr("Split PDF"),
                                        tr("Can't split single page document"),
                                        QMessageBox::Cancel | QMessageBox::Ok,
@@ -110,11 +92,11 @@ void PDFHandler::splitPdf()
             if (ok && !input.isEmpty()) {
                 QStringList list(input.split(","));
 
-                for(auto page = list.cbegin(); page != list.cend(); page++)
+                for (auto page = list.cbegin(); page != list.cend(); page++)
                 {
                     int indx = (*page).toInt();
 
-                    if(indx > 0 && indx <= pageCount) {
+                    if (indx > 0 && indx <= pageCount) {
                         pages.push_back(indx);
                     } else {
                         QMessageBox::warning(this, tr("Split PDF"),
@@ -132,13 +114,13 @@ void PDFHandler::splitPdf()
              QString outputPath = QFileDialog::getExistingDirectory(this, tr("Save"), "/home/", QFileDialog::ShowDirsOnly);
 
              int i = 1;
-             if(!outputPath.isEmpty()) {
+             if (!outputPath.isEmpty()) {
                 int prev = 1;
                   for (auto it = pages.cbegin(); it != pages.cend(); it++)
                   {
 
-                    if(it != pages.cbegin()) {
-                        if((*it) == pageCount && std::next(it) == pages.cend() && (*std::prev(it)) == (*it)) {
+                    if (it != pages.cbegin()) {
+                        if ((*it) == pageCount && std::next(it) == pages.cend() && (*std::prev(it)) == (*it)) {
                             prev = pageCount;
                         } else {
                             prev = (*std::prev(it))+1;
@@ -158,7 +140,7 @@ void PDFHandler::splitPdf()
                                                   QMessageBox::Cancel | QMessageBox::Ok,
                                                   QMessageBox::Cancel);
              }
-      }
+        }
     }
 }
 

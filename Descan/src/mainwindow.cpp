@@ -1,8 +1,6 @@
 #include "headers/mainwindow.h"
 #include "headers/image.h"
 #include "ui_mainwindow.h"
-#include<QPdfWriter>
-#include<QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -21,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pbNextEdit->setDisabled(true);
 
-    //ako se bilo šta promeni na slici, operacija undo ce biti omogućena
+    //ako se bilo sta promeni na slici, operacija undo ce biti omogucena
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
 
     //za svaku sliku posebno se koristi zaseban undo/redo
@@ -31,10 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     //pomeraju se slajderi u zavisnosti da li se promeni slika ili se pritisnu undo/redo
     QObject::connect(this, &MainWindow::moveSlidersSignal, this, &MainWindow::moveSliders);
 
-    QObject::connect(ui->pbBackEdit,&QPushButton::clicked,this,&MainWindow::showPreviousPage);
-    QObject::connect(ui->pbBackStart,&QPushButton::clicked,this,&MainWindow::showPreviousPage);
-    QObject::connect(ui->pbNextEdit,&QPushButton::clicked,this,&MainWindow::showNextPage);
-    QObject::connect(ui->pbNextFinish,&QPushButton::clicked,this,&MainWindow::showNextPage);
+    QObject::connect(ui->pbBackEdit, &QPushButton::clicked, this, &MainWindow::showPreviousPage);
+    QObject::connect(ui->pbBackStart, &QPushButton::clicked, this, &MainWindow::showPreviousPage);
+    QObject::connect(ui->pbNextEdit, &QPushButton::clicked, this, &MainWindow::showNextPage);
+    QObject::connect(ui->pbNextFinish, &QPushButton::clicked, this, &MainWindow::showNextPage);
 }
 
 MainWindow::~MainWindow()
@@ -42,17 +40,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*void MainWindow::on_pbNextEdit_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(1);
-}
-
-void MainWindow::on_pbNextFinish_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
-}*/
-
-/* Implementacija slotova za prelazak na prethodnu/narednu stranu */
+//implementacija slotova za prelazak na prethodnu/narednu stranu
 void MainWindow::showPreviousPage()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
@@ -65,21 +53,7 @@ void MainWindow::showNextPage()
     ui->stackedWidget->setCurrentIndex(++currentIndex);
 }
 
-//void MainWindow::on_pbBackStart_clicked()
-//{
-  //  ui->stackedWidget->setCurrentIndex(0);
-    /* Treba osloboditi prostor za nove slike */
-    //display->freeImages();
-
-//}
-
-//void MainWindow::on_pbBackEdit_clicked()
-//{
-  // int currentIndex = ui->stackedWidget->currentIndex();
-  // ui->stackedWidget->setCurrentIndex(--currentIndex);
-//}
-
-
+//ucitavanje jedne slike
 void MainWindow::on_pbImport_clicked()
 {
     cleanDisplayArea();
@@ -89,7 +63,7 @@ void MainWindow::on_pbImport_clicked()
          display->setElements(QStringList(fileName));
 
          QImage image = display->getElement()->getImage();
-         qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
+         //qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
 
          if (image.isNull()) {
              QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
@@ -103,16 +77,17 @@ void MainWindow::on_pbImport_clicked()
     }
 }
 
+//ucitavanje vise slika
 void MainWindow::on_pbImportMultiple_clicked()
 {
     cleanDisplayArea();
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/");
+    fileNames.sort();
 
     if (!fileNames.isEmpty()) {
          display->setElements(fileNames);
 
          QImage image = display->getElement()->getImage();
-         qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
 
          if (image.isNull()) {
              QMessageBox::information(this, tr("Descan"), tr("Cannot load images."));
@@ -127,7 +102,7 @@ void MainWindow::on_pbImportMultiple_clicked()
 }
 
 //TODO: treba izmeniti da ne menja direktno sliku (kopija objekta ili naci bolje resenje?)
-/*Funkcija koja skalira sliku u zavisnosti od pozicije slajdera*/
+//funkcija koja skalira sliku u zavisnosti od pozicije slajdera
 void MainWindow::on_hsScale_sliderMoved(int position)
 {
     poss = position;
@@ -136,53 +111,63 @@ void MainWindow::on_hsScale_sliderMoved(int position)
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
-    /* Promena se manifestuje na kopiji i ta kopija se prikazuje u labeli */
+    //promena se manifestuje na kopiji i ta kopija se prikazuje u labeli
     image_copy = display->getElement()->resizeImage(resizeFactor, 's');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
-/*Funkcija koja cuva trajno promenu na objektu slike */
-/*TODO: posto se ove dve akcije cesto koriste -> izdvojiti ih u funkciju */
+
+//funkcija koja cuva trajno promenu na objektu slike
+//TODO: posto se ove dve akcije cesto koriste -> izdvojiti ih u funkciju
 void MainWindow::on_hsScale_sliderReleased()
 {
     display->getElement()->saveAction();
     display->getElement()->setSlider("scale", poss);
     display->setImageInLabel(image_copy);
 }
-/*Menja visinu u zavisnosti od parametra*/
+
+//menja visinu u zavisnosti od parametra
 void MainWindow::on_hsHorizontal_sliderMoved(int position)
 {
     poss = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-    /*Odredjuje faktor na osnovu pozicije slajdera*/
+
+    //odredjuje faktor na osnovu pozicije slajdera
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
-    /*Cuva u kopiji i tu kopiju prikazuje*/
+
+    //cuva u kopiji i tu kopiju prikazuje
     image_copy = display->getElement()->resizeImage(resizeFactor, 'w');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
-/*Funkcija koja kada se otpusti slajder cuva promenu u objekat slike*/
+
+//funkcija koja kada se otpusti slajder cuva promenu u objekat slike
 void MainWindow::on_hsHorizontal_sliderReleased()
 {
     display->getElement()->saveAction();
     display->getElement()->setSlider("hor", poss);
     display->setImageInLabel(image_copy);
 }
-/*Menja sirinu u zavisnosti od parametra*/
+
+//menja sirinu u zavisnosti od parametra
 void MainWindow::on_hsVertical_sliderMoved(int position)
 {
     poss = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
+
+    //odredjuje faktor na osnovu pozicije slajdera
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
 
+    //cuva u kopiji i tu kopiju prikazuje
     image_copy = display->getElement()->resizeImage(resizeFactor, 'h');
     display->m_label->setPixmap(QPixmap::fromImage(image_copy));
 }
-/*Funkcija koja kada se otpusti slajder cuva promene u objekat slike */
+
+//funkcija koja kada se otpusti slajder cuva promene u objekat slike
 void MainWindow::on_hsVertical_sliderReleased()
 {
     display->getElement()->saveAction();
@@ -190,6 +175,7 @@ void MainWindow::on_hsVertical_sliderReleased()
     display->setImageInLabel(image_copy);
 }
 
+//efekti
 void MainWindow::on_pbGreyscale_clicked()
 {
     emit enableUndoSignal();
@@ -260,36 +246,38 @@ void MainWindow::on_hsSaturation_sliderReleased()
     display->getElement()->setSlider("sat", poss);
     display->setImageInLabel(image_copy);
 }
-/*Funkcija za omogucavanje klika na dugme Undo*/
+
+//funkcija za omogucavanje klika na dugme undo
 void MainWindow::enableUndo()
 {
     ui->tbUndo->setDisabled(false);
 }
 
-/* Funkcija koja obradjuje akciju Undo */
+//dugme koje obradjuje akciju undo
 void MainWindow::on_tbUndo_clicked()
-{   /* Vracamo prethodno stanje slike */
+{
     display->getElement()->undoAction();
-
     emit changeUndoSignal();
-     /* Prikazuje se u labeli prethodna izmena slike */
+
+    //prikazujemo sliku u labeli
     display->setImageInLabel();
 
     emit moveSlidersSignal();
 }
 
-/* Funkcija koja obradjuje akciju Redo*/
+//dugme koje obradjuje akciju redo
 void MainWindow::on_tbRedo_clicked()
 {
     display->getElement()->redoAction();
     emit changeRedoSignal();
 
+    //prikazujemo sliku u labeli
     display->setImageInLabel();
 
     emit moveSlidersSignal();
 }
 
-/* Funkcija za cropovanje slike */
+//dugme koje omogucava crop slike
 void MainWindow::on_tbCrop_clicked()
 {
     display->getElement()->saveAction();
@@ -297,11 +285,11 @@ void MainWindow::on_tbCrop_clicked()
     cropPressed = true;
 }
 
-//prati događaje miša koji se dešavaju kada se pređe preko labele sa slikom
+//prati dogadjaje misa koji se desavaju kada se predje preko labele sa slikom
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if (watched == display->getLabel() && cropPressed!=false) {
-        if (event->type()== QEvent::MouseButtonPress) {
+    if (watched == display->getLabel() && cropPressed != false) {
+        if (event->type() == QEvent::MouseButtonPress) {
             QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
 
             //pamtimo gornje levo teme pravougaonika
@@ -324,19 +312,20 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             }
         }
         else if (event->type() == QEvent::MouseButtonRelease) {
-            //display->getElement()->saveAction();
             QMouseEvent *newEvent = static_cast<QMouseEvent*>(event);
             setCursor(Qt::ArrowCursor);
 
-            //pamtimo gornje levo teme pravougaonika
+            //pamtimo donje desno teme pravougaonika
             endPoint = newEvent->pos();
 
             if (rubberBandCreated)
                 rubberBand->deleteLater();
 
-            //sečemo selektovani deo
-            display->getElement()->cropImage(startPoint/display->getElement()->getScaleFactor(),
-                                             endPoint/display->getElement()->getScaleFactor());
+            //secemo selektovani deo
+            display->getElement()->cropImage(startPoint / display->getElement()->getScaleFactor(),
+                                             endPoint / display->getElement()->getScaleFactor());
+
+            //prikazujemo sliku u labeli
             display->setImageInLabel();
 
             rubberBandCreated = false;
@@ -352,28 +341,27 @@ void MainWindow::cleanDisplayArea()
     display->freeImages();
 }
 
-
 void MainWindow::moveSliders()
 {
-    for(auto it: display->getElement()->getSlider()){
-        if(it.first=="scale")
+    for (auto it: display->getElement()->getSlider()) {
+        if (it.first=="scale")
             ui->hsScale->setValue(it.second);
-        else if(it.first=="hor")
+        else if (it.first=="hor")
             ui->hsHorizontal->setValue(it.second);
-        else if(it.first=="ver")
+        else if (it.first=="ver")
             ui->hsVertical->setValue(it.second);
-        else if(it.first=="brigh")
+        else if (it.first=="brigh")
             ui->hsBrightness->setValue(it.second);
-        else if(it.first=="con")
+        else if (it.first=="con")
             ui->hsContrast->setValue(it.second);
-        else if(it.first=="gam")
+        else if (it.first=="gam")
             ui->hsCorrection->setValue(it.second);
-        else if(it.first=="sat")
+        else if (it.first=="sat")
             ui->hsSaturation->setValue(it.second);
     }
 }
 
-/*Funkcija koja rotira sliku ulevo */
+//rotiramo sliku ulevo
 void MainWindow::on_tbRotateLeft_clicked()
 {
     emit enableUndoSignal();
@@ -382,7 +370,7 @@ void MainWindow::on_tbRotateLeft_clicked()
     display->setImageInLabel();
 }
 
-/*Funkcija koja rotira sliku udesno */
+//rotiramo sliku udesno
 void MainWindow::on_tbRotateRight_clicked()
 {
     emit enableUndoSignal();
@@ -391,12 +379,14 @@ void MainWindow::on_tbRotateRight_clicked()
     display->setImageInLabel();
 }
 
-/* Funkcija koja fituje sliku u Skrol deo */
+//fitujemo sliku u skrol deo
 void MainWindow::on_tbFit_clicked()
-{   /*Uzimamo velicine skrol dela i piksmape slike */
+{
+    //uzimamo dimenzije skrol dela i piksmape
     QSize scrollSize = ui->scrollArea->size();
     QSize pixmapSize = QPixmap::fromImage(display->getElement()->getImage()).size();
-    /*Skaliramo sliku u skrol deo tako da ne bude distorzije */
+
+    //vrsimo skaliranje piksmape
     double imageRatio = static_cast<double>(pixmapSize.height()) / pixmapSize.width();
 
     double scaleBy;
@@ -408,71 +398,67 @@ void MainWindow::on_tbFit_clicked()
     }
 
     display->scaleImage(scaleBy/display->getElement()->getScaleFactor());
-    /*Dugmici za uvecanje i smanjenje ce biti omoguceni ako je ispunjen uslov */
+
+    //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
-    qDebug() << display->getElement()->getScaleFactor();
+    //qDebug() << display->getElement()->getScaleFactor();
 }
 
-/* Funkcija koja uvecava sliku */
 void MainWindow::on_tbZoomIn_clicked()
-{   /*Skalira se za odredjen faktor koji ce uvecavati*/
+{
     display->scaleImage(1.25);
-    /* Dugmici za ZoomIn i ZoomOut se onemogucavaju ako je neki uslov ispunjen */
     ui->tbZoomIn->setDisabled(display->getElement()->getScaleFactor() > 2);
     ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
 }
 
-/*Funkcija koja smanjuje sliku */
 void MainWindow::on_tbZoomOut_clicked()
-{   /*Skalira se za odredjeni faktor koji ce je smanjiti */
+{
     display->scaleImage(0.80);
-    /* Dugmici za ZoomIn i ZoomOut se onemogucavaju ako je neki uslov ispunjen */
     ui->tbZoomOut->setDisabled(display->getElement()->getScaleFactor() < 0.4);
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
 }
 
-/* Prelazi se na prethodnu sliku */
+//prelazimo na prethodnu sliku
 void MainWindow::on_pbLeftImage_clicked()
-{   /*Prelazi se na prethodni element u vektoru*/
+{
+    //prelazimo na prethodni element u vektoru
     display->getPreviousElement();
-    /*Prikazuje se slika u labelu */
+
+    //prikazujemo sliku u labeli
     display->setImageInLabel();
-    /*Omogucavaju se dugmici za uvecavanje i umanjenje slike, uz zadovoljen uslov */
+
+    //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
-   /* Debug ispis
-    * qDebug() << "prev" << display->getElement()->getScaleFactor(); */
 
-    /*Signali za undo i redo */
+    //signali za undo i redo
     emit changeUndoSignal();
     emit changeRedoSignal();
-
     emit moveSlidersSignal();
 }
 
-/* Prelazi na narednu sliku */
+//prelazimo na narednu sliku
 void MainWindow::on_pbRightImage_clicked()
 {
-   /*Pomera iterator na naredni element */
+    //prelazimo na naredni element u vektoru
     display->getNextElement();
-    /*Prikazuje se slika u labeli */
+
+    //prikazujemo sliku u labeli
     display->setImageInLabel();
-    /*Omogucavaju se dugmici za uvecavanje i umanjenje slike, uz zadovoljen uslov */
+
+    //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
-    /* Debug ispis
-     * qDebug() << "next" << display->getElement()->getScaleFactor();
-     */
 
-    /*Signali za undo i redo */
+    //signali za undo i redo
     emit changeUndoSignal();
     emit changeRedoSignal();
-
     emit moveSlidersSignal();
 }
-/*Funkcija koja ako nema vise akcija na koje se vraca stavlja da je onemoguceno pritiskanje undo dugmeta *
- *kao i obrnuto za dugme Redo */
+
+//ako nema vise akcija na koje mozemo da se vratimo,
+//stavljamo da je onemoguceno undo dugme, takodje vrsi se provera i za redo dugme
 void MainWindow::changeUndoState()
 {
     if ((display->getElement()->undoStack.size())==0) {
@@ -485,7 +471,9 @@ void MainWindow::changeUndoState()
         ui->tbUndo->setDisabled(false);
     }
 }
-/*Funkcija koja omogucava pritiskanje redo dugmeta ako ne postoji akcija unapred na koju mozemo da se vratimo */
+
+//ako nema vise akcija na koje mozemo da se vratimo unapred,
+//stavljamo da je onemoguceno redo dugme, takodje vrsi se provera i za undo dugme
 void MainWindow::changeRedoState()
 {
     if (display->getElement()->redoStack.size()==0) {
@@ -499,22 +487,19 @@ void MainWindow::changeRedoState()
     }
 }
 
-
-/* Konvertovanje jedne i/ili vise slika u PDF */
-/*TODO: refaktorisanje koda -> klasa PDF i izdvajanje metode za konvertovanje u tu klasu */
+//konvertovanje jedne i/ili vise slika u PDF
 void MainWindow::on_pbConvert_clicked()
 {
-    /* Trenutno korisnik bira gde se cuva fajl
-    U kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme download */
+    //trenutno ovde korisnik bira gde se cuva fajl
+    //u kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme save
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
-                               "/home/",
-                               tr("PDF Files(*.pdf)"));
-
+                                                          "/home/",
+                                                          tr("PDF Files(*.pdf)"));
 
     PDFHandler::convertImagesIntoPdf(fileName,display->m_elements);
-
 }
 
+//jedan pdf dokument delimo u vise
 void MainWindow::on_pbSplitPdf_clicked()
 {
     PDFHandler* pdf = new PDFHandler();
@@ -529,6 +514,7 @@ void MainWindow::on_pbSplitPdf_clicked()
     delete pdf;
 }
 
+//vise dokumenata objedinjujemo u jedan
 void MainWindow::on_pbMergePdf_clicked()
 {
     PDFHandler* pdf = new PDFHandler();
@@ -543,6 +529,7 @@ void MainWindow::on_pbMergePdf_clicked()
     delete pdf;
 }
 
+//izlazimo iz programa
 void MainWindow::on_pbFinish_clicked()
 {
     close();

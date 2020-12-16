@@ -1,7 +1,8 @@
 #include "headers/image.h"
 #include <cmath>
-#include<QPdfWriter>
-#include<QPainter>
+#include <QPdfWriter>
+#include <QPainter>
+
 Image::Image(const QString& filePath)
 {
     m_filePath = filePath;
@@ -43,6 +44,11 @@ bool Image::isNull()
     return m_image.isNull();
 }
 
+double Image::getScaleFactor()
+{
+    return scaleFactor;
+}
+
 void Image::setScaleFactor(double factor)
 {
     scaleFactor = factor;
@@ -58,7 +64,7 @@ std::map<QString, int> Image::getSlider()
     return sliders;
 }
 
-/*Funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat*/
+//funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat
 QImage Image::resizeImage(double factor, char option)
 {
     QImage newImage(m_image);
@@ -79,13 +85,13 @@ QImage Image::resizeImage(double factor, char option)
     return newImage.scaled(newSize, Qt::IgnoreAspectRatio);
 }
 
-/*Funkcija koja menja svetlost same slike */
-/*TODO: 4 funkcije na isti nacin rade, promeniti tako da se pozivaju iste funkcije samo sa odgovarajucim parametrima */
+//funkcija koja menja svetlost same slike
+//TODO: 4 funkcije na isti nacin rade, promeniti tako da se pozivaju iste funkcije samo sa odgovarajucim parametrima
 QImage Image::changeBrightness(double brightnessFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
-    /*Prolazi kroz svaki piksel i povecava ga za odredjen faktor */
+    //prolazi kroz svaki piksel i povecava ga za odredjen faktor
     for (int x = 0; x < m_image.width(); ++x)
         for (int y = 0; y < m_image.height(); ++y) {
             QRgb color =m_image.pixel(x, y);
@@ -98,7 +104,7 @@ QImage Image::changeBrightness(double brightnessFactor)
    return newImage;
 }
 
-/*Funkcija koja menja kontrast slike i vraca izmenjen objekat */
+//funkcija koja menja kontrast slike i vraca izmenjen objekat
 QImage Image::changeContrast(double contrastFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -115,7 +121,7 @@ QImage Image::changeContrast(double contrastFactor)
     return newImage;
 }
 
-/*Gama korekcija za sliku, svaki piksel se zamenjuje novim pikselom koji se racuna po formuli */
+//gama korekcija za sliku, svaki piksel se zamenjuje novim pikselom koji se racuna po formuli
 QImage Image::gammaCorrection(double gamma)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -132,7 +138,7 @@ QImage Image::gammaCorrection(double gamma)
     return newImage;
 }
 
-/*Funkcija koja vraca crno belu sliku */
+//funkcija koja vraca crno belu sliku
 QImage Image::greyScale()
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
@@ -140,14 +146,13 @@ QImage Image::greyScale()
     for (int x = 0; x < m_image.width(); ++x)
         for (int y = 0; y < m_image.height(); ++y) {
             QRgb color = m_image.pixel(x, y);
-            /*lepo namesteni tezinski faktori za racunanje odgovarajuce nijanse sive *
-             *alternativa je da se uzme aritmeticka sredina vrednosti RGB boja piksela */
+            //lepo namesteni tezinski faktori za racunanje odgovarajuce nijanse sive
+            //alternativa je da se uzme aritmeticka sredina vrednosti RGB boja piksela
             value = (0.299) * qRed(color) + (0.587) * qGreen(color) + (0.114)*qBlue(color);
             newImage.setPixel(x, y, qRgb(value,value,value));
         }
     return newImage;
 }
-
 
 QImage Image::changeSaturation(double saturationChange)
 {
@@ -164,7 +169,8 @@ QImage Image::changeSaturation(double saturationChange)
         }
     return newImage;
 }
-/*Geteri za visinu i sirinu slike*/
+
+//geteri za visinu i sirinu slike
 int Image::width()
 {
     return m_image.width();
@@ -174,21 +180,38 @@ int Image::height() {
     return m_image.height();
 }
 
+//funkcija koja stampa sliku u pdf dokument
 void Image::printImageIntoPdf(QPainter &painter)
 {
-    /*Skaliramo sliku da bude preko celog A4 papira */
-    double img_width = static_cast<double>(m_image.width());
+    double img_width  = static_cast<double>(m_image.width());
     double img_height = static_cast<double>(m_image.height());
-    qDebug()<<"visina" << img_height << "sirina" << img_width;
-    QRect source(0,0,img_width,img_height);
-    QRect target(0,0,painter.device()->width(),painter.device()->height());
-    /*Uzimamo piksmapu i iscrtavamo je u pdf fajl */
-    QPixmap imgPixmap = QPixmap::fromImage(m_image);
-    painter.drawPixmap(target,imgPixmap,source);
+    qDebug() << "visina" << img_height << "sirina" << img_width;
 
+    QRect source(0, 0, img_width, img_height);
+    QPixmap imgPixmap = QPixmap::fromImage(m_image);
+
+    //ako je slika manja od papira
+    if (img_width <= painter.device()->width() && img_height <= painter.device()->height()) {
+        painter.drawPixmap(source, imgPixmap);
+    }
+    //ako je veca od papira, da je ne sece
+    else {
+        double imageRatio = img_height / img_width;
+
+        double scaleBy;
+        if (painter.device()->width() * imageRatio > painter.device()->height()) {
+            scaleBy = painter.device()->height() / img_height;
+        }
+        else {
+            scaleBy = painter.device()->width() / img_width;
+        }
+
+        QRect target(0, 0, img_width * scaleBy, img_height * scaleBy);
+        painter.drawPixmap(target, imgPixmap, source);
+    }
 }
 
-/*Cuva se na steku slika, za potrebe undo opcije*/
+//cuva se na steku slika, za potrebe undo opcije
 void Image::saveAction()
 {
     undoStack.push({m_image, sliders});
@@ -218,7 +241,8 @@ void Image::cropImage(QPoint startPoint, QPoint endPoint)
     QRect rect = QRect(startPoint, endPoint);
     m_image = m_image.copy(rect);
 }
-/*Rotira se slika za odredjeni ugao*/
+
+//rotira se slika za odredjeni ugao
 void Image::rotateImage(int angle)
 {
     QPixmap pixmap = QPixmap::fromImage(m_image);
@@ -228,17 +252,11 @@ void Image::rotateImage(int angle)
     m_image = pixmap.toImage();
 }
 
-//videti sta sa ovim
-/*Pomocna funkcija koja vodi racuna da vrednost piksela bude u intervalu [-255,255]*/
+//pomocna funkcija koja vodi racuna da vrednost piksela bude u intervalu [-255, 255]
 double truncate(double x) {
     if (x > 255)
         return 255;
     if (x < 0)
         return 0;
     return x;
-}
-
-double Image::getScaleFactor()
-{
-    return scaleFactor;
 }

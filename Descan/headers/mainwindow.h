@@ -29,6 +29,8 @@
 #include<QMouseEvent>
 #include<QInputDialog>
 #include<vector>
+#include<QPdfWriter>
+#include<QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
