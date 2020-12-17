@@ -45,20 +45,18 @@ public:
     ~MainWindow();
 
 public:
-    /*polja*/
-    int angle = 0;
-
     Ui::MainWindow *ui;
-    DisplayArea* display;
-    QImage image_copy; /*Ovo za sada jedino resenje za kompoziciju efekata.*/
+    DisplayArea *display;
+    QImage image_copy; //ovo za sada jedino resenje za kompoziciju efekata
 
     bool cropPressed = false;
+    int angle = 0;
 
-    /*Oblast koja će biti isečena.*/
-    QRubberBand* rubberBand = nullptr;
+    //oblast koja ce biti isecena
+    QRubberBand *rubberBand = nullptr;
     bool rubberBandCreated = false;
 
-    /*startPoint očitava vrednosti miša kada se desio događaj pressed, a endPoint kad se desi released.*/
+    //startPoint ocitava vrednosti misa kada se desi događaj pressed, a endPoint kada se desi released
     QPoint startPoint;
     QPoint endPoint;
 
@@ -66,16 +64,13 @@ public:
     int poss = 0;
 
 private slots:
-
     void showPreviousPage();
     void showNextPage();
 
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
 
-
-
-    /*Slotovi za hendlovanje dimenzija */
+    //slotovi za hendlovanje dimenzija slike
     void on_hsScale_sliderMoved(int position);
     void on_hsScale_sliderReleased();
     void on_hsHorizontal_sliderMoved(int position);
@@ -83,7 +78,7 @@ private slots:
     void on_hsVertical_sliderMoved(int position);
     void on_hsVertical_sliderReleased();
 
-    /* Slotovi za hendlovanje boja slike */
+    //slotovi za hendlovanje boja slike
     void on_pbGreyscale_clicked();
     void on_hsBrightness_sliderMoved(int position);
     void on_hsBrightness_sliderReleased();
@@ -94,37 +89,39 @@ private slots:
     void on_hsSaturation_sliderMoved(int position);
     void on_hsSaturation_sliderReleased();
 
-    /*Slotovi i pomocne funkcije za hendlovanje undo i redo akcija */
+    //slotovi i pomocne funkcije za hendlovanje undo i redo akcija
     void enableUndo();
     void on_tbUndo_clicked();
     void on_tbRedo_clicked();
 
-    /*Slotovi za uvecan/umanjen prikaz slike*/
+    //slotovi za uvecan/umanjen prikaz slike
     void on_tbZoomIn_clicked();
     void on_tbZoomOut_clicked();
     void on_tbFit_clicked();
 
-    /*Slot za kropovanje slike*/
+    //slot za kropovanje slike
     void on_tbCrop_clicked();
-    /*Slotovi za rotaciju*/
+
+    //slotovi za rotaciju
     void on_tbRotateLeft_clicked();
     void on_tbRotateRight_clicked();
 
     bool eventFilter(QObject* watched, QEvent* event);
 
-
     void cleanDisplayArea();
-    //void convertImagesIntoPdf(QString& filename);
     void moveSliders();
 
+    //slotovi za prethodnu i narednu sliku
     void on_pbLeftImage_clicked();
     void on_pbRightImage_clicked();
 
+    //slot za konvertovanje slika u pdf
     void on_pbConvert_clicked();
 
     void changeUndoState();
     void changeRedoState();
 
+    //slotovi za split i merge pdf
     void on_pbSplitPdf_clicked();
     void on_pbMergePdf_clicked();
 
@@ -138,4 +135,3 @@ signals:
 };
 
 #endif // MAINWINDOW_H
-

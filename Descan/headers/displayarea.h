@@ -2,7 +2,6 @@
 #define DISPLAYAREA_H
 
 #include "headers/image.h"
-
 #include <QWidget>
 #include <QLabel>
 #include <QList>
@@ -19,24 +18,27 @@ class DisplayArea : public QWidget
 public:
     explicit DisplayArea(QWidget *parent = nullptr);
     QLabel* getLabel();
+
     Image* getElement();
-    void setElements(const QStringList& filePaths);
+    std::vector<Image*> getElements();
+    void setElements(const QStringList &filePaths);
+
+    void setToBeginning();
     void getNextElement();
     void getPreviousElement();
+    int getIndDisable();
+
     size_t getSize();
-    void setToBeginning();
-
     void freeImages();
-
     void setImageInLabel(QImage img);
     void setImageInLabel();
-
     void scaleImage(double factor);
 
 public:
-    QLabel* m_label; //zbog smestanja privremene kopije TODO napraviti ovaj metod da ne bi bilo public
+    QLabel* m_label; //zbog smestanja privremene kopije
+                     //TODO napraviti ovaj metod da ne bi bilo public
 
-public:
+private:
     std::vector<Image*> m_elements;
     std::vector<Image*>::iterator m_current;
     int indDisable = 0;

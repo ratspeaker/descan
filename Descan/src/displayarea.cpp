@@ -5,17 +5,23 @@ DisplayArea::DisplayArea(QWidget *parent) : QWidget(parent)
     m_label = new QLabel();
 }
 
-QLabel *DisplayArea::getLabel()
+QLabel* DisplayArea::getLabel()
 {
     return m_label;
 }
 
-Image *DisplayArea::getElement()
+//vraca trenutnu sliku
+Image* DisplayArea::getElement()
 {
     return *m_current;
 }
 
-//popunjava vektor objekata Image
+//vraca vektor objekata Image*
+std::vector<Image*> DisplayArea::getElements() {
+    return m_elements;
+}
+
+//popunjava vektor objekata Image*
 void DisplayArea::setElements(const QStringList &filePaths)
 {
     for (auto i=filePaths.cbegin(); i != filePaths.cend(); i++) {
@@ -24,8 +30,13 @@ void DisplayArea::setElements(const QStringList &filePaths)
     for (auto i=m_elements.begin(); i != m_elements.end(); i++) {
         (*i)->setScaleFactor(1.0);
     }
-    //postavlja se iterator na pocetak
     setToBeginning();
+}
+
+//postavlja se iterator na pocetak
+void DisplayArea::setToBeginning()
+{
+    m_current = m_elements.begin();
 }
 
 //postavlja se iterator na naredni element
@@ -43,25 +54,24 @@ void DisplayArea::getNextElement()
 //postavlja se iterator na prethodni element
 void DisplayArea::getPreviousElement()
 {
-    if (m_current != m_elements.begin())
+    if (m_current != m_elements.cbegin())
     {
-        if (m_current == m_elements.begin()+1) {
+        if (m_current == m_elements.cbegin()+1) {
             indDisable = 1;
         }
         m_current--;
     }
 }
 
+//indikator za disable dugmica
+int DisplayArea::getIndDisable() {
+    return indDisable;
+}
+
 //vraca velicinu vektora slika
 size_t DisplayArea::getSize()
 {
     return m_elements.size();
-}
-
-//vraca iterator na pocetak
-void DisplayArea::setToBeginning()
-{
-    m_current = m_elements.begin();
 }
 
 //cisti vektor slika

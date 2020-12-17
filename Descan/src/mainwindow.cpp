@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
     ui->pbNextEdit->setDisabled(true);
-    ui->pbLeftImage->setDisabled(true);
 
     //ako se bilo sta promeni na slici, operacija undo ce biti omogucena
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
@@ -75,6 +74,8 @@ void MainWindow::on_pbImport_clicked()
          setCursor(Qt::ArrowCursor);
          display->setImageInLabel();
          display->getLabel()->adjustSize();
+         ui->pbLeftImage->setDisabled(true);
+         ui->pbRightImage->setDisabled(true);
     }
 }
 
@@ -99,6 +100,8 @@ void MainWindow::on_pbImportMultiple_clicked()
          setCursor(Qt::ArrowCursor);
          display->setImageInLabel();
          display->getLabel()->adjustSize();
+         ui->pbLeftImage->setDisabled(true);
+         ui->pbRightImage->setDisabled(false);
     }
 }
 
@@ -430,7 +433,7 @@ void MainWindow::on_pbLeftImage_clicked()
     display->setImageInLabel();
 
     //ako je prva slika
-    if (display->indDisable == 1)
+    if (display->getIndDisable() == 1)
         ui->pbLeftImage->setDisabled(true);
     ui->pbRightImage->setDisabled(false);
 
@@ -454,7 +457,7 @@ void MainWindow::on_pbRightImage_clicked()
     display->setImageInLabel();
 
     //ako je poslednja slika
-    if (display->indDisable == 2)
+    if (display->getIndDisable() == 2)
         ui->pbRightImage->setDisabled(true);
     ui->pbLeftImage->setDisabled(false);
 
@@ -498,7 +501,7 @@ void MainWindow::changeRedoState()
     }
 }
 
-//konvertovanje jedne i/ili vise slika u PDF
+//konvertovanje jedne ili vise slika u PDF
 void MainWindow::on_pbConvert_clicked()
 {
     //trenutno ovde korisnik bira gde se cuva fajl
@@ -507,7 +510,7 @@ void MainWindow::on_pbConvert_clicked()
                                                           "/home/",
                                                           tr("PDF Files(*.pdf)"));
 
-    PDFHandler::convertImagesIntoPdf(fileName,display->m_elements);
+    PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
 }
 
 //jedan pdf dokument delimo u vise

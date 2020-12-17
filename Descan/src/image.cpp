@@ -54,14 +54,14 @@ void Image::setScaleFactor(double factor)
     scaleFactor = factor;
 }
 
-void Image::setSlider(QString str, int position)
-{
-    sliders[str] = position;
-}
-
 std::map<QString, int> Image::getSlider()
 {
     return sliders;
+}
+
+void Image::setSlider(QString str, int position)
+{
+    sliders[str] = position;
 }
 
 //funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat
@@ -170,7 +170,7 @@ QImage Image::changeSaturation(double saturationChange)
     return newImage;
 }
 
-//geteri za visinu i sirinu slike
+//geteri za sirinu i visinu slike
 int Image::width()
 {
     return m_image.width();
@@ -242,7 +242,6 @@ void Image::cropImage(QPoint startPoint, QPoint endPoint)
     m_image = m_image.copy(rect);
 }
 
-//rotira se slika za odredjeni ugao
 void Image::rotateImage(int angle)
 {
     QPixmap pixmap = QPixmap::fromImage(m_image);
