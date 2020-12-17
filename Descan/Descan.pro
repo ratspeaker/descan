@@ -11,6 +11,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/dialogmail.cpp \
     src/displayarea.cpp \
     src/image.cpp \
     src/main.cpp \
@@ -21,14 +22,16 @@ HEADERS += \
     headers/displayarea.h \
     headers/image.h \
     headers/mainwindow.h \
-    headers/pdfhandler.h
+    headers/pdfhandler.h \
+    headers/dialogmail.h
 
 FORMS += \
-    mainwindow.ui
+    forms/mainwindow.ui \
+    forms/dialogmail.ui
 
 INCLUDEPATH += ../PDFNetC64/Headers
 #LIBS += -L../PDFNetC64/Lib -lPDFNetC -lstdc++17 -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

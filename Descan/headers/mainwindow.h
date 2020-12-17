@@ -127,6 +127,8 @@ private slots:
 
     void on_pbFinish_clicked();
 
+    void on_pbMail_clicked();
+
 signals:
     void enableUndoSignal();
     void changeUndoSignal();

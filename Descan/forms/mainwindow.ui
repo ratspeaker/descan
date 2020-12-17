@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -54,7 +54,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/icons/icons/1.png</pixmap>
+      <pixmap resource="../resources.qrc">:/icons/icons/1.png</pixmap>
      </property>
     </widget>
     <widget class="QPushButton" name="pbNextEdit">
@@ -80,7 +80,7 @@
       <string>Next   </string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
      </property>
      <property name="iconSize">
@@ -116,7 +116,7 @@
          <string>Import image    </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/import4.png</normaloff>:/icons/icons/import4.png</iconset>
         </property>
         <property name="iconSize">
@@ -143,7 +143,7 @@
          <string> Split PDF   </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/split.png</normaloff>:/icons/icons/split.png</iconset>
         </property>
         <property name="iconSize">
@@ -186,7 +186,7 @@
          <string>Merge PDF   </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/file.png</normaloff>:/icons/icons/file.png</iconset>
         </property>
         <property name="iconSize">
@@ -252,7 +252,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -413,7 +413,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/shape-rotate-anticlockwise-icon.png</normaloff>:/icons/shape-rotate-anticlockwise-icon.png</iconset>
        </property>
       </widget>
@@ -430,7 +430,7 @@
         <string>Right</string>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/shape-rotate-clockwise-icon.png</normaloff>:/icons/shape-rotate-clockwise-icon.png</iconset>
        </property>
       </widget>
@@ -695,7 +695,7 @@
       <string>Next   </string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
      </property>
      <property name="iconSize">
@@ -728,7 +728,7 @@
       <string>Back</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/back.png</normaloff>:/icons/icons/back.png</iconset>
      </property>
      <property name="iconSize">
@@ -754,7 +754,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Undo.ico</normaloff>:/icons/icons/Undo.ico</iconset>
      </property>
     </widget>
@@ -774,7 +774,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Redo.ico</normaloff>:/icons/icons/Redo.ico</iconset>
      </property>
     </widget>
@@ -791,7 +791,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/Zoom-In-icon.png</normaloff>:/icons/Zoom-In-icon.png</iconset>
      </property>
     </widget>
@@ -844,7 +844,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/Zoom-Out-icon.png</normaloff>:/icons/Zoom-Out-icon.png</iconset>
      </property>
     </widget>
@@ -918,7 +918,7 @@
       <string>Finish </string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/iconfinder_check_1930264.png</normaloff>:/icons/icons/iconfinder_check_1930264.png</iconset>
      </property>
     </widget>
@@ -935,7 +935,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/icons/icons/main2.gif</pixmap>
+      <pixmap resource="../resources.qrc">:/icons/icons/main2.gif</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -963,7 +963,7 @@
          <string>Convert to PDF  </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/iconfinder_1-02_511559.png</normaloff>:/icons/icons/iconfinder_1-02_511559.png</iconset>
         </property>
         <property name="iconSize">
@@ -989,7 +989,7 @@
          <string>Save   </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/download.png</normaloff>:/icons/icons/download.png</iconset>
         </property>
         <property name="iconSize">
@@ -1012,7 +1012,7 @@
          <string>Send to Drive   </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/iconfinder_google-drive_317713.png</normaloff>:/icons/icons/iconfinder_google-drive_317713.png</iconset>
         </property>
         <property name="iconSize">
@@ -1038,7 +1038,7 @@
          <string>Send to Mail    </string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/iconfinder_gmail_1220367.png</normaloff>:/icons/icons/iconfinder_gmail_1220367.png</iconset>
         </property>
         <property name="iconSize">
@@ -1098,7 +1098,7 @@
       <string>Back</string>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/back.png</normaloff>:/icons/icons/back.png</iconset>
      </property>
      <property name="iconSize">
@@ -1112,7 +1112,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

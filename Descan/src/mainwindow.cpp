@@ -1,15 +1,16 @@
 #include "headers/mainwindow.h"
 #include "headers/image.h"
 #include "ui_mainwindow.h"
+#include "headers/dialogmail.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Descan");
 
     display = new DisplayArea();
-
     display->getLabel()->resize(0, 0);
     display->getLabel()->setMouseTracking(true);
     display->getLabel()->installEventFilter(this);
@@ -547,4 +548,11 @@ void MainWindow::on_pbMergePdf_clicked()
 void MainWindow::on_pbFinish_clicked()
 {
     close();
+}
+
+void MainWindow::on_pbMail_clicked()
+{
+    DialogMail dialogmail;
+    dialogmail.setModal(true);
+    dialogmail.exec();
 }
