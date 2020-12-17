@@ -31,7 +31,11 @@ void DisplayArea::setElements(const QStringList &filePaths)
 //postavlja se iterator na naredni element
 void DisplayArea::getNextElement()
 {
-    if (std::next(m_current) != m_elements.cend()) {
+    if (m_current != m_elements.cend()-1)
+    {
+        if (m_current == m_elements.cend()-2) {
+            indDisable = 2;
+        }
         m_current++;
     }
 }
@@ -39,7 +43,11 @@ void DisplayArea::getNextElement()
 //postavlja se iterator na prethodni element
 void DisplayArea::getPreviousElement()
 {
-    if (m_current != m_elements.begin()) {
+    if (m_current != m_elements.begin())
+    {
+        if (m_current == m_elements.begin()+1) {
+            indDisable = 1;
+        }
         m_current--;
     }
 }
@@ -53,7 +61,7 @@ size_t DisplayArea::getSize()
 //vraca iterator na pocetak
 void DisplayArea::setToBeginning()
 {
-    m_current=m_elements.begin();
+    m_current = m_elements.begin();
 }
 
 //cisti vektor slika

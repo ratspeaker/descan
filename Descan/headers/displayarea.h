@@ -28,8 +28,6 @@ public:
 
     void freeImages();
 
-
-
     void setImageInLabel(QImage img);
     void setImageInLabel();
 
@@ -41,9 +39,7 @@ public:
 public:
     std::vector<Image*> m_elements;
     std::vector<Image*>::iterator m_current;
-
-//signals:
-
+    int indDisable = 0;
 };
 
 #endif // DISPLAYAREA_H

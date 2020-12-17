@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollArea->setAlignment(Qt::AlignCenter);
 
     ui->pbNextEdit->setDisabled(true);
+    ui->pbLeftImage->setDisabled(true);
 
     //ako se bilo sta promeni na slici, operacija undo ce biti omogucena
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
@@ -428,6 +429,11 @@ void MainWindow::on_pbLeftImage_clicked()
     //prikazujemo sliku u labeli
     display->setImageInLabel();
 
+    //ako je prva slika
+    if (display->indDisable == 1)
+        ui->pbLeftImage->setDisabled(true);
+    ui->pbRightImage->setDisabled(false);
+
     //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
     ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
@@ -446,6 +452,11 @@ void MainWindow::on_pbRightImage_clicked()
 
     //prikazujemo sliku u labeli
     display->setImageInLabel();
+
+    //ako je poslednja slika
+    if (display->indDisable == 2)
+        ui->pbRightImage->setDisabled(true);
+    ui->pbLeftImage->setDisabled(false);
 
     //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
     ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
