@@ -110,6 +110,9 @@ private slots:
 
     void cleanDisplayArea();
     void moveSliders();
+    void clearSliderValues();
+    void resetZoomButtons();
+    void resetUndoRedoButtons();
 
     //slotovi za prethodnu i narednu sliku
     void on_pbLeftImage_clicked();

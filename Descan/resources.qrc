@@ -24,6 +24,7 @@
         <file>icons/iconfinder_back_32384.png</file>
         <file>icons/cropping-tool.png</file>
         <file>icons/iconfinder_forward_32404.png</file>
+        <file>icons/send-mail.png</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/1.png</file>
@@ -47,5 +48,6 @@
         <file>icons/Zoom-Out-icon.png</file>
         <file>icons/shape-rotate-anticlockwise-icon.png</file>
         <file>icons/shape-rotate-clockwise-icon.png</file>
+        <file>icons/send-mail.png</file>
     </qresource>
 </RCC>

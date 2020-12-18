@@ -49,7 +49,8 @@ public:
 
     void cropImage(QPoint startPoint, QPoint endPoint);
     void rotateImage(int angle);
-
+    void emptyUndoActions();
+    void emptyRedoActions();
 public:
     std::stack<std::pair<QImage, std::map<QString, int>>> undoStack;
     std::stack<std::pair<QImage, std::map<QString, int>>> redoStack;

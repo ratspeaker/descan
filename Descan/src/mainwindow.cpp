@@ -57,8 +57,13 @@ void MainWindow::showNextPage()
 //ucitavanje jedne slike
 void MainWindow::on_pbImport_clicked()
 {
+    //ciscenje dugmica i labela
     cleanDisplayArea();
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/");
+    clearSliderValues();
+    resetZoomButtons();
+    resetUndoRedoButtons();
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/",tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
 
     if (!fileName.isEmpty()) {
          display->setElements(QStringList(fileName));
@@ -84,7 +89,18 @@ void MainWindow::on_pbImport_clicked()
 void MainWindow::on_pbImportMultiple_clicked()
 {
     cleanDisplayArea();
-    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/");
+    clearSliderValues();
+    resetZoomButtons();
+    //cisti se stek sa undo i redo
+    resetUndoRedoButtons();
+
+
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/",tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
+    if(1==fileNames.size())
+    {
+        QMessageBox::warning(this,tr("Descan"),tr("You cannot choose one image! Try with more."));
+        return;
+    }
     fileNames.sort();
 
     if (!fileNames.isEmpty()) {
@@ -364,6 +380,33 @@ void MainWindow::moveSliders()
         else if (it.first=="sat")
             ui->hsSaturation->setValue(it.second);
     }
+}
+
+void MainWindow::clearSliderValues()
+{
+    ui->hsBrightness->setValue(0);
+    ui->hsContrast->setValue(0);
+    ui->hsCorrection->setValue(0);
+    ui->hsHorizontal->setValue(0);
+    ui->hsSaturation->setValue(0);
+    ui->hsScale->setValue(0);
+    ui->hsVertical->setValue(0);
+}
+
+void MainWindow::resetZoomButtons()
+{
+    ui->tbZoomIn->setDisabled(false);
+    ui->tbZoomOut->setDisabled(false);
+}
+
+void MainWindow::resetUndoRedoButtons()
+{
+    display->setToBeginning();
+   for(unsigned i = 0; i<display->getSize();i++) {
+       Image* curr = display->getElement();
+       curr->emptyUndoActions();
+       curr->emptyRedoActions();
+   }
 }
 
 //rotiramo sliku ulevo
