@@ -29,9 +29,17 @@ FORMS += \
     forms/mainwindow.ui \
     forms/dialogmail.ui
 
+
 INCLUDEPATH += ../PDFNetC64/Headers
-#LIBS += -L../PDFNetC64/Lib -lPDFNetC -lstdc++17 -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+INCLUDEPATH += -I/usr/include/x86_64-linux-gnu/curl
+
+LIBS += -lcurl
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+
+#LIBS += -L/usr/lib/x86_64-linux-gnu/ -lcurl
+
+#LIBS += -L$$PWD/../../../../../../usr/lib/x86_64-linux-gnu/ -lcurl
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
