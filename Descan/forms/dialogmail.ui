@@ -7,41 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>372</height>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="laSendTo">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>15</y>
-     <width>81</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Ubuntu Condensed</family>
-     <weight>50</weight>
-     <italic>true</italic>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Send to:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="textFormat">
-    <enum>Qt::AutoText</enum>
-   </property>
-  </widget>
   <widget class="QLabel" name="laSubject">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>65</y>
+     <y>120</y>
      <width>81</width>
      <height>41</height>
     </rect>
@@ -59,21 +35,11 @@
     <enum>Qt::AutoText</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="leSendTo">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>20</y>
-     <width>361</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="leSubject">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>70</y>
+     <y>130</y>
      <width>361</width>
      <height>31</height>
     </rect>
@@ -83,8 +49,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
-     <width>81</width>
+     <y>170</y>
+     <width>71</width>
      <height>41</height>
     </rect>
    </property>
@@ -105,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>120</y>
+     <y>180</y>
      <width>361</width>
      <height>131</height>
     </rect>
@@ -115,9 +81,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
-     <width>111</width>
-     <height>41</height>
+     <y>330</y>
+     <width>121</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -137,7 +103,7 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>270</y>
+     <y>330</y>
      <width>251</width>
      <height>31</height>
     </rect>
@@ -146,8 +112,8 @@
   <widget class="QPushButton" name="pbBrowse">
    <property name="geometry">
     <rect>
-     <x>388</x>
-     <y>270</y>
+     <x>390</x>
+     <y>330</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -166,7 +132,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>320</y>
+     <y>380</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -192,8 +158,8 @@
   <widget class="QPushButton" name="pbExit">
    <property name="geometry">
     <rect>
-     <x>388</x>
-     <y>320</y>
+     <x>390</x>
+     <y>380</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -207,6 +173,59 @@
    <property name="text">
     <string>Exit</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>15</y>
+     <width>451</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="laSendTo">
+      <property name="font">
+       <font>
+        <family>Ubuntu Condensed</family>
+        <weight>50</weight>
+        <italic>true</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Send to:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="leSendTo"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="laCC">
+      <property name="font">
+       <font>
+        <family>Ubuntu Condensed</family>
+        <pointsize>12</pointsize>
+        <italic>true</italic>
+       </font>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>CC:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="leCC"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

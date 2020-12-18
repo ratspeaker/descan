@@ -2,6 +2,8 @@
 #include "ui_dialogmail.h"
 #include <QFileDialog>
 #include <QDebug>
+#include<ctime>
+#include<string>
 
 #include <cstdio>
 #include <cstring>
@@ -34,24 +36,64 @@ void DialogMail::on_pbBrowse_clicked()
     ui->leAttach->setText(fileName);
 }
 
+
+
+
+QString DialogMail::_generateMessageId() const
+{
+    const int MESSAGE_ID_LEN = 37;
+
+    tm t;
+    time_t tt;
+    time(&tt);
+
+    std::string ret;
+    ret.resize(15);
+
+
+    gmtime_r(&tt, &t);
+
+    strftime(const_cast<char *>(ret.c_str()),
+             MESSAGE_ID_LEN,
+             "%Y%m%d%H%M%S.",
+             &t);
+
+    ret.reserve(MESSAGE_ID_LEN);
+
+    static const char alphaNum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+
+    while (ret.size() < MESSAGE_ID_LEN) {
+        ret += alphaNum[rand() % (sizeof(alphaNum) - 1)];
+    }
+
+    return QString::fromStdString(ret);
+}
+
+
 void DialogMail::on_pbSend_clicked()
 {
 
     QString recipient = ui->leSendTo->text();
     QString subject = ui->leSubject->text();
     QString message = ui->pteMessage->toPlainText();
+    QString cc = ui->leCC->text();
 
     const QStringList emailContent{ tr("To: <%1>").arg(recipient),
                                    "From: <descan.soft@gmail.com> Descan Soft",
-                                   "Message-ID: <dcd7cb36-11db-487a-9f3a-e657a9452efd@"
-                                   "rfcpedant.example.org>",
-                                   tr("Subject: %1").arg(subject),
+                                   "Message-ID: <dcd7cb36-21db-687a-9f3a-e657a9452efd@",
+                                    tr("Cc: <%1>").arg(cc),
+                                    tr("Subject: %1").arg(subject),
                                    nullptr};
 
       CURL *curl;
       CURLcode res = CURLE_OK;
 
+      // Ovo mora da se prvo pozove i vraca hendler koji se koristi dole u funkcijama
       curl = curl_easy_init();
+
       if(curl) {
         struct curl_slist *headers = NULL;
         struct curl_slist *recipients = NULL;
@@ -60,6 +102,7 @@ void DialogMail::on_pbSend_clicked()
         curl_mime *alt;
         curl_mimepart *part;
 
+        // Posiljalac,sifra i server se podesavaju
         curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
         curl_easy_setopt(curl, CURLOPT_PASSWORD, "descanRS2020");
 
@@ -76,57 +119,59 @@ void DialogMail::on_pbSend_clicked()
 
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, "<descan.soft@gmail.com>");
 
-        /* Add two recipients, in this particular case they correspond to the
-         * To: and Cc: addressees in the header, but they could be any kind of
-         * recipient. */
+        // Ovde dodajemo primaoca i cc
         recipients = curl_slist_append(recipients, recipient.toStdString().c_str());
-        recipients = curl_slist_append(recipients, CC);
+        recipients = curl_slist_append(recipients,cc.toStdString().c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
+        // dodajemo u strukturu headers delove mejla koji se salje
         for(auto &con: emailContent)
             headers = curl_slist_append(headers, con.toStdString().c_str());
 
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
-        /* Build the mime message. */
+        // Inicijalizuje se poruka
         mime = curl_mime_init(curl);
 
-        /* The inline part is an alternative proposing the html and the text
-           versions of the e-mail. */
+
         alt = curl_mime_init(curl);
 
-        /* Text message. */
+        // Dodaje se tekst poruke
         part = curl_mime_addpart(alt);
         curl_mime_data(part, message.toStdString().c_str(), CURL_ZERO_TERMINATED);
 
-        /* Create the inline part. */
+
         part = curl_mime_addpart(mime);
         curl_mime_subparts(part, alt);
         curl_mime_type(part, "multipart/alternative");
         slist = curl_slist_append(NULL, "Content-Disposition: inline");
         curl_mime_headers(part, slist, 1);
 
-        /* Add the current source program as an attachment. */
+        // Dodaje se attachment
         part = curl_mime_addpart(mime);
+        curl_mime_encoder(part, "base64");
         curl_mime_filedata(part, fileName.toStdString().c_str());
         curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
 
-        /* Send the message */
+
+        // Salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);
 
-        /* Check for errors */
-        if(res != CURLE_OK)
+        //Proverava se da li je poruka poslata
+        if(res != CURLE_OK) {
           fprintf(stderr, "curl_easy_perform() failed: %s\n",
                   curl_easy_strerror(res));
+        QMessageBox::warning(this,"Email","Emaile has not been sent!");
+        }
 
-        /* Free lists. */
+        // Oslobadjaju se strukture i raskida konekcija
         curl_slist_free_all(recipients);
         curl_slist_free_all(headers);
 
         curl_easy_cleanup(curl);
 
-        /* Free multipart message. */
+        // Oslobadja se poruka koja je poslata
         curl_mime_free(mime);
       }
 
