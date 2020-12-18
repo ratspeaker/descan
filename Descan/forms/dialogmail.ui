@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
-     <width>81</width>
-     <height>41</height>
+     <y>80</y>
+     <width>71</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -38,9 +38,9 @@
   <widget class="QLineEdit" name="leSubject">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>130</y>
-     <width>361</width>
+     <x>80</x>
+     <y>80</y>
+     <width>381</width>
      <height>31</height>
     </rect>
    </property>
@@ -49,8 +49,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
-     <width>71</width>
+     <y>120</y>
+     <width>61</width>
      <height>41</height>
     </rect>
    </property>
@@ -70,9 +70,9 @@
   <widget class="QPlainTextEdit" name="pteMessage">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>180</y>
-     <width>361</width>
+     <x>80</x>
+     <y>130</y>
+     <width>381</width>
      <height>131</height>
     </rect>
    </property>
@@ -81,8 +81,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>330</y>
-     <width>121</width>
+     <y>300</y>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
@@ -102,9 +102,9 @@
   <widget class="QLineEdit" name="leAttach">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>330</y>
-     <width>251</width>
+     <x>110</x>
+     <y>300</y>
+     <width>261</width>
      <height>31</height>
     </rect>
    </property>
@@ -113,7 +113,7 @@
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>330</y>
+     <y>300</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -131,8 +131,8 @@
   <widget class="QPushButton" name="pbSend">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>380</y>
+     <x>300</x>
+     <y>360</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -159,7 +159,7 @@
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>380</y>
+     <y>360</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -174,13 +174,13 @@
     <string>Exit</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>15</y>
      <width>451</width>
-     <height>101</height>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -204,26 +204,6 @@
     </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="leSendTo"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="laCC">
-      <property name="font">
-       <font>
-        <family>Ubuntu Condensed</family>
-        <pointsize>12</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="mouseTracking">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>CC:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="leCC"/>
     </item>
    </layout>
   </widget>

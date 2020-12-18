@@ -38,53 +38,16 @@ void DialogMail::on_pbBrowse_clicked()
 
 
 
-
-QString DialogMail::_generateMessageId() const
-{
-    const int MESSAGE_ID_LEN = 37;
-
-    tm t;
-    time_t tt;
-    time(&tt);
-
-    std::string ret;
-    ret.resize(15);
-
-
-    gmtime_r(&tt, &t);
-
-    strftime(const_cast<char *>(ret.c_str()),
-             MESSAGE_ID_LEN,
-             "%Y%m%d%H%M%S.",
-             &t);
-
-    ret.reserve(MESSAGE_ID_LEN);
-
-    static const char alphaNum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-
-    while (ret.size() < MESSAGE_ID_LEN) {
-        ret += alphaNum[rand() % (sizeof(alphaNum) - 1)];
-    }
-
-    return QString::fromStdString(ret);
-}
-
-
 void DialogMail::on_pbSend_clicked()
 {
 
     QString recipient = ui->leSendTo->text();
     QString subject = ui->leSubject->text();
     QString message = ui->pteMessage->toPlainText();
-    QString cc = ui->leCC->text();
 
     const QStringList emailContent{ tr("To: <%1>").arg(recipient),
                                    "From: <descan.soft@gmail.com> Descan Soft",
                                    "Message-ID: <dcd7cb36-21db-687a-9f3a-e657a9452efd@",
-                                    tr("Cc: <%1>").arg(cc),
                                     tr("Subject: %1").arg(subject),
                                    nullptr};
 
@@ -119,9 +82,8 @@ void DialogMail::on_pbSend_clicked()
 
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, "<descan.soft@gmail.com>");
 
-        // Ovde dodajemo primaoca i cc
+        // Ovde dodajemo primaoca
         recipients = curl_slist_append(recipients, recipient.toStdString().c_str());
-        recipients = curl_slist_append(recipients,cc.toStdString().c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
         // dodajemo u strukturu headers delove mejla koji se salje
@@ -162,7 +124,7 @@ void DialogMail::on_pbSend_clicked()
         if(res != CURLE_OK) {
           fprintf(stderr, "curl_easy_perform() failed: %s\n",
                   curl_easy_strerror(res));
-        QMessageBox::warning(this,"Email","Emaile has not been sent!");
+        QMessageBox::warning(this,"Email","Email has not been sent!");
         }
 
         // Oslobadjaju se strukture i raskida konekcija

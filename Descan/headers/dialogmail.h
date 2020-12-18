@@ -16,7 +16,6 @@ class DialogMail : public QDialog
 
 public:
     explicit DialogMail(QWidget *parent = nullptr);
-    QString _generateMessageId() const;
     ~DialogMail();
     QString fileName;
 
