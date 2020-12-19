@@ -7,13 +7,22 @@
 #include <cstdio>
 #include <cstring>
 
-DialogMail::DialogMail(QWidget *parent) :
+DialogMail::DialogMail(QWidget *parent,QStringList filePathsPdf) :
     QDialog(parent),
+    m_filePathsPdf(filePathsPdf),
     ui(new Ui::DialogMail)
 {
     ui->setupUi(this);
     this->setWindowTitle("Send Mail");
+
+    for(auto& path:m_filePathsPdf) {
+       //qDebug()<<path;
+      // qDebug() << "\n";
+       ui->teAttach->append(path);
+   }
 }
+
+
 
 DialogMail::~DialogMail()
 {
@@ -28,7 +37,8 @@ void DialogMail::on_pbExit_clicked()
 void DialogMail::on_pbBrowse_clicked()
 {
     fileName = QFileDialog::getOpenFileName(this, tr("Import Document"), "/home/");
-    ui->leAttach->setText(fileName);
+    ui->teAttach->append(fileName);
+    m_filePathsPdf.append(fileName);
 }
 
 void DialogMail::on_pbSend_clicked()
@@ -42,6 +52,7 @@ void DialogMail::on_pbSend_clicked()
                                    "Message-ID: <dcd7cb36-21db-687a-9f3a-e657a9452efd@",
                                    tr("Subject: %1").arg(subject),
                                    nullptr};
+
 
     CURL *curl;
     CURLcode res = CURLE_OK;
@@ -96,11 +107,17 @@ void DialogMail::on_pbSend_clicked()
         slist = curl_slist_append(NULL, "Content-Disposition: inline");
         curl_mime_headers(part, slist, 1);
 
-        //dodaje se attachment
-        part = curl_mime_addpart(mime);
-        curl_mime_encoder(part, "base64");
-        curl_mime_filedata(part, fileName.toStdString().c_str());
-        curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+
+        for(auto &path: m_filePathsPdf) {
+            //dodaje se attachment
+            part = curl_mime_addpart(mime);
+            curl_mime_encoder(part, "base64");
+            curl_mime_filedata(part, path.toStdString().c_str());
+            curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+
+        }
+
+
 
         //salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);

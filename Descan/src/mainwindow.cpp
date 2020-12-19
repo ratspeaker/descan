@@ -2,6 +2,7 @@
 #include "headers/image.h"
 #include "ui_mainwindow.h"
 #include "headers/dialogmail.h"
+#include<utility>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -551,8 +552,11 @@ void MainWindow::on_pbConvert_clicked()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
                                                           "/home/",
                                                           tr("PDF Files(*.pdf)"));
+    filePathsPdf.append(fileName);
+
     if (!fileName.isEmpty()) {
         PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
+
         QMessageBox::information(this, tr("Convert to PDF"), tr("Your images has been successfully converted!"));
     }
 }
@@ -566,7 +570,7 @@ void MainWindow::on_pbSplitPdf_clicked()
         PDFHandler* pdf = new PDFHandler();
 
         pdf->setInputFileSplit(fileName);
-        pdf->splitPdf();
+       filePathsPdf = pdf->splitPdf();
 
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
@@ -581,11 +585,13 @@ void MainWindow::on_pbMergePdf_clicked()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
 
+
     if (!fileNames.isEmpty()) {
         PDFHandler* pdf = new PDFHandler();
 
         pdf->setInputFilesMerge(fileNames);
-        pdf->mergePdf();
+       QString filePath = pdf->mergePdf();
+       filePathsPdf.append(filePath);
 
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
@@ -604,8 +610,10 @@ void MainWindow::on_pbFinish_clicked()
 //dugme za slanje mejla
 void MainWindow::on_pbMail_clicked()
 {
-    DialogMail dialogmail;
-
+    DialogMail dialogmail(this,std::move(filePathsPdf));
+    //dialogmail.m_filePathsPdf =std::move(filePathsPdf);
+    qDebug() << "dijalog";
+    qDebug() << dialogmail.m_filePathsPdf;
     //videti moze li ovde
 
     dialogmail.setModal(true);

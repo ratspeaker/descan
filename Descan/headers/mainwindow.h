@@ -62,6 +62,8 @@ public:
     //current slider position
     int poss = 0;
 
+    QStringList filePathsPdf;
+
 private slots:
     void showPreviousPage();
     void showNextPage();
@@ -130,6 +132,7 @@ private slots:
     void on_pbFinish_clicked();
 
     void on_pbMail_clicked();
+
 
 signals:
     void enableUndoSignal();

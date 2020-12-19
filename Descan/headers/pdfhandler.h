@@ -29,8 +29,8 @@ public:
     PDFHandler(QWidget *parent = nullptr);
     ~PDFHandler();
 
-    void mergePdf();
-    void splitPdf();
+    QString mergePdf();
+    QStringList splitPdf();
 
     void setInputFilesMerge(const QStringList &fileName);
     void setInputFileSplit(const QString &fileName);

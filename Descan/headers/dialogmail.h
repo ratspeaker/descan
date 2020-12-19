@@ -15,17 +15,19 @@ class DialogMail : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogMail(QWidget *parent = nullptr);
+    explicit DialogMail(QWidget *parent = nullptr,QStringList filePathsPdf = {});
     ~DialogMail();
     QString fileName;
+    QStringList m_filePathsPdf;
 
 private slots:
     void on_pbExit_clicked();
     void on_pbBrowse_clicked();
     void on_pbSend_clicked();
 
-//private:
-public:
+
+
+private:
     Ui::DialogMail *ui;
 };
 

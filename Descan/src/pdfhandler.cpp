@@ -40,7 +40,7 @@ void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> ima
     }
 }
 
-void PDFHandler::mergePdf()
+QString PDFHandler::mergePdf()
 {
     QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
     //qDebug() << outputFile;
@@ -62,10 +62,13 @@ void PDFHandler::mergePdf()
 
         QMessageBox::information(this, tr("Merge PDF"), tr("Your files have been successfully merged!"));
     }
+
+    return outputFile;
 }
 
-void PDFHandler::splitPdf()
+QStringList PDFHandler::splitPdf()
 {
+    QStringList pdfFiles;
     int index = inputFileSplit.lastIndexOf("/");
     int size = inputFileSplit.length() - index - 4;
     QString fileName = inputFileSplit.mid(index, size);
@@ -132,6 +135,8 @@ void PDFHandler::splitPdf()
             QMessageBox::information(this, tr("Split PDF"), tr("Your file has been successfully split!"));
         }
     }
+
+    return pdfFiles;
 }
 
 void PDFHandler::setInputFilesMerge(const QStringList &fileName)
