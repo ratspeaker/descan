@@ -37,9 +37,12 @@ public:
 
     static void convertImagesIntoPdf(QString &filename, std::vector<Image*> imageElements);
 
+    QStringList getPDFFiles();
+
 private:
     QStringList inputFilesMerge;
     QString inputFileSplit;
+    QStringList pdfFiles;
 };
 
 #endif // PDFHANDLER_H

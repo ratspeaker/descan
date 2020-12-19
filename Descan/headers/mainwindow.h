@@ -4,33 +4,32 @@
 #include "headers/image.h"
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
-
-#include<QWidget>
-#include<QAction>
-#include<QMessageBox>
-#include<QFileDialog>
-#include<QtAlgorithms>
-#include<QLabel>
-#include<algorithm>
-#include<QTimer>
-#include<QGraphicsScene>
-#include<QGraphicsPixmapItem>
-#include<QGraphicsItem>
-#include<QMainWindow>
-#include<QScrollArea>
-#include<QDir>
-#include<QDebug>
-#include<QScrollBar>
-#include<QVector>
-#include<QPixmap>
-#include<QObject>
-#include<QRubberBand>
-#include<QPoint>
-#include<QMouseEvent>
-#include<QInputDialog>
-#include<vector>
-#include<QPdfWriter>
-#include<QPainter>
+#include <QWidget>
+#include <QAction>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QtAlgorithms>
+#include <QLabel>
+#include <algorithm>
+#include <QTimer>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
+#include <QMainWindow>
+#include <QScrollArea>
+#include <QDir>
+#include <QDebug>
+#include <QScrollBar>
+#include <QVector>
+#include <QPixmap>
+#include <QObject>
+#include <QRubberBand>
+#include <QPoint>
+#include <QMouseEvent>
+#include <QInputDialog>
+#include <vector>
+#include <QPdfWriter>
+#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

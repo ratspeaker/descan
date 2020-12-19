@@ -21,12 +21,11 @@ public:
 
 private slots:
     void on_pbExit_clicked();
-
     void on_pbBrowse_clicked();
-
     void on_pbSend_clicked();
 
-private:
+//private:
+public:
     Ui::DialogMail *ui;
 };
 

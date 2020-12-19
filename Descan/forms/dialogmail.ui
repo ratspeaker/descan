@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>473</height>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
-     <width>71</width>
-     <height>31</height>
+     <y>72</y>
+     <width>62</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">
@@ -38,9 +38,9 @@
   <widget class="QLineEdit" name="leSubject">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>80</y>
-     <width>381</width>
+     <x>90</x>
+     <y>70</y>
+     <width>371</width>
      <height>31</height>
     </rect>
    </property>
@@ -50,8 +50,8 @@
     <rect>
      <x>10</x>
      <y>120</y>
-     <width>61</width>
-     <height>41</height>
+     <width>71</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">
@@ -70,10 +70,10 @@
   <widget class="QPlainTextEdit" name="pteMessage">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>130</y>
-     <width>381</width>
-     <height>131</height>
+     <x>90</x>
+     <y>120</y>
+     <width>371</width>
+     <height>161</height>
     </rect>
    </property>
   </widget>
@@ -82,7 +82,7 @@
     <rect>
      <x>10</x>
      <y>300</y>
-     <width>111</width>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
@@ -104,7 +104,7 @@
     <rect>
      <x>110</x>
      <y>300</y>
-     <width>261</width>
+     <width>271</width>
      <height>31</height>
     </rect>
    </property>
@@ -131,8 +131,8 @@
   <widget class="QPushButton" name="pbSend">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>360</y>
+     <x>310</x>
+     <y>350</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -159,7 +159,7 @@
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>360</y>
+     <y>350</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -174,38 +174,39 @@
     <string>Exit</string>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QLabel" name="laSendTo">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>15</y>
-     <width>451</width>
+     <y>22</y>
+     <width>62</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu Condensed</family>
+     <weight>50</weight>
+     <italic>true</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Send to:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::AutoText</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="leSendTo">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>20</y>
+     <width>371</width>
      <height>31</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="laSendTo">
-      <property name="font">
-       <font>
-        <family>Ubuntu Condensed</family>
-        <weight>50</weight>
-        <italic>true</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Send to:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="leSendTo"/>
-    </item>
-   </layout>
   </widget>
  </widget>
  <resources/>

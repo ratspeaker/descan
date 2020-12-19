@@ -88,20 +88,20 @@ void MainWindow::on_pbImport_clicked()
 //ucitavanje vise slika
 void MainWindow::on_pbImportMultiple_clicked()
 {
+    //ciscenje dugmica i labela
     cleanDisplayArea();
     clearSliderValues();
     resetZoomButtons();
-    //cisti se stek sa undo i redo
     resetUndoRedoButtons();
 
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/", tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
+    fileNames.sort();
 
-    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import Images"), "/home/",tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
-    if(1==fileNames.size())
+    if (1==fileNames.size())
     {
-        QMessageBox::warning(this,tr("Descan"),tr("You cannot choose one image! Try with more."));
+        QMessageBox::warning(this, tr("Descan"), tr("You cannot choose one image! Try with more."));
         return;
     }
-    fileNames.sort();
 
     if (!fileNames.isEmpty()) {
          display->setElements(fileNames);
@@ -548,43 +548,51 @@ void MainWindow::changeRedoState()
 //konvertovanje jedne ili vise slika u PDF
 void MainWindow::on_pbConvert_clicked()
 {
-    //trenutno ovde korisnik bira gde se cuva fajl
-    //u kasnijim komitovima napraviti da se cuva kada korisnik pritisne dugme save
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
                                                           "/home/",
                                                           tr("PDF Files(*.pdf)"));
-
-    PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
+    if (!fileName.isEmpty()) {
+        PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
+        QMessageBox::information(this, tr("Convert to PDF"), tr("Your images has been successfully converted!"));
+    }
 }
 
 //jedan pdf dokument delimo u vise
 void MainWindow::on_pbSplitPdf_clicked()
 {
-    PDFHandler* pdf = new PDFHandler();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Import PDF"), "/home/", tr("*.pdf"));
 
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Import PDF"), "/home/",  tr("*.pdf"));
+    if (!fileName.isEmpty()) {
+        PDFHandler* pdf = new PDFHandler();
 
-    pdf->setInputFileSplit(filePath);
-    pdf->splitPdf();
+        pdf->setInputFileSplit(fileName);
+        pdf->splitPdf();
 
-    ui->stackedWidget->setCurrentIndex(2);
+        ui->stackedWidget->setCurrentIndex(2);
+        ui->pbBackEdit->deleteLater();
+        ui->pbConvert->deleteLater();
 
-    delete pdf;
+        delete pdf;
+    }
 }
 
 //vise dokumenata objedinjujemo u jedan
 void MainWindow::on_pbMergePdf_clicked()
 {
-    PDFHandler* pdf = new PDFHandler();
-
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
 
-    pdf->setInputFilesMerge(fileNames);
-    pdf->mergePdf();
+    if (!fileNames.isEmpty()) {
+        PDFHandler* pdf = new PDFHandler();
 
-    ui->stackedWidget->setCurrentIndex(2);
+        pdf->setInputFilesMerge(fileNames);
+        pdf->mergePdf();
 
-    delete pdf;
+        ui->stackedWidget->setCurrentIndex(2);
+        ui->pbBackEdit->deleteLater();
+        ui->pbConvert->deleteLater();
+
+        delete pdf;
+    }
 }
 
 //izlazimo iz programa
@@ -593,9 +601,13 @@ void MainWindow::on_pbFinish_clicked()
     close();
 }
 
+//dugme za slanje mejla
 void MainWindow::on_pbMail_clicked()
 {
     DialogMail dialogmail;
+
+    //videti moze li ovde
+
     dialogmail.setModal(true);
     dialogmail.exec();
 }
