@@ -11,6 +11,7 @@
 #include <QPainter>
 #include "image.h"
 
+#include "../PDFNetC64/Headers/PDF/Optimizer.h"
 #include "../PDFNetC64/Headers/PDF/PDFNet.h"
 #include "../PDFNetC64/Headers/PDF/PDFDoc.h"
 #include "../PDFNetC64/Headers/PDF/PDFDocInfo.h"
@@ -36,13 +37,11 @@ public:
     void setInputFileSplit(const QString &fileName);
 
     static void convertImagesIntoPdf(QString &filename, std::vector<Image*> imageElements);
-
-    QStringList getPDFFiles();
+    static void compressPDF(QString &filename);
 
 private:
     QStringList inputFilesMerge;
     QString inputFileSplit;
-    QStringList pdfFiles;
 };
 
 #endif // PDFHANDLER_H

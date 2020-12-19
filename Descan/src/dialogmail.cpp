@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cstring>
 
-DialogMail::DialogMail(QWidget *parent,QStringList filePathsPdf) :
+DialogMail::DialogMail(QWidget *parent, QStringList filePathsPdf):
     QDialog(parent),
     m_filePathsPdf(filePathsPdf),
     ui(new Ui::DialogMail)
@@ -15,14 +15,12 @@ DialogMail::DialogMail(QWidget *parent,QStringList filePathsPdf) :
     ui->setupUi(this);
     this->setWindowTitle("Send Mail");
 
-    for(auto& path:m_filePathsPdf) {
-       //qDebug()<<path;
-      // qDebug() << "\n";
-       ui->teAttach->append(path);
-   }
+    for (auto& path:m_filePathsPdf) {
+        //qDebug()<<path;
+        //qDebug() << "\n";
+        ui->teAttach->append(path);
+    }
 }
-
-
 
 DialogMail::~DialogMail()
 {
@@ -116,8 +114,6 @@ void DialogMail::on_pbSend_clicked()
             curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
 
         }
-
-
 
         //salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);

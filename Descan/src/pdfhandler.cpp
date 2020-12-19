@@ -7,7 +7,6 @@ PDFHandler::PDFHandler(QWidget *parent) : QWidget(parent)
 
 PDFHandler::~PDFHandler()
 {
-    qDebug() << "cao";
     PDFNet::Terminate();
 }
 
@@ -40,12 +39,17 @@ void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> ima
     }
 }
 
+void PDFHandler::compressPDF(QString& filename)
+{
+    PDFDoc doc(filename.toStdString().c_str());
+    doc.InitSecurityHandler();
+    Optimizer::Optimize(doc);
+    doc.Save(filename.toStdString().c_str(), SDFDoc::e_linearized, NULL);
+}
+
 QString PDFHandler::mergePdf()
 {
     QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
-    //qDebug() << outputFile;
-    pdfFiles.append(outputFile);
-    //qDebug() << pdfFiles;
 
     if (!outputFile.isEmpty()) {
         qDebug() << "Spajanje više PDF-ova u jedan";
@@ -131,11 +135,9 @@ QStringList PDFHandler::splitPdf()
                 newDocument.Save(outputFile.toStdString(), SDFDoc::e_remove_unused, 0);
                 i++;
             }
-            //qDebug() << pdfFiles;
             QMessageBox::information(this, tr("Split PDF"), tr("Your file has been successfully split!"));
         }
     }
-
     return pdfFiles;
 }
 
@@ -147,9 +149,4 @@ void PDFHandler::setInputFilesMerge(const QStringList &fileName)
 void PDFHandler::setInputFileSplit(const QString &fileName)
 {
     inputFileSplit = fileName;
-}
-
-QStringList PDFHandler::getPDFFiles()
-{
-    return pdfFiles;
 }

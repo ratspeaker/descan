@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pbNextEdit->setDisabled(true);
 
+    pdf = new PDFHandler();
+
     //ako se bilo sta promeni na slici, operacija undo ce biti omogucena
     QObject::connect(this, &MainWindow::enableUndoSignal, this, &MainWindow::enableUndo);
 
@@ -39,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete pdf;
     delete ui;
 }
 
@@ -280,10 +283,7 @@ void MainWindow::on_tbUndo_clicked()
 {
     display->getElement()->undoAction();
     emit changeUndoSignal();
-
-    //prikazujemo sliku u labeli
     display->setImageInLabel();
-
     emit moveSlidersSignal();
 }
 
@@ -292,10 +292,7 @@ void MainWindow::on_tbRedo_clicked()
 {
     display->getElement()->redoAction();
     emit changeRedoSignal();
-
-    //prikazujemo sliku u labeli
     display->setImageInLabel();
-
     emit moveSlidersSignal();
 }
 
@@ -403,11 +400,11 @@ void MainWindow::resetZoomButtons()
 void MainWindow::resetUndoRedoButtons()
 {
     display->setToBeginning();
-   for(unsigned i = 0; i<display->getSize();i++) {
-       Image* curr = display->getElement();
-       curr->emptyUndoActions();
-       curr->emptyRedoActions();
-   }
+    for (unsigned i = 0; i<display->getSize();i++) {
+        Image* curr = display->getElement();
+        curr->emptyUndoActions();
+        curr->emptyRedoActions();
+    }
 }
 
 //rotiramo sliku ulevo
@@ -552,12 +549,14 @@ void MainWindow::on_pbConvert_clicked()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
                                                           "/home/",
                                                           tr("PDF Files(*.pdf)"));
-    filePathsPdf.append(fileName);
 
     if (!fileName.isEmpty()) {
         PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
-
+        filePathsPdf.append(fileName);
         QMessageBox::information(this, tr("Convert to PDF"), tr("Your images has been successfully converted!"));
+        ui->pbCompress->setDisabled(false);
+        ui->pbDrive->setDisabled(false);
+        ui->pbMail->setDisabled(false);
     }
 }
 
@@ -567,16 +566,15 @@ void MainWindow::on_pbSplitPdf_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Import PDF"), "/home/", tr("*.pdf"));
 
     if (!fileName.isEmpty()) {
-        PDFHandler* pdf = new PDFHandler();
-
         pdf->setInputFileSplit(fileName);
-       filePathsPdf = pdf->splitPdf();
+        filePathsPdf = pdf->splitPdf();
 
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-
-        delete pdf;
+        ui->pbCompress->setDisabled(false);
+        ui->pbDrive->setDisabled(false);
+        ui->pbMail->setDisabled(false);
     }
 }
 
@@ -585,19 +583,17 @@ void MainWindow::on_pbMergePdf_clicked()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
 
-
     if (!fileNames.isEmpty()) {
-        PDFHandler* pdf = new PDFHandler();
-
         pdf->setInputFilesMerge(fileNames);
-       QString filePath = pdf->mergePdf();
-       filePathsPdf.append(filePath);
+        QString filePath = pdf->mergePdf();
+        filePathsPdf.append(filePath);
 
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-
-        delete pdf;
+        ui->pbCompress->setDisabled(false);
+        ui->pbDrive->setDisabled(false);
+        ui->pbMail->setDisabled(false);
     }
 }
 
@@ -610,12 +606,22 @@ void MainWindow::on_pbFinish_clicked()
 //dugme za slanje mejla
 void MainWindow::on_pbMail_clicked()
 {
-    DialogMail dialogmail(this,std::move(filePathsPdf));
-    //dialogmail.m_filePathsPdf =std::move(filePathsPdf);
+    DialogMail dialogmail(this, std::move(filePathsPdf));
+
     qDebug() << "dijalog";
     qDebug() << dialogmail.m_filePathsPdf;
-    //videti moze li ovde
 
     dialogmail.setModal(true);
     dialogmail.exec();
+}
+
+void MainWindow::on_pbCompress_clicked()
+{
+    if (!filePathsPdf.isEmpty()) {
+        for (auto &path: filePathsPdf) {
+            PDFHandler::compressPDF(path);
+        }
+        QMessageBox::information(this, tr("Compress PDF"),
+                                       tr("Your files has been successfully compressed!"));
+    }
 }

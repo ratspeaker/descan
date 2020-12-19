@@ -64,6 +64,8 @@ public:
 
     QStringList filePathsPdf;
 
+    PDFHandler* pdf;
+
 private slots:
     void showPreviousPage();
     void showNextPage();
@@ -133,6 +135,8 @@ private slots:
 
     void on_pbMail_clicked();
 
+
+    void on_pbCompress_clicked();
 
 signals:
     void enableUndoSignal();
