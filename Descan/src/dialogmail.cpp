@@ -1,11 +1,5 @@
 #include "headers/dialogmail.h"
 #include "ui_dialogmail.h"
-#include <QFileDialog>
-#include <QDebug>
-#include <ctime>
-#include <string>
-#include <cstdio>
-#include <cstring>
 
 DialogMail::DialogMail(QWidget *parent, QStringList filePathsPdf):
     QDialog(parent),
@@ -16,8 +10,6 @@ DialogMail::DialogMail(QWidget *parent, QStringList filePathsPdf):
     this->setWindowTitle("Send Mail");
 
     for (auto& path:m_filePathsPdf) {
-        //qDebug()<<path;
-        //qDebug() << "\n";
         ui->teAttach->append(path);
     }
 }
@@ -68,7 +60,7 @@ void DialogMail::on_pbSend_clicked()
 
         //posiljalac, sifra i server se podesavaju
         curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, "descanRS2020");
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, "");
         curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
 
 
@@ -117,6 +109,7 @@ void DialogMail::on_pbSend_clicked()
 
         //salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);
+
 
         //proverava se da li je poruka poslata
         if (res != CURLE_OK) {

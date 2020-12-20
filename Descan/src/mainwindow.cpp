@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->pbBackEdit, &QPushButton::clicked, this, &MainWindow::showPreviousPage);
     QObject::connect(ui->pbBackStart, &QPushButton::clicked, this, &MainWindow::showPreviousPage);
     QObject::connect(ui->pbNextEdit, &QPushButton::clicked, this, &MainWindow::showNextPage);
+    QObject::connect(ui->pbNextEdit, &QPushButton::clicked, this, &MainWindow::cleanFirstPageLabel);
     QObject::connect(ui->pbNextFinish, &QPushButton::clicked, this, &MainWindow::showNextPage);
 }
 
@@ -70,22 +71,23 @@ void MainWindow::on_pbImport_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/",tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
 
     if (!fileName.isEmpty()) {
-         display->setElements(QStringList(fileName));
+        ui->lblOneImage->setText("image added");
+        display->setElements(QStringList(fileName));
 
-         QImage image = display->getElement()->getImage();
-         //qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
+        QImage image = display->getElement()->getImage();
+        //qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
 
-         if (image.isNull()) {
-             QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
-             return;
-         }
+        if (image.isNull()) {
+            QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
+            return;
+        }
 
-         ui->pbNextEdit->setDisabled(false);
-         setCursor(Qt::ArrowCursor);
-         display->setImageInLabel();
-         display->getLabel()->adjustSize();
-         ui->pbLeftImage->setDisabled(true);
-         ui->pbRightImage->setDisabled(true);
+        ui->pbNextEdit->setDisabled(false);
+        setCursor(Qt::ArrowCursor);
+        display->setImageInLabel();
+        display->getLabel()->adjustSize();
+        ui->pbLeftImage->setDisabled(true);
+        ui->pbRightImage->setDisabled(true);
     }
 }
 
@@ -108,6 +110,7 @@ void MainWindow::on_pbImportMultiple_clicked()
     }
 
     if (!fileNames.isEmpty()) {
+         ui->lblMultiple->setText(tr("%1 images added").arg(fileNames.size()));
          display->setElements(fileNames);
 
          QImage image = display->getElement()->getImage();
@@ -296,6 +299,36 @@ void MainWindow::on_tbRedo_clicked()
     emit moveSlidersSignal();
 }
 
+//ako nema vise akcija na koje mozemo da se vratimo,
+//stavljamo da je onemoguceno undo dugme, takodje vrsi se provera i za redo dugme
+void MainWindow::changeUndoState()
+{
+    if ((display->getElement()->undoStack.size())==0) {
+        ui->tbUndo->setDisabled(true);
+    }
+    else {
+        if ((display->getElement()->redoStack.size())!=0) {
+           ui->tbRedo->setDisabled(false);
+        }
+        ui->tbUndo->setDisabled(false);
+    }
+}
+
+//ako nema vise akcija na koje mozemo da se vratimo unapred,
+//stavljamo da je onemoguceno redo dugme, takodje vrsi se provera i za undo dugme
+void MainWindow::changeRedoState()
+{
+    if (display->getElement()->redoStack.size()==0) {
+        ui->tbRedo->setDisabled(true);
+    }
+    else {
+        if ((display->getElement()->undoStack.size())!=0) {
+            ui->tbUndo->setDisabled(false);
+        }
+        ui->tbRedo->setDisabled(false);
+    }
+}
+
 //dugme koje omogucava crop slike
 void MainWindow::on_tbCrop_clicked()
 {
@@ -358,6 +391,12 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 void MainWindow::cleanDisplayArea()
 {
     display->freeImages();
+}
+
+void MainWindow::cleanFirstPageLabel()
+{
+    ui->lblOneImage->clear();
+    ui->lblMultiple->clear();
 }
 
 void MainWindow::moveSliders()
@@ -513,36 +552,6 @@ void MainWindow::on_pbRightImage_clicked()
     emit moveSlidersSignal();
 }
 
-//ako nema vise akcija na koje mozemo da se vratimo,
-//stavljamo da je onemoguceno undo dugme, takodje vrsi se provera i za redo dugme
-void MainWindow::changeUndoState()
-{
-    if ((display->getElement()->undoStack.size())==0) {
-        ui->tbUndo->setDisabled(true);
-    }
-    else {
-        if ((display->getElement()->redoStack.size())!=0) {
-           ui->tbRedo->setDisabled(false);
-        }
-        ui->tbUndo->setDisabled(false);
-    }
-}
-
-//ako nema vise akcija na koje mozemo da se vratimo unapred,
-//stavljamo da je onemoguceno redo dugme, takodje vrsi se provera i za undo dugme
-void MainWindow::changeRedoState()
-{
-    if (display->getElement()->redoStack.size()==0) {
-        ui->tbRedo->setDisabled(true);
-    }
-    else {
-        if ((display->getElement()->undoStack.size())!=0) {
-            ui->tbUndo->setDisabled(false);
-        }
-        ui->tbRedo->setDisabled(false);
-    }
-}
-
 //konvertovanje jedne ili vise slika u PDF
 void MainWindow::on_pbConvert_clicked()
 {
@@ -553,7 +562,7 @@ void MainWindow::on_pbConvert_clicked()
     if (!fileName.isEmpty()) {
         PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
         filePathsPdf.append(fileName);
-        QMessageBox::information(this, tr("Convert to PDF"), tr("Your images has been successfully converted!"));
+        QMessageBox::information(this, tr("Convert to PDF"), tr("Your images have been successfully converted!"));
         ui->pbCompress->setDisabled(false);
         ui->pbDrive->setDisabled(false);
         ui->pbMail->setDisabled(false);
@@ -622,6 +631,6 @@ void MainWindow::on_pbCompress_clicked()
             PDFHandler::compressPDF(path);
         }
         QMessageBox::information(this, tr("Compress PDF"),
-                                       tr("Your files has been successfully compressed!"));
+                                       tr("Your files have been successfully compressed!"));
     }
 }

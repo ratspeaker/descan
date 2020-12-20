@@ -5,6 +5,14 @@
 #include <curl/curl.h>
 #include <QString>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QDebug>
+#include <ctime>
+#include <string>
+#include <cstdio>
+#include <cstring>
+#include <QProgressDialog>
+#include <QTimer>
 
 namespace Ui {
 class DialogMail;
@@ -24,7 +32,6 @@ private slots:
     void on_pbExit_clicked();
     void on_pbBrowse_clicked();
     void on_pbSend_clicked();
-
 
 
 private:

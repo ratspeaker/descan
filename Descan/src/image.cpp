@@ -250,14 +250,13 @@ void Image::rotateImage(int angle)
     pixmap = pixmap.transformed(mat);
     m_image = pixmap.toImage();
 }
-/* Mozda se prebaciti na vector jer ima efikasniji metod praznjenja */
+
+// Mozda se prebaciti na vector jer ima efikasniji metod praznjenja
 void Image::emptyUndoActions()
 {
     while(!undoStack.empty()) {
         undoStack.pop();
     }
-
-
 }
 
 void Image::emptyRedoActions()

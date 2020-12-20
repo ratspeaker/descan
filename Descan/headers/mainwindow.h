@@ -46,21 +46,19 @@ public:
 public:
     Ui::MainWindow *ui;
     DisplayArea *display;
-    QImage image_copy; //ovo za sada jedino resenje za kompoziciju efekata
+    QImage image_copy; //resenje za kompoziciju efekata
+
+    QRubberBand *rubberBand = nullptr; //oblast koja ce biti isecena
+    bool rubberBandCreated = false;
 
     bool cropPressed = false;
     int angle = 0;
-
-    //oblast koja ce biti isecena
-    QRubberBand *rubberBand = nullptr;
-    bool rubberBandCreated = false;
 
     //startPoint ocitava vrednosti misa kada se desi događaj pressed, a endPoint kada se desi released
     QPoint startPoint;
     QPoint endPoint;
 
-    //current slider position
-    int poss = 0;
+    int poss = 0; //current slider position
 
     QStringList filePathsPdf;
 
@@ -96,6 +94,8 @@ private slots:
     void enableUndo();
     void on_tbUndo_clicked();
     void on_tbRedo_clicked();
+    void changeUndoState();
+    void changeRedoState();
 
     //slotovi za uvecan/umanjen prikaz slike
     void on_tbZoomIn_clicked();
@@ -112,6 +112,7 @@ private slots:
     bool eventFilter(QObject* watched, QEvent* event);
 
     void cleanDisplayArea();
+    void cleanFirstPageLabel();
     void moveSliders();
     void clearSliderValues();
     void resetZoomButtons();
@@ -124,9 +125,6 @@ private slots:
     //slot za konvertovanje slika u pdf
     void on_pbConvert_clicked();
 
-    void changeUndoState();
-    void changeRedoState();
-
     //slotovi za split i merge pdf
     void on_pbSplitPdf_clicked();
     void on_pbMergePdf_clicked();
@@ -134,8 +132,6 @@ private slots:
     void on_pbFinish_clicked();
 
     void on_pbMail_clicked();
-
-
     void on_pbCompress_clicked();
 
 signals:

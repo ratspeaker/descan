@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -100,6 +100,91 @@
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pbMergePdf">
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <pointsize>16</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Merge PDF   </string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/icons/icons/file.png</normaloff>:/icons/icons/file.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="lblOneImage">
+        <property name="maximumSize">
+         <size>
+          <width>309</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="pbImportMultiple">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>15</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ubuntu Condensed</family>
+          <pointsize>16</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Choose multiple images...</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="pbImport">
         <property name="font">
@@ -154,72 +239,19 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+      <item row="3" column="2">
+       <widget class="QLabel" name="lblMultiple">
+        <property name="maximumSize">
          <size>
-          <width>40</width>
+          <width>309</width>
           <height>20</height>
          </size>
         </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pbMergePdf">
-        <property name="font">
-         <font>
-          <family>Ubuntu Condensed</family>
-          <pointsize>16</pointsize>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::RightToLeft</enum>
-        </property>
         <property name="text">
-         <string>Merge PDF   </string>
+         <string/>
         </property>
-        <property name="icon">
-         <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/file.png</normaloff>:/icons/icons/file.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="pbImportMultiple">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>15</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>Ubuntu Condensed</family>
-          <pointsize>16</pointsize>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="text">
-         <string>Choose multiple images...</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -283,7 +315,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="lblScale">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -296,7 +328,7 @@
         <string>Scale</string>
        </property>
       </widget>
-      <widget class="Line" name="line_6">
+      <widget class="Line" name="line1">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -322,7 +354,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_10">
+      <widget class="QLabel" name="lblHorizontal">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -335,7 +367,7 @@
         <string>Horizontal</string>
        </property>
       </widget>
-      <widget class="Line" name="line_7">
+      <widget class="Line" name="line2">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -361,7 +393,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_11">
+      <widget class="QLabel" name="lblVertical">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -374,7 +406,7 @@
         <string>Vertical</string>
        </property>
       </widget>
-      <widget class="Line" name="line">
+      <widget class="Line" name="line3">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -387,7 +419,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="lblRotate">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -416,6 +448,12 @@
         <iconset resource="../resources.qrc">
          <normaloff>:/icons/shape-rotate-anticlockwise-icon.png</normaloff>:/icons/shape-rotate-anticlockwise-icon.png</iconset>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
       </widget>
       <widget class="QToolButton" name="tbRotateRight">
        <property name="geometry">
@@ -433,13 +471,19 @@
         <iconset resource="../resources.qrc">
          <normaloff>:/icons/shape-rotate-clockwise-icon.png</normaloff>:/icons/shape-rotate-clockwise-icon.png</iconset>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
       </widget>
       <widget class="QToolButton" name="tbCrop">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>370</y>
-         <width>51</width>
+         <width>71</width>
          <height>31</height>
         </rect>
        </property>
@@ -464,7 +508,7 @@
         <enum>Qt::ToolButtonIconOnly</enum>
        </property>
       </widget>
-      <widget class="Line" name="line_8">
+      <widget class="Line" name="line4">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -477,7 +521,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="lblCrop">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -504,17 +548,27 @@
       <widget class="QPushButton" name="pbGreyscale">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>89</width>
-         <height>25</height>
+         <x>80</x>
+         <y>15</y>
+         <width>41</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="text">
-        <string>Greyscale</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/icons/grayscale.jpg</normaloff>:/icons/icons/grayscale.jpg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
        </property>
       </widget>
-      <widget class="Line" name="line_2">
+      <widget class="Line" name="line5">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -527,7 +581,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_14">
+      <widget class="QLabel" name="lblBrightness">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -553,7 +607,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="Line" name="line_3">
+      <widget class="Line" name="line6">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -566,7 +620,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_13">
+      <widget class="QLabel" name="lblContrast">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -592,7 +646,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="Line" name="line_4">
+      <widget class="Line" name="line7">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -605,7 +659,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_12">
+      <widget class="QLabel" name="lblGamma">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -631,7 +685,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="Line" name="line_5">
+      <widget class="Line" name="line8">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -644,7 +698,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="lblSaturation">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -668,6 +722,19 @@
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblGrayscale">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>25</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Grayscale</string>
        </property>
       </widget>
      </widget>
