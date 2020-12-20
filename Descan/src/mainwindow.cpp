@@ -2,7 +2,7 @@
 #include "headers/image.h"
 #include "ui_mainwindow.h"
 #include "headers/dialogmail.h"
-#include<utility>
+#include <utility>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -18,8 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->scrollArea->setWidget(display->getLabel());
     ui->scrollArea->setAlignment(Qt::AlignCenter);
-
-    ui->pbNextEdit->setDisabled(true);
 
     pdf = new PDFHandler();
 
@@ -72,10 +70,11 @@ void MainWindow::on_pbImport_clicked()
 
     if (!fileName.isEmpty()) {
         ui->lblOneImage->setText("image added");
+        ui->lblMultiple->setText("");
+
         display->setElements(QStringList(fileName));
 
         QImage image = display->getElement()->getImage();
-        //qDebug() << "dimenzije slike su " << image.size().width() << image.size().height();
 
         if (image.isNull()) {
             QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
@@ -83,11 +82,8 @@ void MainWindow::on_pbImport_clicked()
         }
 
         ui->pbNextEdit->setDisabled(false);
-        setCursor(Qt::ArrowCursor);
         display->setImageInLabel();
         display->getLabel()->adjustSize();
-        ui->pbLeftImage->setDisabled(true);
-        ui->pbRightImage->setDisabled(true);
     }
 }
 
@@ -111,6 +107,8 @@ void MainWindow::on_pbImportMultiple_clicked()
 
     if (!fileNames.isEmpty()) {
          ui->lblMultiple->setText(tr("%1 images added").arg(fileNames.size()));
+         ui->lblOneImage->setText("");
+
          display->setElements(fileNames);
 
          QImage image = display->getElement()->getImage();
@@ -121,10 +119,8 @@ void MainWindow::on_pbImportMultiple_clicked()
          }
 
          ui->pbNextEdit->setDisabled(false);
-         setCursor(Qt::ArrowCursor);
          display->setImageInLabel();
          display->getLabel()->adjustSize();
-         ui->pbLeftImage->setDisabled(true);
          ui->pbRightImage->setDisabled(false);
     }
 }
@@ -377,7 +373,6 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             display->getElement()->cropImage(startPoint / display->getElement()->getScaleFactor(),
                                              endPoint / display->getElement()->getScaleFactor());
 
-            //prikazujemo sliku u labeli
             display->setImageInLabel();
 
             rubberBandCreated = false;
@@ -439,7 +434,7 @@ void MainWindow::resetZoomButtons()
 void MainWindow::resetUndoRedoButtons()
 {
     display->setToBeginning();
-    for (unsigned i = 0; i<display->getSize();i++) {
+    for (unsigned i = 0; i < display->getSize(); i++) {
         Image* curr = display->getElement();
         curr->emptyUndoActions();
         curr->emptyRedoActions();
@@ -485,23 +480,25 @@ void MainWindow::on_tbFit_clicked()
     display->scaleImage(scaleBy/display->getElement()->getScaleFactor());
 
     //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
-    ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
-    ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
-    //qDebug() << display->getElement()->getScaleFactor();
+    checkZoomButtons();
+}
+
+void MainWindow::checkZoomButtons()
+{
+    ui->tbZoomIn->setDisabled(display->getElement()->getScaleFactor() > 2);
+    ui->tbZoomOut->setDisabled(display->getElement()->getScaleFactor() < 0.4);
 }
 
 void MainWindow::on_tbZoomIn_clicked()
 {
     display->scaleImage(1.25);
-    ui->tbZoomIn->setDisabled(display->getElement()->getScaleFactor() > 2);
-    ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
+    checkZoomButtons();
 }
 
 void MainWindow::on_tbZoomOut_clicked()
 {
     display->scaleImage(0.80);
-    ui->tbZoomOut->setDisabled(display->getElement()->getScaleFactor() < 0.4);
-    ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
+    checkZoomButtons();
 }
 
 //prelazimo na prethodnu sliku
@@ -518,11 +515,8 @@ void MainWindow::on_pbLeftImage_clicked()
         ui->pbLeftImage->setDisabled(true);
     ui->pbRightImage->setDisabled(false);
 
-    //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
-    ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
-    ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
+    checkZoomButtons();
 
-    //signali za undo i redo
     emit changeUndoSignal();
     emit changeRedoSignal();
     emit moveSlidersSignal();
@@ -542,11 +536,8 @@ void MainWindow::on_pbRightImage_clicked()
         ui->pbRightImage->setDisabled(true);
     ui->pbLeftImage->setDisabled(false);
 
-    //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
-    ui->tbZoomIn->setEnabled(display->getElement()->getScaleFactor() < 2);
-    ui->tbZoomOut->setEnabled(display->getElement()->getScaleFactor() > 0.4);
+    checkZoomButtons();
 
-    //signali za undo i redo
     emit changeUndoSignal();
     emit changeRedoSignal();
     emit moveSlidersSignal();
@@ -562,11 +553,18 @@ void MainWindow::on_pbConvert_clicked()
     if (!fileName.isEmpty()) {
         PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
         filePathsPdf.append(fileName);
-        QMessageBox::information(this, tr("Convert to PDF"), tr("Your images have been successfully converted!"));
-        ui->pbCompress->setDisabled(false);
-        ui->pbDrive->setDisabled(false);
-        ui->pbMail->setDisabled(false);
+        QMessageBox::information(this, tr("Convert to PDF"),
+                                       tr("Your images have been successfully converted!"));
+
+        //nakon konvertovanja, dodatne opcije su omogucene
+        enableOptions();
     }
+}
+
+void MainWindow::enableOptions() {
+    ui->pbCompress->setDisabled(false);
+    ui->pbDrive->setDisabled(false);
+    ui->pbMail->setDisabled(false);
 }
 
 //jedan pdf dokument delimo u vise
@@ -581,9 +579,8 @@ void MainWindow::on_pbSplitPdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-        ui->pbCompress->setDisabled(false);
-        ui->pbDrive->setDisabled(false);
-        ui->pbMail->setDisabled(false);
+
+        enableOptions();
     }
 }
 
@@ -600,9 +597,8 @@ void MainWindow::on_pbMergePdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-        ui->pbCompress->setDisabled(false);
-        ui->pbDrive->setDisabled(false);
-        ui->pbMail->setDisabled(false);
+
+        enableOptions();
     }
 }
 
@@ -616,14 +612,11 @@ void MainWindow::on_pbFinish_clicked()
 void MainWindow::on_pbMail_clicked()
 {
     DialogMail dialogmail(this, std::move(filePathsPdf));
-
-    qDebug() << "dijalog";
-    qDebug() << dialogmail.m_filePathsPdf;
-
     dialogmail.setModal(true);
     dialogmail.exec();
 }
 
+//dugme za kompresovanje dokumenta
 void MainWindow::on_pbCompress_clicked()
 {
     if (!filePathsPdf.isEmpty()) {

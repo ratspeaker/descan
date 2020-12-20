@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -58,6 +58,9 @@
      </property>
     </widget>
     <widget class="QPushButton" name="pbNextEdit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>660</x>
@@ -117,7 +120,7 @@
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/file.png</normaloff>:/icons/icons/file.png</iconset>
+          <normaloff>:/icons/icons/merge.png</normaloff>:/icons/icons/merge.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -202,7 +205,7 @@
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/import4.png</normaloff>:/icons/icons/import4.png</iconset>
+          <normaloff>:/icons/icons/import.png</normaloff>:/icons/icons/import.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -284,7 +287,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -306,9 +309,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>40</y>
          <width>160</width>
-         <height>16</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="orientation">
@@ -321,7 +324,7 @@
          <x>10</x>
          <y>20</y>
          <width>67</width>
-         <height>17</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -332,9 +335,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
-         <width>241</width>
-         <height>51</height>
+         <y>80</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -360,7 +363,7 @@
          <x>10</x>
          <y>100</y>
          <width>91</width>
-         <height>17</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -371,9 +374,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>140</y>
-         <width>241</width>
-         <height>41</height>
+         <y>160</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -386,7 +389,7 @@
          <x>10</x>
          <y>200</y>
          <width>160</width>
-         <height>16</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="orientation">
@@ -397,7 +400,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>170</y>
+         <y>180</y>
          <width>81</width>
          <height>20</height>
         </rect>
@@ -410,9 +413,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>230</y>
-         <width>241</width>
-         <height>16</height>
+         <y>240</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -423,7 +426,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>250</y>
+         <y>258</y>
          <width>81</width>
          <height>20</height>
         </rect>
@@ -436,9 +439,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>280</y>
-         <width>71</width>
-         <height>31</height>
+         <y>285</y>
+         <width>45</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="text">
@@ -446,7 +449,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/shape-rotate-anticlockwise-icon.png</normaloff>:/icons/shape-rotate-anticlockwise-icon.png</iconset>
+         <normaloff>:/icons/icons/shape-rotate-anticlockwise-icon.png</normaloff>:/icons/icons/shape-rotate-anticlockwise-icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -458,10 +461,10 @@
       <widget class="QToolButton" name="tbRotateRight">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>280</y>
-         <width>71</width>
-         <height>31</height>
+         <x>65</x>
+         <y>285</y>
+         <width>45</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="text">
@@ -469,7 +472,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/shape-rotate-clockwise-icon.png</normaloff>:/icons/shape-rotate-clockwise-icon.png</iconset>
+         <normaloff>:/icons/icons/shape-rotate-clockwise-icon.png</normaloff>:/icons/icons/shape-rotate-clockwise-icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -483,17 +486,16 @@
         <rect>
          <x>10</x>
          <y>370</y>
-         <width>71</width>
-         <height>31</height>
+         <width>45</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="text">
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <selectedon>:/icons/icons/cropping-tool.png</selectedon>
-        </iconset>
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/icons/crop.png</normaloff>:/icons/icons/crop.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -512,9 +514,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>320</y>
-         <width>241</width>
-         <height>16</height>
+         <y>325</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -525,9 +527,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>340</y>
+         <y>342</y>
          <width>81</width>
-         <height>17</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -548,10 +550,10 @@
       <widget class="QPushButton" name="pbGreyscale">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>15</y>
-         <width>41</width>
-         <height>41</height>
+         <x>10</x>
+         <y>40</y>
+         <width>45</width>
+         <height>35</height>
         </rect>
        </property>
        <property name="text">
@@ -572,8 +574,8 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
-         <width>241</width>
+         <y>90</y>
+         <width>250</width>
          <height>20</height>
         </rect>
        </property>
@@ -585,9 +587,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>110</y>
          <width>81</width>
-         <height>21</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -598,7 +600,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>110</y>
+         <y>130</y>
          <width>160</width>
          <height>31</height>
         </rect>
@@ -611,9 +613,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>130</y>
-         <width>241</width>
-         <height>51</height>
+         <y>170</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -624,7 +626,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>170</y>
+         <y>190</y>
          <width>71</width>
          <height>20</height>
         </rect>
@@ -637,7 +639,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>190</y>
+         <y>210</y>
          <width>160</width>
          <height>31</height>
         </rect>
@@ -650,9 +652,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>230</y>
-         <width>241</width>
-         <height>16</height>
+         <y>250</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -663,7 +665,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>260</y>
+         <y>270</y>
          <width>111</width>
          <height>20</height>
         </rect>
@@ -676,7 +678,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>280</y>
+         <y>290</y>
          <width>160</width>
          <height>31</height>
         </rect>
@@ -689,9 +691,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>320</y>
-         <width>251</width>
-         <height>16</height>
+         <y>330</y>
+         <width>250</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="orientation">
@@ -728,9 +730,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>25</y>
+         <y>10</y>
          <width>81</width>
-         <height>21</height>
+         <height>20</height>
         </rect>
        </property>
        <property name="text">
@@ -859,7 +861,7 @@
      </property>
      <property name="icon">
       <iconset resource="../resources.qrc">
-       <normaloff>:/icons/Zoom-In-icon.png</normaloff>:/icons/Zoom-In-icon.png</iconset>
+       <normaloff>:/icons/icons/Zoom-In-icon.png</normaloff>:/icons/icons/Zoom-In-icon.png</iconset>
      </property>
     </widget>
     <widget class="QToolButton" name="tbFit">
@@ -912,10 +914,13 @@
      </property>
      <property name="icon">
       <iconset resource="../resources.qrc">
-       <normaloff>:/icons/Zoom-Out-icon.png</normaloff>:/icons/Zoom-Out-icon.png</iconset>
+       <normaloff>:/icons/icons/Zoom-Out-icon.png</normaloff>:/icons/icons/Zoom-Out-icon.png</iconset>
      </property>
     </widget>
     <widget class="QPushButton" name="pbLeftImage">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -928,9 +933,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <selectedon>:/icons/icons/iconfinder_back_32384.png</selectedon>
-      </iconset>
+      <iconset resource="../resources.qrc">
+       <normaloff>:/icons/icons/iconfinder_back.png</normaloff>:/icons/icons/iconfinder_back.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -940,6 +944,9 @@
      </property>
     </widget>
     <widget class="QPushButton" name="pbRightImage">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -952,9 +959,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <selectedon>:/icons/icons/iconfinder_forward_32404.png</selectedon>
-      </iconset>
+      <iconset resource="../resources.qrc">
+       <normaloff>:/icons/icons/iconfinder_forward.png</normaloff>:/icons/icons/iconfinder_forward.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -986,7 +992,7 @@
      </property>
      <property name="icon">
       <iconset resource="../resources.qrc">
-       <normaloff>:/icons/icons/iconfinder_check_1930264.png</normaloff>:/icons/icons/iconfinder_check_1930264.png</iconset>
+       <normaloff>:/icons/icons/iconfinder_check.png</normaloff>:/icons/icons/iconfinder_check.png</iconset>
      </property>
     </widget>
     <widget class="QLabel" name="laImage">
@@ -1002,7 +1008,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resources.qrc">:/icons/icons/main2.gif</pixmap>
+      <pixmap resource="../resources.qrc">:/icons/icons/main.gif</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -1031,7 +1037,7 @@
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/iconfinder_1-02_511559.png</normaloff>:/icons/icons/iconfinder_1-02_511559.png</iconset>
+          <normaloff>:/icons/icons/pdf.png</normaloff>:/icons/icons/pdf.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1053,11 +1059,11 @@
          </font>
         </property>
         <property name="text">
-         <string>Compress PDF</string>
+         <string>Compress PDF   </string>
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/iconfinder_1-02_511559.png</normaloff>:/icons/icons/iconfinder_1-02_511559.png</iconset>
+          <normaloff>:/icons/icons/compress.png</normaloff>:/icons/icons/compress.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1083,7 +1089,7 @@
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/iconfinder_google-drive_317713.png</normaloff>:/icons/icons/iconfinder_google-drive_317713.png</iconset>
+          <normaloff>:/icons/icons/iconfinder_drive.png</normaloff>:/icons/icons/iconfinder_drive.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1108,11 +1114,11 @@
          <enum>Qt::RightToLeft</enum>
         </property>
         <property name="text">
-         <string>Send to Mail    </string>
+         <string>Send to Mail   </string>
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/icons/iconfinder_gmail_1220367.png</normaloff>:/icons/icons/iconfinder_gmail_1220367.png</iconset>
+          <normaloff>:/icons/icons/mail.png</normaloff>:/icons/icons/mail.png</iconset>
         </property>
         <property name="iconSize">
          <size>

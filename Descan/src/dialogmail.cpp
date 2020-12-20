@@ -116,7 +116,9 @@ void DialogMail::on_pbSend_clicked()
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
             QMessageBox::warning(this, "Email", "Email has not been sent!");
         }
-        QMessageBox::information(this, "Email", "Email has been sent");
+        else {
+            QMessageBox::information(this, "Email", "Email has been sent");
+        }
 
         //oslobadjaju se strukture i raskida konekcija
         curl_slist_free_all(recipients);

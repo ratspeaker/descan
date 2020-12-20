@@ -50,9 +50,7 @@ public:
 
     QRubberBand *rubberBand = nullptr; //oblast koja ce biti isecena
     bool rubberBandCreated = false;
-
     bool cropPressed = false;
-    int angle = 0;
 
     //startPoint ocitava vrednosti misa kada se desi događaj pressed, a endPoint kada se desi released
     QPoint startPoint;
@@ -118,6 +116,9 @@ private slots:
     void resetZoomButtons();
     void resetUndoRedoButtons();
 
+    void checkZoomButtons();
+    void enableOptions();
+
     //slotovi za prethodnu i narednu sliku
     void on_pbLeftImage_clicked();
     void on_pbRightImage_clicked();
@@ -130,7 +131,6 @@ private slots:
     void on_pbMergePdf_clicked();
 
     void on_pbFinish_clicked();
-
     void on_pbMail_clicked();
     void on_pbCompress_clicked();
 

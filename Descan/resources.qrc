@@ -1,45 +1,26 @@
 <RCC>
     <qresource prefix="/icons">
         <file>icons/1.png</file>
-        <file>icons/crop.png</file>
-        <file>icons/iconfinder_1-02_511559.png</file>
-        <file>icons/iconfinder_check_1930264.png</file>
-        <file>icons/iconfinder_gmail_1220367.png</file>
-        <file>icons/iconfinder_google-drive_317713.png</file>
+        <file>icons/iconfinder_check.png</file>
+        <file>icons/iconfinder_drive.png</file>
         <file>icons/import.png</file>
-        <file>icons/import4.png</file>
         <file>icons/next.png</file>
-        <file>icons/openDirectory.png</file>
-        <file>icons/file.png</file>
-        <file>icons/split.png</file>
         <file>icons/back.png</file>
-        <file>icons/main2.gif</file>
+        <file>icons/merge.png</file>
+        <file>icons/split.png</file>
+        <file>icons/main.gif</file>
         <file>icons/Undo.ico</file>
         <file>icons/Redo.ico</file>
-        <file>icons/iconfinder_back_32384.png</file>
-        <file>icons/cropping-tool.png</file>
-        <file>icons/iconfinder_forward_32404.png</file>
-        <file>icons/grayscale.jpg</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>icons/1.png</file>
-        <file>icons/back.png</file>
-        <file>icons/crop.png</file>
-        <file>icons/file.png</file>
-        <file>icons/iconfinder_1-02_511559.png</file>
-        <file>icons/iconfinder_check_1930264.png</file>
-        <file>icons/iconfinder_gmail_1220367.png</file>
-        <file>icons/iconfinder_google-drive_317713.png</file>
-        <file>icons/import.png</file>
-        <file>icons/import4.png</file>
-        <file>icons/main2.gif</file>
-        <file>icons/next.png</file>
-        <file>icons/openDirectory.png</file>
-        <file>icons/split.png</file>
+        <file>icons/iconfinder_back.png</file>
+        <file>icons/iconfinder_forward.png</file>
         <file>icons/Zoom-In-icon.png</file>
         <file>icons/Zoom-Out-icon.png</file>
+        <file>icons/crop.png</file>
         <file>icons/shape-rotate-anticlockwise-icon.png</file>
         <file>icons/shape-rotate-clockwise-icon.png</file>
         <file>icons/grayscale.jpg</file>
+        <file>icons/compress.png</file>
+        <file>icons/pdf.png</file>
+        <file>icons/mail.png</file>
     </qresource>
 </RCC>
