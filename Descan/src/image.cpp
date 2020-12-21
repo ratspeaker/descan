@@ -86,20 +86,25 @@ QImage Image::resizeImage(double factor, char option)
 }
 
 //funkcija koja menja svetlost same slike
-//TODO: 4 funkcije na isti nacin rade, promeniti tako da se pozivaju iste funkcije samo sa odgovarajucim parametrima
+//Zbog efikasnosti izbaceno je pixel i setpixel i koriscene funkcije scanLine koja vraca pokazivac na prvi piksel
+// u liniji
 QImage Image::changeBrightness(double brightnessFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
+    QRgb* rgb;
     //prolazi kroz svaki piksel i povecava ga za odredjen faktor
-    for (int x = 0; x < m_image.width(); ++x)
-        for (int y = 0; y < m_image.height(); ++y) {
-            QRgb color =m_image.pixel(x, y);
-            newRed = truncate(qRed(color) + brightnessFactor);
-            newGreen = truncate(qGreen(color) + brightnessFactor);
-            newBlue = truncate(qBlue(color) + brightnessFactor);
-            newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
+    for (int y = 0; y < m_image.height(); ++y) {
+       rgb = (QRgb*)m_image.scanLine(y);
+        for (int x = 0; x < m_image.width(); ++x) {
+            newRed = truncate(qRed(rgb[x]) + brightnessFactor);
+            newGreen = truncate(qGreen(rgb[x]) + brightnessFactor);
+            newBlue = truncate(qBlue(rgb[x]) + brightnessFactor);
+           // *rgb = qRgb(newRed,newGreen,newBlue); -> hocemo izmene na novoj slici
+           newImage.setPixel(x,y, qRgb(newRed,newGreen,newBlue));
         }
+    }
+
 
    return newImage;
 }
@@ -109,15 +114,17 @@ QImage Image::changeContrast(double contrastFactor)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double contrastCorrection = static_cast<double>(259.0*(255+contrastFactor)/(255.0*(259-contrastFactor)));
+    QRgb* rgb;
     double newRed, newBlue, newGreen;
-    for (int x = 0; x < m_image.width(); ++x)
-        for (int y = 0; y < m_image.height(); ++y) {
-            QRgb color = m_image.pixel(x, y);
-            newRed = truncate(contrastCorrection*(qRed(color)-128)+128);
-            newBlue = truncate(contrastCorrection*(qBlue(color)-128)+128);
-            newGreen = truncate(contrastCorrection*(qGreen(color)-128)+128);
+    for (int y = 0; y < m_image.height(); ++y) {
+        rgb = (QRgb*)m_image.scanLine(y);
+        for (int x = 0; x < m_image.width(); ++x) {
+            newRed = truncate(contrastCorrection*(qRed(rgb[x])-128)+128);
+            newBlue = truncate(contrastCorrection*(qBlue(rgb[x])-128)+128);
+            newGreen = truncate(contrastCorrection*(qGreen(rgb[x])-128)+128);
             newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
         }
+    }
     return newImage;
 }
 
@@ -126,15 +133,17 @@ QImage Image::gammaCorrection(double gamma)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double gammaCorrection = 1/gamma;
+    QRgb* rgb;
     double newRed, newBlue, newGreen;
-    for (int x = 0; x < m_image.width(); ++x)
-        for (int y = 0; y < m_image.height(); ++y) {
-            QRgb color = m_image.pixel(x, y);
-            newRed = 255 * pow(qRed(color)/ 255.0,gammaCorrection);
-            newBlue = 255 * pow(qBlue(color)/255.0,gammaCorrection);
-            newGreen = 255 * pow(qGreen(color)/ 255.0,gammaCorrection);
+    for (int y = 0; y < m_image.height(); ++y) {
+        rgb = (QRgb*)m_image.scanLine(y);
+        for (int x = 0; x < m_image.width(); ++x) {
+            newRed = 255 * pow(qRed(rgb[x])/ 255.0,gammaCorrection);
+            newBlue = 255 * pow(qBlue(rgb[x])/255.0,gammaCorrection);
+            newGreen = 255 * pow(qGreen(rgb[x])/ 255.0,gammaCorrection);
             newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
         }
+    }
     return newImage;
 }
 
@@ -143,14 +152,16 @@ QImage Image::greyScale()
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double value;
-    for (int x = 0; x < m_image.width(); ++x)
-        for (int y = 0; y < m_image.height(); ++y) {
-            QRgb color = m_image.pixel(x, y);
+    QRgb* rgb;
+    for (int y = 0; y < m_image.height(); ++y) {
+        rgb = (QRgb*)m_image.scanLine(y);
+        for (int x = 0; x < m_image.width(); ++x) {
             //lepo namesteni tezinski faktori za racunanje odgovarajuce nijanse sive
             //alternativa je da se uzme aritmeticka sredina vrednosti RGB boja piksela
-            value = (0.299) * qRed(color) + (0.587) * qGreen(color) + (0.114)*qBlue(color);
+            value = (0.299) * qRed(rgb[x]) + (0.587) * qGreen(rgb[x]) + (0.114)*qBlue(rgb[x]);
             newImage.setPixel(x, y, qRgb(value,value,value));
         }
+    }
     return newImage;
 }
 
@@ -158,15 +169,17 @@ QImage Image::changeSaturation(double saturationChange)
 {
     QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
-    for (int x = 0; x < m_image.width(); ++x)
-        for (int y = 0; y < m_image.height(); ++y) {
-            QRgb color = m_image.pixel(x, y);
-            double pixelFactor = sqrt(qRed(color)*qRed(color)*0.299 +qGreen(color)*qGreen(color)*0.587+qBlue(color)*qBlue(color)*0.114);
-            newRed = truncate(pixelFactor + (qRed(color) - pixelFactor)*saturationChange);
-            newGreen = truncate(pixelFactor + (qGreen(color) - pixelFactor)*saturationChange);
-            newBlue = truncate(pixelFactor + (qBlue(color) - pixelFactor)*saturationChange);
+    QRgb* rgb;
+    for (int y = 0; y < m_image.height(); ++y) {
+        rgb = (QRgb*)m_image.scanLine(y);
+        for (int x = 0; x < m_image.width(); ++x) {
+            double pixelFactor = sqrt(qRed(rgb[x])*qRed(rgb[x])*0.299 +qGreen(rgb[x])*qGreen(rgb[x])*0.587+qBlue(rgb[x])*qBlue(rgb[x])*0.114);
+            newRed = truncate(pixelFactor + (qRed(rgb[x]) - pixelFactor)*saturationChange);
+            newGreen = truncate(pixelFactor + (qGreen(rgb[x]) - pixelFactor)*saturationChange);
+            newBlue = truncate(pixelFactor + (qBlue(rgb[x]) - pixelFactor)*saturationChange);
             newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
         }
+    }
     return newImage;
 }
 

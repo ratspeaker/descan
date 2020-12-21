@@ -36,7 +36,7 @@ public:
     void setInputFilesMerge(const QStringList &fileName);
     void setInputFileSplit(const QString &fileName);
 
-    static void convertImagesIntoPdf(QString &filename, std::vector<Image*> imageElements);
+    static void convertImagesIntoPdf(QString &filename, std::vector<Image*> &imageElements);
     static void compressPDF(QString &filename);
 
 private:

@@ -37,9 +37,9 @@ public:
 public:
     QLabel* m_label; //zbog smestanja privremene kopije
                      //TODO napraviti ovaj metod da ne bi bilo public
-
-private:
     std::vector<Image*> m_elements;
+private:
+
     std::vector<Image*>::iterator m_current;
     int indDisable = 0;
 };

@@ -10,7 +10,7 @@ PDFHandler::~PDFHandler()
     PDFNet::Terminate();
 }
 
-void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> imageElements)
+void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> &imageElements)
 {
     //instanciranje objekta za pravljenje pdfa i neka njegova podesavanja
     QPdfWriter pdfWriter(filename);

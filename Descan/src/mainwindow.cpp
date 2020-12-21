@@ -551,7 +551,7 @@ void MainWindow::on_pbConvert_clicked()
                                                           tr("PDF Files(*.pdf)"));
 
     if (!fileName.isEmpty()) {
-        PDFHandler::convertImagesIntoPdf(fileName, display->getElements());
+        PDFHandler::convertImagesIntoPdf(fileName, display->m_elements);
         filePathsPdf.append(fileName);
         QMessageBox::information(this, tr("Convert to PDF"),
                                        tr("Your images have been successfully converted!"));
