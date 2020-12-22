@@ -31,11 +31,8 @@ void DialogMail::on_pbBrowse_clicked()
     m_filePathsPdf.append(fileName);
 }
 
-void DialogMail::on_pbSend_clicked()
-{
-    QString recipient = ui->leSendTo->text();
-    QString subject = ui->leSubject->text();
-    QString message = ui->pteMessage->toPlainText();
+
+auto DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
 
     const QStringList emailContent{tr("To: <%1>").arg(recipient),
                                    "From: <descan.soft@gmail.com> Descan Soft",
@@ -110,16 +107,6 @@ void DialogMail::on_pbSend_clicked()
         //salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);
 
-
-        //proverava se da li je poruka poslata
-        if (res != CURLE_OK) {
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-            QMessageBox::warning(this, "Email", "Email has not been sent!");
-        }
-        else {
-            QMessageBox::information(this, "Email", "Email has been sent");
-        }
-
         //oslobadjaju se strukture i raskida konekcija
         curl_slist_free_all(recipients);
         curl_slist_free_all(headers);
@@ -130,4 +117,23 @@ void DialogMail::on_pbSend_clicked()
     }
 
     qDebug() << static_cast<int>(res);
+    return res;
+}
+
+void DialogMail::on_pbSend_clicked()
+{
+    QString recipient = ui->leSendTo->text();
+    QString subject = ui->leSubject->text();
+    QString message = ui->pteMessage->toPlainText();
+
+    auto res = mailSender(recipient,subject,message);
+
+    //proverava se da li je poruka poslata
+    if (res != CURLE_OK) {
+        std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res);
+        QMessageBox::warning(this, "Email", "Email has not been sent!");
+    }
+    else {
+        QMessageBox::information(this, "Email", "Email has been sent");
+    }
 }

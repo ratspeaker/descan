@@ -13,6 +13,7 @@
 #include <cstring>
 #include <QProgressDialog>
 #include <QTimer>
+#include<iostream>
 
 namespace Ui {
 class DialogMail;
@@ -24,6 +25,7 @@ class DialogMail : public QDialog
 
 public:
     explicit DialogMail(QWidget *parent = nullptr,QStringList filePathsPdf = {});
+    auto mailSender(QString& recipient, QString& subject, QString& message);
     ~DialogMail();
     QString fileName;
     QStringList m_filePathsPdf;
