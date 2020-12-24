@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/1.png</file>
+        <file>icons/iconfinder_check.png</file>
+        <file>icons/iconfinder_drive.png</file>
+        <file>icons/import.png</file>
+        <file>icons/next.png</file>
+        <file>icons/back.png</file>
+        <file>icons/merge.png</file>
+        <file>icons/split.png</file>
+        <file>icons/main.gif</file>
+        <file>icons/Undo.ico</file>
+        <file>icons/Redo.ico</file>
+        <file>icons/iconfinder_back.png</file>
+        <file>icons/iconfinder_forward.png</file>
+        <file>icons/Zoom-In-icon.png</file>
+        <file>icons/Zoom-Out-icon.png</file>
+        <file>icons/crop.png</file>
+        <file>icons/shape-rotate-anticlockwise-icon.png</file>
+        <file>icons/shape-rotate-clockwise-icon.png</file>
+        <file>icons/grayscale.jpg</file>
+        <file>icons/compress.png</file>
+        <file>icons/pdf.png</file>
+        <file>icons/mail.png</file>
+    </qresource>
+</RCC>
