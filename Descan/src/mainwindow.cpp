@@ -549,10 +549,11 @@ void MainWindow::on_pbConvert_clicked()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
                                                           "/home/",
                                                           tr("PDF Files(*.pdf)"));
+    QString newFileName = fileName + ".pdf";
 
     if (!fileName.isEmpty()) {
-        PDFHandler::convertImagesIntoPdf(fileName, display->m_elements);
-        filePathsPdf.append(fileName);
+        PDFHandler::convertImagesIntoPdf(newFileName, display->m_elements);
+        filePathsPdf.append(newFileName);
         QMessageBox::information(this, tr("Convert to PDF"),
                                        tr("Your images have been successfully converted!"));
 

@@ -55,9 +55,17 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         curl_mime *alt;
         curl_mimepart *part;
 
+        //Citanje sifre iz fajla
+        QString path = QDir("../Descan").absoluteFilePath("sifra.txt");
+        QFile file(path);
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        auto password = file.readAll();
+        file.close();
+        qDebug() << password.toStdString().c_str();
+
         //posiljalac, sifra i server se podesavaju
         curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, "");
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.toStdString().c_str());
         curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
 
 

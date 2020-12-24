@@ -50,6 +50,7 @@ void PDFHandler::compressPDF(QString& filename)
 QString PDFHandler::mergePdf()
 {
     QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
+    QString output = outputFile + ".pdf";
 
     if (!outputFile.isEmpty()) {
         qDebug() << "Spajanje više PDF-ova u jedan";
@@ -62,7 +63,7 @@ QString PDFHandler::mergePdf()
             newDocument.InsertPages(i, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
         }
 
-        newDocument.Save(outputFile.toStdString().c_str(), SDFDoc::e_remove_unused, 0);
+        newDocument.Save(output.toStdString().c_str(), SDFDoc::e_remove_unused, 0);
 
         QMessageBox::information(this, tr("Merge PDF"), tr("Your files have been successfully merged!"));
     }
