@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete pdf;
+    delete display;
     delete ui;
 }
 
@@ -66,7 +67,7 @@ void MainWindow::on_pbImport_clicked()
     resetZoomButtons();
     resetUndoRedoButtons();
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/",tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
 
     if (!fileName.isEmpty()) {
         ui->lblOneImage->setText("image added");
@@ -125,34 +126,32 @@ void MainWindow::on_pbImportMultiple_clicked()
     }
 }
 
-//TODO: treba izmeniti da ne menja direktno sliku (kopija objekta ili naci bolje resenje?)
 //funkcija koja skalira sliku u zavisnosti od pozicije slajdera
 void MainWindow::on_hsScale_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
     //promena se manifestuje na kopiji i ta kopija se prikazuje u labeli
-    image_copy = display->getElement()->resizeImage(resizeFactor, 's');
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
+    imageCopy = display->getElement()->resizeImage(resizeFactor, 's');
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 //funkcija koja cuva trajno promenu na objektu slike
-//TODO: posto se ove dve akcije cesto koriste -> izdvojiti ih u funkciju
 void MainWindow::on_hsScale_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("scale", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("scale", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 //menja visinu u zavisnosti od parametra
 void MainWindow::on_hsHorizontal_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
 
@@ -162,22 +161,22 @@ void MainWindow::on_hsHorizontal_sliderMoved(int position)
     }
 
     //cuva u kopiji i tu kopiju prikazuje
-    image_copy = display->getElement()->resizeImage(resizeFactor, 'w');
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
+    imageCopy = display->getElement()->resizeImage(resizeFactor, 'w');
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 //funkcija koja kada se otpusti slajder cuva promenu u objekat slike
 void MainWindow::on_hsHorizontal_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("hor", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("hor", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 //menja sirinu u zavisnosti od parametra
 void MainWindow::on_hsVertical_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
 
@@ -187,16 +186,16 @@ void MainWindow::on_hsVertical_sliderMoved(int position)
     }
 
     //cuva u kopiji i tu kopiju prikazuje
-    image_copy = display->getElement()->resizeImage(resizeFactor, 'h');
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy));
+    imageCopy = display->getElement()->resizeImage(resizeFactor, 'h');
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 //funkcija koja kada se otpusti slajder cuva promene u objekat slike
 void MainWindow::on_hsVertical_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("ver", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("ver", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 //efekti
@@ -204,71 +203,71 @@ void MainWindow::on_pbGreyscale_clicked()
 {
     emit enableUndoSignal();
     display->getElement()->saveAction();
-    image_copy = display->getElement()->greyScale();
-    display->setImageInLabel(image_copy);
+    imageCopy = display->getElement()->greyScale();
+    display->setImageInLabel(imageCopy);
 }
 
 void MainWindow::on_hsBrightness_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
     double brightnessFactor = (((position * (100 - (-100)))) / 100) -100;
-    image_copy = display->getElement()->changeBrightness(brightnessFactor);
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+    imageCopy = display->getElement()->changeBrightness(brightnessFactor);
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
 }
 
 void MainWindow::on_hsBrightness_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("brigh", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("brigh", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 void MainWindow::on_hsContrast_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
     double contrastFactor = (((position * (100 - (-100)))) / 100) -100;
-    image_copy = display->getElement()->changeContrast(contrastFactor);
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+    imageCopy = display->getElement()->changeContrast(contrastFactor);
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
 }
 
 void MainWindow::on_hsContrast_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("con", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("con", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 void MainWindow::on_hsCorrection_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
-    image_copy = display->getElement()->gammaCorrection(position*0.02);
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+    imageCopy = display->getElement()->gammaCorrection(position*0.02);
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
 }
 
 void MainWindow::on_hsCorrection_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("gam", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("gam", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 void MainWindow::on_hsSaturation_sliderMoved(int position)
 {
-    poss = position;
+    currentPosition = position;
     emit enableUndoSignal();
-    image_copy = display->getElement()->changeSaturation(position*0.02);
-    display->m_label->setPixmap(QPixmap::fromImage(image_copy)); //prikazuje se samo privremena kopija
+    imageCopy = display->getElement()->changeSaturation(position*0.02);
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
     //display->scaleImage(1.0);
 }
 
 void MainWindow::on_hsSaturation_sliderReleased()
 {
     display->getElement()->saveAction();
-    display->getElement()->setSlider("sat", poss);
-    display->setImageInLabel(image_copy);
+    display->getElement()->setSlider("sat", currentPosition);
+    display->setImageInLabel(imageCopy);
 }
 
 //funkcija za omogucavanje klika na dugme undo
@@ -435,9 +434,9 @@ void MainWindow::resetUndoRedoButtons()
 {
     display->setToBeginning();
     for (unsigned i = 0; i < display->getSize(); i++) {
-        Image* curr = display->getElement();
-        curr->emptyUndoActions();
-        curr->emptyRedoActions();
+        Image* currentImage = display->getElement();
+        currentImage->emptyUndoActions();
+        currentImage->emptyRedoActions();
     }
 }
 
@@ -612,9 +611,9 @@ void MainWindow::on_pbFinish_clicked()
 //dugme za slanje mejla
 void MainWindow::on_pbMail_clicked()
 {
-    DialogMail dialogmail(this, std::move(filePathsPdf));
-    dialogmail.setModal(true);
-    dialogmail.exec();
+    DialogMail dialogMail(this, std::move(filePathsPdf));
+    dialogMail.setModal(true);
+    dialogMail.exec();
 }
 
 //dugme za kompresovanje dokumenta

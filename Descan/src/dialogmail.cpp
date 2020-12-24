@@ -61,7 +61,6 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         auto password = file.readAll();
         file.close();
-        qDebug() << password.toStdString().c_str();
 
         //posiljalac, sifra i server se podesavaju
         curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");

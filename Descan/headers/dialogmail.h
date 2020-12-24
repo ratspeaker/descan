@@ -1,18 +1,12 @@
 #ifndef DIALOGMAIL_H
 #define DIALOGMAIL_H
 
-#include <QDialog>
 #include <curl/curl.h>
+#include <QDialog>
 #include <QString>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDebug>
-#include <ctime>
-#include <string>
-#include <cstdio>
-#include <cstring>
-#include <QProgressDialog>
-#include <QTimer>
 #include<iostream>
 
 namespace Ui {
@@ -27,6 +21,7 @@ public:
     explicit DialogMail(QWidget *parent = nullptr,QStringList filePathsPdf = {});
     auto mailSender(QString& recipient, QString& subject, QString& message);
     ~DialogMail();
+
     QString fileName;
     QStringList m_filePathsPdf;
 

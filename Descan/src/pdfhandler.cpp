@@ -10,10 +10,10 @@ PDFHandler::~PDFHandler()
     PDFNet::Terminate();
 }
 
-void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> &imageElements)
+void PDFHandler::convertImagesIntoPdf(QString& fileName, std::vector<Image*> &imageElements)
 {
     //instanciranje objekta za pravljenje pdfa i neka njegova podesavanja
-    QPdfWriter pdfWriter(filename);
+    QPdfWriter pdfWriter(fileName);
     pdfWriter.setResolution(150);
     pdfWriter.setPageMargins(QMargins(20, 20, 20, 30));
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
@@ -39,12 +39,12 @@ void PDFHandler::convertImagesIntoPdf(QString& filename, std::vector<Image*> &im
     }
 }
 
-void PDFHandler::compressPDF(QString& filename)
+void PDFHandler::compressPDF(QString& fileName)
 {
-    PDFDoc doc(filename.toStdString().c_str());
+    PDFDoc doc(fileName.toStdString().c_str());
     doc.InitSecurityHandler();
     Optimizer::Optimize(doc);
-    doc.Save(filename.toStdString().c_str(), SDFDoc::e_linearized, NULL);
+    doc.Save(fileName.toStdString().c_str(), SDFDoc::e_linearized, NULL);
 }
 
 QString PDFHandler::mergePdf()

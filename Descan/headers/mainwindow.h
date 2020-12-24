@@ -4,13 +4,14 @@
 #include "headers/image.h"
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
+#include <vector>
+//#include <algorithm>
 #include <QWidget>
 #include <QAction>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtAlgorithms>
 #include <QLabel>
-#include <algorithm>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
@@ -27,9 +28,6 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QInputDialog>
-#include <vector>
-#include <QPdfWriter>
-#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,7 +44,7 @@ public:
 public:
     Ui::MainWindow *ui;
     DisplayArea *display;
-    QImage image_copy; //resenje za kompoziciju efekata
+    QImage imageCopy; //resenje za kompoziciju efekata
 
     QRubberBand *rubberBand = nullptr; //oblast koja ce biti isecena
     bool rubberBandCreated = false;
@@ -56,7 +54,7 @@ public:
     QPoint startPoint;
     QPoint endPoint;
 
-    int poss = 0; //current slider position
+    int currentPosition = 0; //current slider position
 
     QStringList filePathsPdf;
 

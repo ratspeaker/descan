@@ -1,13 +1,16 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include <stack>
+#include <map>
+#include <cmath>
 #include <QWidget>
 #include <QImage>
 #include <QString>
 #include <QDebug>
 #include <QPixmap>
-#include <stack>
-#include <map>
+#include <QPdfWriter>
+#include <QPainter>
 
 class Image
 {
@@ -51,6 +54,7 @@ public:
     void rotateImage(int angle);
     void emptyUndoActions();
     void emptyRedoActions();
+
 public:
     std::stack<std::pair<QImage, std::map<QString, int>>> undoStack;
     std::stack<std::pair<QImage, std::map<QString, int>>> redoStack;

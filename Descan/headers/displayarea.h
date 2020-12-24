@@ -2,14 +2,14 @@
 #define DISPLAYAREA_H
 
 #include "headers/image.h"
+
+#include <iostream>
+#include <vector>
+#include <iterator>
 #include <QWidget>
 #include <QLabel>
 #include <QList>
 #include <QPixmap>
-#include <iostream>
-#include <vector>
-#include <iterator>
-#include <list>
 
 class DisplayArea : public QWidget
 {
@@ -17,6 +17,8 @@ class DisplayArea : public QWidget
 
 public:
     explicit DisplayArea(QWidget *parent = nullptr);
+    ~DisplayArea();
+
     QLabel* getLabel();
 
     Image* getElement();
@@ -35,11 +37,10 @@ public:
     void scaleImage(double factor);
 
 public:
-    QLabel* m_label; //zbog smestanja privremene kopije
-                     //TODO napraviti ovaj metod da ne bi bilo public
+    QLabel* m_label;
     std::vector<Image*> m_elements;
-private:
 
+private:
     std::vector<Image*>::iterator m_current;
     int indDisable = 0;
 };

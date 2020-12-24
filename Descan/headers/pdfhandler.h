@@ -1,6 +1,7 @@
 #ifndef PDFHANDLER_H
 #define PDFHANDLER_H
 
+#include "image.h"
 #include <QString>
 #include <QStringList>
 #include <QMessageBox>
@@ -9,7 +10,6 @@
 #include <QDebug>
 #include <QPdfWriter>
 #include <QPainter>
-#include "image.h"
 
 #include "../PDFNetC64/Headers/PDF/Optimizer.h"
 #include "../PDFNetC64/Headers/PDF/PDFNet.h"
@@ -36,8 +36,8 @@ public:
     void setInputFilesMerge(const QStringList &fileName);
     void setInputFileSplit(const QString &fileName);
 
-    static void convertImagesIntoPdf(QString &filename, std::vector<Image*> &imageElements);
-    static void compressPDF(QString &filename);
+    static void convertImagesIntoPdf(QString &fileName, std::vector<Image*> &imageElements);
+    static void compressPDF(QString &fileName);
 
 private:
     QStringList inputFilesMerge;

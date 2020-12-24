@@ -5,6 +5,13 @@ DisplayArea::DisplayArea(QWidget *parent) : QWidget(parent)
     m_label = new QLabel();
 }
 
+DisplayArea::~DisplayArea()
+{
+    for(auto &element: m_elements)
+        delete element;
+    delete m_label;
+}
+
 QLabel* DisplayArea::getLabel()
 {
     return m_label;

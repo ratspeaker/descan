@@ -1,7 +1,4 @@
 #include "headers/image.h"
-#include <cmath>
-#include <QPdfWriter>
-#include <QPainter>
 
 Image::Image(const QString& filePath)
 {
@@ -264,7 +261,6 @@ void Image::rotateImage(int angle)
     m_image = pixmap.toImage();
 }
 
-// Mozda se prebaciti na vector jer ima efikasniji metod praznjenja
 void Image::emptyUndoActions()
 {
     while(!undoStack.empty()) {
