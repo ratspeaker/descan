@@ -1,6 +1,7 @@
 QT    +=    core
 QT    +=    gui
-QT += printsupport
+QT    += printsupport
+QT    += networkauth
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17

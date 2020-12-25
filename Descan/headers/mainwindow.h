@@ -28,6 +28,20 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QInputDialog>
+#include <QOAuth2AuthorizationCodeFlow>
+#include <QDesktopServices>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QOAuthHttpServerReplyHandler>
+#include <QNetworkReply>
+#include <QFile>
+#include <QFileInfo>
+#include <QHttpPart>
+#include <QHttpMultiPart>
+#include <QVariant>
+#include <QByteArray>
+#include <QAbstractOAuth>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -131,6 +145,8 @@ private slots:
     void on_pbFinish_clicked();
     void on_pbMail_clicked();
     void on_pbCompress_clicked();
+
+    void on_pbDrive_clicked();
 
 signals:
     void enableUndoSignal();
