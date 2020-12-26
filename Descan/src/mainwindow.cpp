@@ -581,6 +581,7 @@ void MainWindow::on_pbSplitPdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
+        ui->pbDrive->deleteLater();
 
         enableOptions();
     }
@@ -599,6 +600,7 @@ void MainWindow::on_pbMergePdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
+        ui->pbDrive->deleteLater();
 
         enableOptions();
     }
