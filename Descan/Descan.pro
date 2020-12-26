@@ -14,6 +14,7 @@ CONFIG += c++17
 SOURCES += \
     src/dialogmail.cpp \
     src/displayarea.cpp \
+    src/drive.cpp \
     src/image.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     headers/displayarea.h \
+    headers/drive.h \
     headers/image.h \
     headers/mainwindow.h \
     headers/pdfhandler.h \

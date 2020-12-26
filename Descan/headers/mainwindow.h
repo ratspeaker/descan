@@ -4,6 +4,7 @@
 #include "headers/image.h"
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
+#include "headers/drive.h"
 #include <vector>
 //#include <algorithm>
 #include <QWidget>
@@ -28,20 +29,6 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QInputDialog>
-#include <QOAuth2AuthorizationCodeFlow>
-#include <QDesktopServices>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QOAuthHttpServerReplyHandler>
-#include <QNetworkReply>
-#include <QFile>
-#include <QFileInfo>
-#include <QHttpPart>
-#include <QHttpMultiPart>
-#include <QVariant>
-#include <QByteArray>
-#include <QAbstractOAuth>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -73,6 +60,7 @@ public:
     QStringList filePathsPdf;
 
     PDFHandler* pdf;
+    Drive* drive;
 
 private slots:
     void showPreviousPage();

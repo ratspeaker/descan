@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete pdf;
+    if(drive)
+        delete drive;
     delete display;
     delete ui;
 }
@@ -630,104 +632,6 @@ void MainWindow::on_pbCompress_clicked()
 
 void MainWindow::on_pbDrive_clicked()
 {
-    auto google = new QOAuth2AuthorizationCodeFlow;
-    google->setScope("https://www.googleapis.com/auth/drive.file");
-    connect(google, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser,
-            &QDesktopServices::openUrl);
-
-    QString settings;
-    QFile file;
-    file.setFileName("../client_secret.json");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    settings = file.readAll();
-    file.close();
-
-    QJsonDocument document = QJsonDocument::fromJson(settings.toUtf8());
-
-    const auto object = document.object();
-    const auto settingsObject = object["installed"].toObject();
-    const QUrl authUri(settingsObject["auth_uri"].toString());
-    const auto clientId = settingsObject["client_id"].toString();
-    const QUrl tokenUri(settingsObject["token_uri"].toString());
-    const auto clientSecret(settingsObject["client_secret"].toString());
-    const auto redirectUris = settingsObject["redirect_uris"].toArray();
-    const QUrl redirectUri(redirectUris[0].toString());
-    const auto port = static_cast<quint16>(redirectUri.port());
-
-    google->setAuthorizationUrl(authUri);
-    google->setClientIdentifier(clientId);
-    google->setAccessTokenUrl(tokenUri);
-    google->setClientIdentifierSharedKey(clientSecret);
-
-    auto replyHandler = new QOAuthHttpServerReplyHandler(port, this);//65535
-    google->setReplyHandler(replyHandler);
-    QFile* tokenFile = new QFile("file.txt");
-    connect(google, &QOAuth2AuthorizationCodeFlow::granted, [=](){
-        //google->refreshAccessToken();
-        auto access_token = google->token();
-        tokenFile->open(QIODevice::WriteOnly | QIODevice::Text);
-        tokenFile->write(access_token.toStdString().c_str());
-        tokenFile->close();
-
-        QNetworkAccessManager* mngr = new QNetworkAccessManager();
-        QNetworkRequest requestGet(QUrl("https://www.googleapis.com/drive/v3/files"));
-        QString headerData = "Bearer " + access_token;
-        requestGet.setRawHeader("Authorization", headerData.toLocal8Bit());
-        QNetworkReply* replyGet = mngr->get(requestGet);
-        connect(replyGet, &QNetworkReply::finished, [replyGet, tokenFile]() {
-            if(replyGet->error() == QNetworkReply::NoError){
-                qDebug() << replyGet->readAll();
-
-                tokenFile->open(QIODevice::ReadOnly | QIODevice::Text);
-                QTextStream instream(tokenFile);
-                QString token = instream.readLine();
-                tokenFile->close();
-
-                QNetworkAccessManager* mngr2 = new QNetworkAccessManager();
-                QNetworkRequest request(QUrl("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable"));
-                QString headerData = "Bearer " + token;
-                request.setRawHeader("Authorization", headerData.toLocal8Bit());
-                QJsonObject body;
-                body.insert("name", QJsonValue::fromVariant("a.txt"));
-
-                QJsonDocument bodyDoc(body);
-                QByteArray ba = bodyDoc.toJson();
-
-                request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json; charset=UTF-8"));
-                request.setHeader(QNetworkRequest::ContentLengthHeader, ba.size());
-
-                QNetworkReply* replyUpload = mngr2->post(request, ba);
-                connect(replyUpload, &QNetworkReply::finished, [replyUpload, token](){
-                    QVariant status_code = replyUpload->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-                    if(status_code.toInt() == 200){
-                        QString locationHeader("Location");
-                        QString location = replyUpload->rawHeader(locationHeader.toUtf8());
-
-                        QFile *fileDrive = new QFile("/home/ratspeaker/Desktop/a.pdf");
-                        fileDrive->open(QIODevice::ReadOnly);
-
-                        QUrl url(location);
-                        QNetworkRequest requestPUT(url);
-                        QString headerData = "Bearer " + token;
-                        requestPUT.setRawHeader("Authorization", headerData.toLocal8Bit());
-                        requestPUT.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/PDF"));
-                        requestPUT.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(QString::number(fileDrive->size())));
-
-                        QNetworkAccessManager* mngr3 = new QNetworkAccessManager();
-                        QNetworkReply* replyFinish= mngr3->put(requestPUT, fileDrive);
-                        connect(replyFinish, &QNetworkReply::finished, [=](){
-                            if(replyFinish->error() == QNetworkReply::NoError)
-                                qDebug() << "SUCCESS";
-                        });
-
-                    }
-                    else
-                        qDebug() << "error: " << replyUpload->errorString();
-                });
-            }
-        });
-    });
-
-    google->grant();
-
+    drive = new Drive();
+    drive->uploadToDrive(filePathsPdf.front());
 }
