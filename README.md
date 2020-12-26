@@ -1,6 +1,6 @@
-# Project 07-descan
+# Descan
 
-Korisnik će učitanu sliku moći da pretvori u crno belu i po potrebi dodatno da je obradi. Takođe postojaće opcija da se više slika objedini u jedan pdf i da se pošalje mejlom ili postavi na google drive.
+Descan je studentski projekat rađen na kursu Razvoj Softvera u okviru [Matematickog fakulteta](http://www.matf.bg.ac.rs/)  u Beogradu.Glavni cilj ovog softvera je da korisnik na veoma lak i brz način prebaci svoje slike u pdf fajl. Osim ove osnovne funkcionalnosti korisniku je omogućeno da slikama promeni dimenziju, kao i da doda razne efekte. Nakon toga korisnik može svoj pdf fajl da dodatno kompresuje(kako bi smanjio njegovu veličinu) kao i da pošalje na mejl ili da stavi na svoj Google Drive. Osim rada sa slikama, ovaj softver omogućava rad sa pdf fajlovima, i to opcije spajanja više pdf fajlova u jedan, kao i razdvajanje jednog pdf fajla na više delova. 
 
 ## Developers
 
