@@ -33,6 +33,7 @@ Makefile*
 *.prl
 PDFNetC64
 Descan/sifra.txt
+client_secret.json
 
 # Qt unit tests
 target_wrapper.*
