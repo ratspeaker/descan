@@ -683,24 +683,46 @@ void MainWindow::on_pbDrive_clicked()
                 QString token = instream.readLine();
                 tokenFile->close();
 
-                QFile *fileDrive = new QFile("/home/ratspeaker/Desktop/a.pdf");
-                fileDrive->open(QIODevice::ReadOnly);
-
                 QNetworkAccessManager* mngr2 = new QNetworkAccessManager();
-                QNetworkRequest request(QUrl("https://www.googleapis.com/upload/drive/v3/files?uploadType=media"));
+                QNetworkRequest request(QUrl("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable"));
                 QString headerData = "Bearer " + token;
                 request.setRawHeader("Authorization", headerData.toLocal8Bit());
-                request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/PDF"));
-                request.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(QString::number(fileDrive->size())));
+                QJsonObject body;
+                body.insert("name", QJsonValue::fromVariant("a.txt"));
 
-                QNetworkReply* replyUpload = mngr2->post(request, fileDrive);
+                QJsonDocument bodyDoc(body);
+                QByteArray ba = bodyDoc.toJson();
 
-                connect(replyUpload, &QNetworkReply::finished, [replyUpload, fileDrive](){
-                    if(replyUpload->error() == QNetworkReply::NoError)
-                        qDebug() << replyUpload->readAll();
+                request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json; charset=UTF-8"));
+                request.setHeader(QNetworkRequest::ContentLengthHeader, ba.size());
+
+                QNetworkReply* replyUpload = mngr2->post(request, ba);
+                connect(replyUpload, &QNetworkReply::finished, [replyUpload, token](){
+                    QVariant status_code = replyUpload->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+                    if(status_code.toInt() == 200){
+                        QString locationHeader("Location");
+                        QString location = replyUpload->rawHeader(locationHeader.toUtf8());
+
+                        QFile *fileDrive = new QFile("/home/ratspeaker/Desktop/a.pdf");
+                        fileDrive->open(QIODevice::ReadOnly);
+
+                        QUrl url(location);
+                        QNetworkRequest requestPUT(url);
+                        QString headerData = "Bearer " + token;
+                        requestPUT.setRawHeader("Authorization", headerData.toLocal8Bit());
+                        requestPUT.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/PDF"));
+                        requestPUT.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(QString::number(fileDrive->size())));
+
+                        QNetworkAccessManager* mngr3 = new QNetworkAccessManager();
+                        QNetworkReply* replyFinish= mngr3->put(requestPUT, fileDrive);
+                        connect(replyFinish, &QNetworkReply::finished, [=](){
+                            if(replyFinish->error() == QNetworkReply::NoError)
+                                qDebug() << "SUCCESS";
+                        });
+
+                    }
                     else
                         qDebug() << "error: " << replyUpload->errorString();
-                    fileDrive->close();
                 });
             }
         });
