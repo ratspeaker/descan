@@ -10,7 +10,8 @@ DialogMail::DialogMail(QWidget *parent, QStringList filePathsPdf):
     this->setWindowTitle("Send Mail");
 
     for (auto& path:m_filePathsPdf) {
-        ui->teAttach->append(path);
+        auto fileName = path.right(path.size() - path.lastIndexOf('/') - 1);
+        ui->teAttach->append(fileName);
     }
 }
 
@@ -27,10 +28,10 @@ void DialogMail::on_pbExit_clicked()
 void DialogMail::on_pbBrowse_clicked()
 {
     fileName = QFileDialog::getOpenFileName(this, tr("Import Document"), "/home/");
+    fileName = fileName.right(fileName.size() - fileName.lastIndexOf('/') - 1);
     ui->teAttach->append(fileName);
     m_filePathsPdf.append(fileName);
 }
-
 
 auto DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
 

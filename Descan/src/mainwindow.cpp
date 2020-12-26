@@ -634,4 +634,8 @@ void MainWindow::on_pbDrive_clicked()
 {
     drive = new Drive();
     drive->uploadToDrive(filePathsPdf.front());
+    connect(drive, &Drive::endConnectSignal, this, [=](){
+        QMessageBox::information(this, tr("Upload files"),
+                                       tr("Your file has been successfully uploaded to Google Drive!"));
+    });
 }

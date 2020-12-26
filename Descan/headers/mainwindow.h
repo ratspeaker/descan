@@ -60,7 +60,7 @@ public:
     QStringList filePathsPdf;
 
     PDFHandler* pdf;
-    Drive* drive;
+    Drive* drive = nullptr;
 
 private slots:
     void showPreviousPage();

@@ -29,16 +29,22 @@ public:
     ~Drive();
 
     void uploadToDrive(const QString& filePath);
+
+public slots:
     void saveTokenAndConnect();
     void postRequest();
     void putRequest();
 
 private:
      QOAuth2AuthorizationCodeFlow* google;
+     QOAuthHttpServerReplyHandler* replyHandler;
      QNetworkAccessManager* manager;
      QNetworkReply* reply;
      QFile* tokenFile;
      QString filePath;
+
+signals:
+     void endConnectSignal();
 };
 
 #endif // DRIVE_H
