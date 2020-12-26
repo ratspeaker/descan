@@ -4,6 +4,7 @@
 #include "headers/image.h"
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
+#include "headers/drive.h"
 #include <vector>
 //#include <algorithm>
 #include <QWidget>
@@ -59,6 +60,7 @@ public:
     QStringList filePathsPdf;
 
     PDFHandler* pdf;
+    Drive* drive;
 
 private slots:
     void showPreviousPage();
@@ -131,6 +133,8 @@ private slots:
     void on_pbFinish_clicked();
     void on_pbMail_clicked();
     void on_pbCompress_clicked();
+
+    void on_pbDrive_clicked();
 
 signals:
     void enableUndoSignal();

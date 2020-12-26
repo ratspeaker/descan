@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete pdf;
+    if(drive)
+        delete drive;
     delete display;
     delete ui;
 }
@@ -626,4 +628,10 @@ void MainWindow::on_pbCompress_clicked()
         QMessageBox::information(this, tr("Compress PDF"),
                                        tr("Your files have been successfully compressed!"));
     }
+}
+
+void MainWindow::on_pbDrive_clicked()
+{
+    drive = new Drive();
+    drive->uploadToDrive(filePathsPdf.front());
 }
