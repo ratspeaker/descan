@@ -8,7 +8,6 @@
         <file>icons/back.png</file>
         <file>icons/merge.png</file>
         <file>icons/split.png</file>
-        <file>icons/main.gif</file>
         <file>icons/Undo.ico</file>
         <file>icons/Redo.ico</file>
         <file>icons/iconfinder_back.png</file>
@@ -22,5 +21,6 @@
         <file>icons/compress.png</file>
         <file>icons/pdf.png</file>
         <file>icons/mail.png</file>
+        <file>icons/slika.png</file>
     </qresource>
 </RCC>

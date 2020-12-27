@@ -36,6 +36,28 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->pbNextEdit, &QPushButton::clicked, this, &MainWindow::showNextPage);
     QObject::connect(ui->pbNextEdit, &QPushButton::clicked, this, &MainWindow::cleanFirstPageLabel);
     QObject::connect(ui->pbNextFinish, &QPushButton::clicked, this, &MainWindow::showNextPage);
+
+    ui->lblHelp->setText("This page provides basic photo editing.\n"
+                             "\n"
+                             "In section Resize & Rotate you can:\n"
+                             " - scale your image horizontaly, verti-\n"
+                             "   caly or in both directions\n"
+                             " - rotate for 90 degrees, left or right\n"
+                             " - crop image\n"
+                             "In section Effects there are 4 sliders that you move and when you release them brightness, contrast, gamma correction and saturation will be changed. Also, there is grayscale option that transfers colored image to black and white one.\n"
+                             "\n"
+                             "Above these tools there are 5 buttons. You can click on them or use keyboard shortcuts:\n"
+                             " - ctrl + Z = undo\n"
+                             " - ctrl + shift + Z = redo\n"
+                             " - ctrl + + = zoom in\n"
+                             " - ctrl + - = zoom out\n"
+                             " - F = fit (fits image into scroll area)\n"
+                             "\n"
+                             "For more information click");
+        ui->lblLink->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+        ui->lblLink->setOpenExternalLinks(true);
+        ui->lblLink->setText("<a href=\"https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/07-descan/-/wikis/home\">here.</a>");
+
 }
 
 MainWindow::~MainWindow()

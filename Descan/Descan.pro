@@ -37,7 +37,7 @@ INCLUDEPATH += ../PDFNetC64/Headers
 INCLUDEPATH += -I/usr/include/x86_64-linux-gnu/curl
 
 LIBS += -lcurl
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
 
 #LIBS += -L/usr/lib/x86_64-linux-gnu/ -lcurl
 
@@ -50,4 +50,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
