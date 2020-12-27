@@ -581,7 +581,6 @@ void MainWindow::on_pbSplitPdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-        ui->pbDrive->deleteLater();
 
         enableOptions();
     }
@@ -600,7 +599,6 @@ void MainWindow::on_pbMergePdf_clicked()
         ui->stackedWidget->setCurrentIndex(2);
         ui->pbBackEdit->deleteLater();
         ui->pbConvert->deleteLater();
-        ui->pbDrive->deleteLater();
 
         enableOptions();
     }
@@ -635,7 +633,7 @@ void MainWindow::on_pbCompress_clicked()
 void MainWindow::on_pbDrive_clicked()
 {
     drive = new Drive();
-    drive->uploadToDrive(filePathsPdf.front());
+    drive->uploadToDrive(filePathsPdf);
     connect(drive, &Drive::endConnectSignal, this, [=](){
         QMessageBox::information(this, tr("Upload files"),
                                        tr("Your file has been successfully uploaded to Google Drive!"));

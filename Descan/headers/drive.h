@@ -28,7 +28,7 @@ public:
     Drive();
     ~Drive();
 
-    void uploadToDrive(const QString& filePath);
+    void uploadToDrive(const QStringList& filePaths);
 
 public slots:
     void saveTokenAndConnect();
@@ -41,10 +41,12 @@ private:
      QNetworkAccessManager* manager;
      QNetworkReply* reply;
      QFile* tokenFile;
-     QString filePath;
+     QStringList filePaths;
+     QStringList::iterator currentFile;
 
 signals:
      void endConnectSignal();
+     void fileUploadedSignal();
 };
 
 #endif // DRIVE_H

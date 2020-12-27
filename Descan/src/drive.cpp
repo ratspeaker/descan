@@ -47,9 +47,11 @@ Drive::~Drive()
 }
 
 //trazi se autorizacija od korisnika
-void Drive::uploadToDrive(const QString &filePath)
+void Drive::uploadToDrive(const QStringList &filePaths)
 {
-    this->filePath = filePath;
+    this->filePaths = filePaths;
+    //iterator se postavlja na pocetak
+    currentFile = this->filePaths.begin();
     connect(google, &QOAuth2AuthorizationCodeFlow::granted, this, &Drive::saveTokenAndConnect);
     google->grant();
 }
@@ -70,12 +72,15 @@ void Drive::saveTokenAndConnect()
 
     reply = manager->get(requestGet);
     connect(reply, &QNetworkReply::finished, this, &Drive::postRequest);
+
+    //ako je uspesno poslat fajl na koji iterator pokazuje, salje se zahtev za slanje narednog fajla iz liste
+    connect(this, &Drive::fileUploadedSignal, this, &Drive::postRequest);
 }
 
 //salje se POST zahtev za slanje fajla
 void Drive::postRequest()
 {
-    if (reply->error() == QNetworkReply::NoError){
+    if (reply->error() == QNetworkReply::NoError) {
         qDebug() << reply->readAll();
 
         tokenFile->open(QIODevice::ReadOnly | QIODevice::Text);
@@ -87,6 +92,7 @@ void Drive::postRequest()
         QString headerData = "Bearer " + token;
         request.setRawHeader("Authorization", headerData.toLocal8Bit());
 
+        QString filePath = *currentFile;
         auto fileName = filePath.right(filePath.size() - filePath.lastIndexOf('/') - 1);
 
         //postavljanje meta podataka fajla koji se salje
@@ -100,6 +106,8 @@ void Drive::postRequest()
 
         reply = manager->post(request, requestBody);
         connect(reply, &QNetworkReply::finished, this, &Drive::putRequest);
+    } else {
+        qDebug() << "error: " << reply->errorString();
     }
 }
 
@@ -115,7 +123,7 @@ void Drive::putRequest()
         //postavlja se upload id dobijen kao rezultat POST zahteva
         QString location = reply->rawHeader(locationHeader.toUtf8());
 
-        QFile *fileDrive = new QFile(filePath);
+        QFile *fileDrive = new QFile(*currentFile);
         fileDrive->open(QIODevice::ReadOnly);
 
         tokenFile->open(QIODevice::ReadOnly | QIODevice::Text);
@@ -134,14 +142,25 @@ void Drive::putRequest()
 
         reply = manager->put(requestPUT, fileDrive);
         connect(reply, &QNetworkReply::finished, [=]() {
-            if (reply->error() == QNetworkReply::NoError) {
-                qDebug() << "SUCCESS";
-            }
             fileDrive->close();
             delete  fileDrive;
-            emit endConnectSignal();
+
+            if (reply->error() == QNetworkReply::NoError) {
+                qDebug() << "SUCCESS";
+
+                //ako je uspesno poslat poslednji fajl salje se signal za kraj (otvara se prozor sa inforamcijom o uspesnom slanju)
+                if(std::next(currentFile) == filePaths.end()) {
+                    emit endConnectSignal();
+                } else {
+                    //inace se pomera iterator za jedan i salje signal za slanje narednog fajla (iz liste fajlova) na disk
+                    currentFile++;
+                    emit fileUploadedSignal();
+                }
+            } else{
+                qDebug() << "error: " << reply->errorString();
+            }
         });
-    }
-    else
+    } else {
         qDebug() << "error: " << reply->errorString();
+    }
 }
