@@ -22,9 +22,7 @@ class Drive : public QObject
 {
     Q_OBJECT
 
-
 public:
-
     Drive();
     ~Drive();
 

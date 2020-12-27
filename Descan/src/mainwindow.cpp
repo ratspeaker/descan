@@ -2,7 +2,6 @@
 #include "headers/image.h"
 #include "ui_mainwindow.h"
 #include "headers/dialogmail.h"
-#include <utility>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -54,16 +53,15 @@ MainWindow::MainWindow(QWidget *parent)
                              " - F = fit (fits image into scroll area)\n"
                              "\n"
                              "For more information click");
-        ui->lblLink->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-        ui->lblLink->setOpenExternalLinks(true);
-        ui->lblLink->setText("<a href=\"https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/07-descan/-/wikis/home\">here.</a>");
-
+    ui->lblLink->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+    ui->lblLink->setOpenExternalLinks(true);
+    ui->lblLink->setText("<a href=\"https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/07-descan/-/wikis/home\">here.</a>");
 }
 
 MainWindow::~MainWindow()
 {
     delete pdf;
-    if(drive)
+    if (drive)
         delete drive;
     delete display;
     delete ui;
@@ -150,7 +148,7 @@ void MainWindow::on_pbImportMultiple_clicked()
     }
 }
 
-//funkcija koja skalira sliku u zavisnosti od pozicije slajdera
+//skaliranje slike u zavisnosti od pozicije slajdera
 void MainWindow::on_hsScale_sliderMoved(int position)
 {
     currentPosition = position;
@@ -164,7 +162,7 @@ void MainWindow::on_hsScale_sliderMoved(int position)
     display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
-//funkcija koja cuva trajno promenu na objektu slike
+//trajno se cuva promena na objektu slike
 void MainWindow::on_hsScale_sliderReleased()
 {
     display->getElement()->saveAction();
@@ -172,24 +170,21 @@ void MainWindow::on_hsScale_sliderReleased()
     display->setImageInLabel(imageCopy);
 }
 
-//menja visinu u zavisnosti od parametra
+//menja se visina u zavisnosti od pozicije slajdera
 void MainWindow::on_hsHorizontal_sliderMoved(int position)
 {
     currentPosition = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-
-    //odredjuje faktor na osnovu pozicije slajdera
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
-
-    //cuva u kopiji i tu kopiju prikazuje
+    //promena se manifestuje na kopiji i ta kopija se prikazuje u labeli
     imageCopy = display->getElement()->resizeImage(resizeFactor, 'w');
     display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
-//funkcija koja kada se otpusti slajder cuva promenu u objekat slike
+//trajno se cuva promena na objektu slike
 void MainWindow::on_hsHorizontal_sliderReleased()
 {
     display->getElement()->saveAction();
@@ -197,24 +192,21 @@ void MainWindow::on_hsHorizontal_sliderReleased()
     display->setImageInLabel(imageCopy);
 }
 
-//menja sirinu u zavisnosti od parametra
+//menja se sirina u zavisnosti od pozicije slajdera
 void MainWindow::on_hsVertical_sliderMoved(int position)
 {
     currentPosition = position;
     emit enableUndoSignal();
     double resizeFactor = 0.4;
-
-    //odredjuje faktor na osnovu pozicije slajdera
     if (position) {
         resizeFactor = 0.4 + (2-0.4)*position/100;
     }
-
-    //cuva u kopiji i tu kopiju prikazuje
+    //promena se manifestuje na kopiji i ta kopija se prikazuje u labeli
     imageCopy = display->getElement()->resizeImage(resizeFactor, 'h');
     display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
-//funkcija koja kada se otpusti slajder cuva promene u objekat slike
+//trajno se cuva promena na objektu slike
 void MainWindow::on_hsVertical_sliderReleased()
 {
     display->getElement()->saveAction();
@@ -237,7 +229,7 @@ void MainWindow::on_hsBrightness_sliderMoved(int position)
     emit enableUndoSignal();
     double brightnessFactor = (((position * (100 - (-100)))) / 100) -100;
     imageCopy = display->getElement()->changeBrightness(brightnessFactor);
-    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 void MainWindow::on_hsBrightness_sliderReleased()
@@ -253,7 +245,7 @@ void MainWindow::on_hsContrast_sliderMoved(int position)
     emit enableUndoSignal();
     double contrastFactor = (((position * (100 - (-100)))) / 100) -100;
     imageCopy = display->getElement()->changeContrast(contrastFactor);
-    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 void MainWindow::on_hsContrast_sliderReleased()
@@ -268,7 +260,7 @@ void MainWindow::on_hsCorrection_sliderMoved(int position)
     currentPosition = position;
     emit enableUndoSignal();
     imageCopy = display->getElement()->gammaCorrection(position*0.02);
-    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 void MainWindow::on_hsCorrection_sliderReleased()
@@ -283,8 +275,7 @@ void MainWindow::on_hsSaturation_sliderMoved(int position)
     currentPosition = position;
     emit enableUndoSignal();
     imageCopy = display->getElement()->changeSaturation(position*0.02);
-    display->m_label->setPixmap(QPixmap::fromImage(imageCopy)); //prikazuje se samo privremena kopija
-    //display->scaleImage(1.0);
+    display->m_label->setPixmap(QPixmap::fromImage(imageCopy));
 }
 
 void MainWindow::on_hsSaturation_sliderReleased()
@@ -397,7 +388,6 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                                              endPoint / display->getElement()->getScaleFactor());
 
             display->setImageInLabel();
-
             rubberBandCreated = false;
             cropPressed = false;
         }
@@ -491,7 +481,6 @@ void MainWindow::on_tbFit_clicked()
 
     //vrsimo skaliranje piksmape
     double imageRatio = static_cast<double>(pixmapSize.height()) / pixmapSize.width();
-
     double scaleBy;
     if (scrollSize.width() * imageRatio > scrollSize.height()) {
         scaleBy = static_cast<double>(scrollSize.height()) / pixmapSize.height();
@@ -499,7 +488,6 @@ void MainWindow::on_tbFit_clicked()
     else {
         scaleBy = static_cast<double>(scrollSize.width()) / pixmapSize.width();
     }
-
     display->scaleImage(scaleBy/display->getElement()->getScaleFactor());
 
     //dugmici za zoom in i zoom out ce biti omoguceni ako je ispunjen neki uslov
@@ -566,7 +554,7 @@ void MainWindow::on_pbRightImage_clicked()
     emit moveSlidersSignal();
 }
 
-//konvertovanje jedne ili vise slika u PDF
+//konvertovanje jedne ili vise slika u pdf
 void MainWindow::on_pbConvert_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
@@ -626,18 +614,9 @@ void MainWindow::on_pbMergePdf_clicked()
     }
 }
 
-//izlazimo iz programa
 void MainWindow::on_pbFinish_clicked()
 {
     close();
-}
-
-//dugme za slanje mejla
-void MainWindow::on_pbMail_clicked()
-{
-    DialogMail dialogMail(this, std::move(filePathsPdf));
-    dialogMail.setModal(true);
-    dialogMail.exec();
 }
 
 //dugme za kompresovanje dokumenta
@@ -652,12 +631,21 @@ void MainWindow::on_pbCompress_clicked()
     }
 }
 
+//dugme za slanje mejla
+void MainWindow::on_pbMail_clicked()
+{
+    DialogMail dialogMail(this, std::move(filePathsPdf));
+    dialogMail.setModal(true);
+    dialogMail.exec();
+}
+
+//dugme za postavljanje na drajv
 void MainWindow::on_pbDrive_clicked()
 {
     drive = new Drive();
     drive->uploadToDrive(filePathsPdf);
     connect(drive, &Drive::endConnectSignal, this, [=](){
         QMessageBox::information(this, tr("Upload files"),
-                                       tr("Your file has been successfully uploaded to Google Drive!"));
+                                       tr("Your files have been successfully uploaded to Google Drive!"));
     });
 }

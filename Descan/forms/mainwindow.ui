@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -54,7 +54,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resources/resources.qrc">:/icons/icons/1.png</pixmap>
+      <pixmap resource="../resources.qrc">:/icons/icons/1.png</pixmap>
      </property>
     </widget>
     <widget class="QPushButton" name="pbNextEdit">
@@ -83,7 +83,7 @@
       <string>Next   </string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
      </property>
      <property name="iconSize">
@@ -119,7 +119,7 @@
          <string>Merge PDF   </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/merge.png</normaloff>:/icons/icons/merge.png</iconset>
         </property>
         <property name="iconSize">
@@ -204,7 +204,7 @@
          <string>Import image    </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/import.png</normaloff>:/icons/icons/import.png</iconset>
         </property>
         <property name="iconSize">
@@ -231,7 +231,7 @@
          <string> Split PDF   </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/split.png</normaloff>:/icons/icons/split.png</iconset>
         </property>
         <property name="iconSize">
@@ -448,7 +448,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/icons/shape-rotate-anticlockwise-icon.png</normaloff>:/icons/icons/shape-rotate-anticlockwise-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -471,7 +471,7 @@
         <string>Right</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/icons/shape-rotate-clockwise-icon.png</normaloff>:/icons/icons/shape-rotate-clockwise-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -494,7 +494,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/icons/crop.png</normaloff>:/icons/icons/crop.png</iconset>
        </property>
        <property name="iconSize">
@@ -560,7 +560,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/icons/icons/grayscale.jpg</normaloff>:/icons/icons/grayscale.jpg</iconset>
        </property>
        <property name="iconSize">
@@ -804,7 +804,7 @@
       <string>Next   </string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
      </property>
      <property name="iconSize">
@@ -837,7 +837,7 @@
       <string>Back</string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/back.png</normaloff>:/icons/icons/back.png</iconset>
      </property>
      <property name="iconSize">
@@ -863,7 +863,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Undo.ico</normaloff>:/icons/icons/Undo.ico</iconset>
      </property>
      <property name="shortcut">
@@ -886,7 +886,7 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Redo.ico</normaloff>:/icons/icons/Redo.ico</iconset>
      </property>
      <property name="shortcut">
@@ -906,7 +906,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Zoom-In-icon.png</normaloff>:/icons/icons/Zoom-In-icon.png</iconset>
      </property>
      <property name="shortcut">
@@ -965,7 +965,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Zoom-Out-icon.png</normaloff>:/icons/icons/Zoom-Out-icon.png</iconset>
      </property>
      <property name="shortcut">
@@ -988,7 +988,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/iconfinder_back.png</normaloff>:/icons/icons/iconfinder_back.png</iconset>
      </property>
      <property name="iconSize">
@@ -1017,7 +1017,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/iconfinder_forward.png</normaloff>:/icons/icons/iconfinder_forward.png</iconset>
      </property>
      <property name="iconSize">
@@ -1052,7 +1052,7 @@
       <string>Finish </string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/iconfinder_check.png</normaloff>:/icons/icons/iconfinder_check.png</iconset>
      </property>
      <property name="shortcut">
@@ -1081,7 +1081,7 @@
          <string>Convert to PDF  </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/pdf.png</normaloff>:/icons/icons/pdf.png</iconset>
         </property>
         <property name="iconSize">
@@ -1107,7 +1107,7 @@
          <string>Compress PDF   </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/compress.png</normaloff>:/icons/icons/compress.png</iconset>
         </property>
         <property name="iconSize">
@@ -1136,7 +1136,7 @@
          <string>Send to Mail   </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/mail.png</normaloff>:/icons/icons/mail.png</iconset>
         </property>
         <property name="iconSize">
@@ -1162,7 +1162,7 @@
          <string>Send to Drive   </string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/icons/icons/iconfinder_drive.png</normaloff>:/icons/icons/iconfinder_drive.png</iconset>
         </property>
         <property name="iconSize">
@@ -1222,7 +1222,7 @@
       <string>Back</string>
      </property>
      <property name="icon">
-      <iconset resource="../resources/resources.qrc">
+      <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/back.png</normaloff>:/icons/icons/back.png</iconset>
      </property>
      <property name="iconSize">
@@ -1235,17 +1235,17 @@
     <widget class="QLabel" name="laImage_2">
      <property name="geometry">
       <rect>
-       <x>490</x>
+       <x>440</x>
        <y>240</y>
-       <width>361</width>
-       <height>291</height>
+       <width>410</width>
+       <height>290</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resources/resources.qrc">:/icons/icons/slika.png</pixmap>
+      <pixmap resource="../resources.qrc">:/icons/icons/slika.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -1255,7 +1255,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../resources/resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

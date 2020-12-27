@@ -7,8 +7,9 @@ DisplayArea::DisplayArea(QWidget *parent) : QWidget(parent)
 
 DisplayArea::~DisplayArea()
 {
-    for(auto &element: m_elements)
+    for (auto &element: m_elements) {
         delete element;
+    }
     delete m_label;
 }
 

@@ -41,7 +41,6 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
                                    tr("Subject: %1").arg(subject),
                                    nullptr};
 
-
     CURL *curl;
     CURLcode res = CURLE_OK;
 
@@ -56,7 +55,7 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         curl_mime *alt;
         curl_mimepart *part;
 
-        //Citanje sifre iz fajla
+        //citanje sifre iz fajla
         QString path = QDir("../Descan").absoluteFilePath("sifra.txt");
         QFile file(path);
         file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -67,7 +66,6 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
         curl_easy_setopt(curl, CURLOPT_PASSWORD, password.toStdString().c_str());
         curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
-
 
         #ifdef SKIP_PEER_VERIFICATION
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -102,14 +100,12 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         slist = curl_slist_append(NULL, "Content-Disposition: inline");
         curl_mime_headers(part, slist, 1);
 
-
-        for(auto &path: m_filePathsPdf) {
+        for (auto &path: m_filePathsPdf) {
             //dodaje se attachment
             part = curl_mime_addpart(mime);
             curl_mime_encoder(part, "base64");
             curl_mime_filedata(part, path.toStdString().c_str());
             curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
-
         }
 
         //salje se poruka i kupi se rezultat
@@ -134,7 +130,7 @@ void DialogMail::on_pbSend_clicked()
     QString subject = ui->leSubject->text();
     QString message = ui->pteMessage->toPlainText();
 
-    auto res = mailSender(recipient,subject,message);
+    auto res = mailSender(recipient, subject, message);
 
     //proverava se da li je poruka poslata
     if (res != CURLE_OK) {
@@ -142,6 +138,6 @@ void DialogMail::on_pbSend_clicked()
         QMessageBox::warning(this, "Email", "Email has not been sent!");
     }
     else {
-        QMessageBox::information(this, "Email", "Email has been sent");
+        QMessageBox::information(this, "Email", "Email has been sent.");
     }
 }

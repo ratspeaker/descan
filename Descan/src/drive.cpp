@@ -156,7 +156,7 @@ void Drive::putRequest()
                     currentFile++;
                     emit fileUploadedSignal();
                 }
-            } else{
+            } else {
                 qDebug() << "error: " << reply->errorString();
             }
         });
