@@ -4,8 +4,9 @@
 #include "headers/image.h"
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
+#include "headers/drive.h"
 #include <vector>
-//#include <algorithm>
+#include <utility>
 #include <QWidget>
 #include <QAction>
 #include <QMessageBox>
@@ -50,20 +51,20 @@ public:
     bool rubberBandCreated = false;
     bool cropPressed = false;
 
-    //startPoint ocitava vrednosti misa kada se desi događaj pressed, a endPoint kada se desi released
-    QPoint startPoint;
-    QPoint endPoint;
+    QPoint startPoint; //ocitava vrednosti misa kada se desi dogadjaj pressed
+    QPoint endPoint;   //ocitava vrednosti misa kada se desi dogadjaj released
 
     int currentPosition = 0; //current slider position
 
     QStringList filePathsPdf;
+    PDFHandler *pdf;
+    Drive *drive = nullptr;
 
-    PDFHandler* pdf;
+    QString convertArg;
 
 private slots:
     void showPreviousPage();
     void showNextPage();
-
     void on_pbImport_clicked();
     void on_pbImportMultiple_clicked();
 
@@ -98,24 +99,13 @@ private slots:
     void on_tbZoomOut_clicked();
     void on_tbFit_clicked();
 
-    //slot za kropovanje slike
+    //slotovi za kropovanje slike
     void on_tbCrop_clicked();
+    bool eventFilter(QObject* watched, QEvent* event);
 
     //slotovi za rotaciju
     void on_tbRotateLeft_clicked();
     void on_tbRotateRight_clicked();
-
-    bool eventFilter(QObject* watched, QEvent* event);
-
-    void cleanDisplayArea();
-    void cleanFirstPageLabel();
-    void moveSliders();
-    void clearSliderValues();
-    void resetZoomButtons();
-    void resetUndoRedoButtons();
-
-    void checkZoomButtons();
-    void enableOptions();
 
     //slotovi za prethodnu i narednu sliku
     void on_pbLeftImage_clicked();
@@ -129,8 +119,19 @@ private slots:
     void on_pbMergePdf_clicked();
 
     void on_pbFinish_clicked();
-    void on_pbMail_clicked();
     void on_pbCompress_clicked();
+    void on_pbMail_clicked();
+    void on_pbDrive_clicked();
+
+private:
+    void cleanDisplayArea();
+    void cleanFirstPageLabel();
+    void moveSliders();
+    void clearSliderValues();
+    void resetZoomButtons();
+    void resetUndoRedoButtons();
+    void checkZoomButtons();
+    void enableOptions();
 
 signals:
     void enableUndoSignal();

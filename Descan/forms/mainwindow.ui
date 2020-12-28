@@ -38,7 +38,7 @@
     <enum>Qt::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="main">
     <widget class="QLabel" name="lblDescan">
@@ -287,7 +287,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -551,7 +551,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>40</y>
+         <y>45</y>
          <width>45</width>
          <height>35</height>
         </rect>
@@ -730,13 +730,53 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
+         <y>18</y>
          <width>81</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
         <string>Grayscale</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Help</string>
+      </attribute>
+      <widget class="QLabel" name="lblHelp">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>5</y>
+         <width>231</width>
+         <height>406</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="indent">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblLink">
+       <property name="geometry">
+        <rect>
+         <x>161</x>
+         <y>393</y>
+         <width>51</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -826,6 +866,9 @@
       <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Undo.ico</normaloff>:/icons/icons/Undo.ico</iconset>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+Z</string>
+     </property>
     </widget>
     <widget class="QToolButton" name="tbRedo">
      <property name="enabled">
@@ -846,6 +889,9 @@
       <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Redo.ico</normaloff>:/icons/icons/Redo.ico</iconset>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+Shift+Z</string>
+     </property>
     </widget>
     <widget class="QToolButton" name="tbZoomIn">
      <property name="geometry">
@@ -863,6 +909,9 @@
       <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Zoom-In-icon.png</normaloff>:/icons/icons/Zoom-In-icon.png</iconset>
      </property>
+     <property name="shortcut">
+      <string>Ctrl++</string>
+     </property>
     </widget>
     <widget class="QToolButton" name="tbFit">
      <property name="geometry">
@@ -875,6 +924,9 @@
      </property>
      <property name="text">
       <string>fit</string>
+     </property>
+     <property name="shortcut">
+      <string>F</string>
      </property>
     </widget>
     <widget class="QScrollArea" name="scrollArea">
@@ -916,6 +968,9 @@
       <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/Zoom-Out-icon.png</normaloff>:/icons/icons/Zoom-Out-icon.png</iconset>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+-</string>
+     </property>
     </widget>
     <widget class="QPushButton" name="pbLeftImage">
      <property name="enabled">
@@ -941,6 +996,9 @@
        <width>30</width>
        <height>30</height>
       </size>
+     </property>
+     <property name="shortcut">
+      <string>Left</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pbRightImage">
@@ -968,6 +1026,9 @@
        <height>31</height>
       </size>
      </property>
+     <property name="shortcut">
+      <string>Right</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="FinishPage">
@@ -994,24 +1055,8 @@
       <iconset resource="../resources.qrc">
        <normaloff>:/icons/icons/iconfinder_check.png</normaloff>:/icons/icons/iconfinder_check.png</iconset>
      </property>
-    </widget>
-    <widget class="QLabel" name="laImage">
-     <property name="geometry">
-      <rect>
-       <x>450</x>
-       <y>240</y>
-       <width>371</width>
-       <height>281</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../resources.qrc">:/icons/icons/main.gif</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
+     <property name="shortcut">
+      <string>Esc</string>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
@@ -1050,7 +1095,7 @@
       <item>
        <widget class="QPushButton" name="pbCompress">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="font">
          <font>
@@ -1076,7 +1121,7 @@
       <item>
        <widget class="QPushButton" name="pbMail">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="font">
          <font>
@@ -1105,7 +1150,7 @@
       <item>
        <widget class="QPushButton" name="pbDrive">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="font">
          <font>
@@ -1185,6 +1230,25 @@
        <width>20</width>
        <height>20</height>
       </size>
+     </property>
+    </widget>
+    <widget class="QLabel" name="laImage_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>240</y>
+       <width>410</width>
+       <height>290</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../resources.qrc">:/icons/icons/slika.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>

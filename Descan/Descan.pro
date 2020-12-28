@@ -1,6 +1,7 @@
 QT    +=    core
 QT    +=    gui
-QT += printsupport
+QT    += printsupport
+QT    += networkauth
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -13,6 +14,7 @@ CONFIG += c++17
 SOURCES += \
     src/dialogmail.cpp \
     src/displayarea.cpp \
+    src/drive.cpp \
     src/image.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
@@ -20,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     headers/displayarea.h \
+    headers/drive.h \
     headers/image.h \
     headers/mainwindow.h \
     headers/pdfhandler.h \
@@ -34,7 +37,7 @@ INCLUDEPATH += ../PDFNetC64/Headers
 INCLUDEPATH += -I/usr/include/x86_64-linux-gnu/curl
 
 LIBS += -lcurl
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
 
 #LIBS += -L/usr/lib/x86_64-linux-gnu/ -lcurl
 

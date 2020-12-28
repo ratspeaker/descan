@@ -61,7 +61,7 @@ void Image::setSlider(QString str, int position)
     sliders[str] = position;
 }
 
-//funkcija koja u zavisnosti od opcije menja i/ili visinu/duzinu slike i vraca izmenjen objekat
+//funkcija koja u zavisnosti od opcije menja visinu i/ili sirinu i vraca izmenjen objekat
 QImage Image::resizeImage(double factor, char option)
 {
     QImage newImage(m_image);
@@ -82,34 +82,32 @@ QImage Image::resizeImage(double factor, char option)
     return newImage.scaled(newSize, Qt::IgnoreAspectRatio);
 }
 
-//funkcija koja menja svetlost same slike
-//Zbog efikasnosti izbaceno je pixel i setpixel i koriscene funkcije scanLine koja vraca pokazivac na prvi piksel
-// u liniji
+//funkcija koja menja osvetljenje slike i vraca izmenjen objekat
+//zbog efikasnosti izbacena je funkcija pixel i koriscena je
+//funkcija scanLine koja vraca pokazivac na prvi piksel u liniji
 QImage Image::changeBrightness(double brightnessFactor)
 {
-    QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
+    QImage newImage(m_image.width(), m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
     QRgb* rgb;
     //prolazi kroz svaki piksel i povecava ga za odredjen faktor
     for (int y = 0; y < m_image.height(); ++y) {
-       rgb = (QRgb*)m_image.scanLine(y);
+        rgb = (QRgb*)m_image.scanLine(y);
         for (int x = 0; x < m_image.width(); ++x) {
             newRed = truncate(qRed(rgb[x]) + brightnessFactor);
             newGreen = truncate(qGreen(rgb[x]) + brightnessFactor);
             newBlue = truncate(qBlue(rgb[x]) + brightnessFactor);
-           // *rgb = qRgb(newRed,newGreen,newBlue); -> hocemo izmene na novoj slici
-           newImage.setPixel(x,y, qRgb(newRed,newGreen,newBlue));
+            //*rgb = qRgb(newRed, newGreen, newBlue); //hocemo izmene na novoj slici
+            newImage.setPixel(x, y, qRgb(newRed, newGreen, newBlue));
         }
     }
-
-
-   return newImage;
+    return newImage;
 }
 
 //funkcija koja menja kontrast slike i vraca izmenjen objekat
 QImage Image::changeContrast(double contrastFactor)
 {
-    QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
+    QImage newImage(m_image.width(), m_image.height(), QImage::Format_ARGB32);
     double contrastCorrection = static_cast<double>(259.0*(255+contrastFactor)/(255.0*(259-contrastFactor)));
     QRgb* rgb;
     double newRed, newBlue, newGreen;
@@ -119,7 +117,7 @@ QImage Image::changeContrast(double contrastFactor)
             newRed = truncate(contrastCorrection*(qRed(rgb[x])-128)+128);
             newBlue = truncate(contrastCorrection*(qBlue(rgb[x])-128)+128);
             newGreen = truncate(contrastCorrection*(qGreen(rgb[x])-128)+128);
-            newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
+            newImage.setPixel(x, y, qRgb(newRed, newGreen, newBlue));
         }
     }
     return newImage;
@@ -128,7 +126,7 @@ QImage Image::changeContrast(double contrastFactor)
 //gama korekcija za sliku, svaki piksel se zamenjuje novim pikselom koji se racuna po formuli
 QImage Image::gammaCorrection(double gamma)
 {
-    QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
+    QImage newImage(m_image.width(), m_image.height(), QImage::Format_ARGB32);
     double gammaCorrection = 1/gamma;
     QRgb* rgb;
     double newRed, newBlue, newGreen;
@@ -138,7 +136,7 @@ QImage Image::gammaCorrection(double gamma)
             newRed = 255 * pow(qRed(rgb[x])/ 255.0,gammaCorrection);
             newBlue = 255 * pow(qBlue(rgb[x])/255.0,gammaCorrection);
             newGreen = 255 * pow(qGreen(rgb[x])/ 255.0,gammaCorrection);
-            newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
+            newImage.setPixel(x, y, qRgb(newRed, newGreen, newBlue));
         }
     }
     return newImage;
@@ -147,7 +145,7 @@ QImage Image::gammaCorrection(double gamma)
 //funkcija koja vraca crno belu sliku
 QImage Image::greyScale()
 {
-    QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
+    QImage newImage(m_image.width(), m_image.height(), QImage::Format_ARGB32);
     double value;
     QRgb* rgb;
     for (int y = 0; y < m_image.height(); ++y) {
@@ -156,7 +154,7 @@ QImage Image::greyScale()
             //lepo namesteni tezinski faktori za racunanje odgovarajuce nijanse sive
             //alternativa je da se uzme aritmeticka sredina vrednosti RGB boja piksela
             value = (0.299) * qRed(rgb[x]) + (0.587) * qGreen(rgb[x]) + (0.114)*qBlue(rgb[x]);
-            newImage.setPixel(x, y, qRgb(value,value,value));
+            newImage.setPixel(x, y, qRgb(value, value, value));
         }
     }
     return newImage;
@@ -164,7 +162,7 @@ QImage Image::greyScale()
 
 QImage Image::changeSaturation(double saturationChange)
 {
-    QImage newImage(m_image.width(),m_image.height(), QImage::Format_ARGB32);
+    QImage newImage(m_image.width(), m_image.height(), QImage::Format_ARGB32);
     double newRed, newBlue, newGreen;
     QRgb* rgb;
     for (int y = 0; y < m_image.height(); ++y) {
@@ -174,7 +172,7 @@ QImage Image::changeSaturation(double saturationChange)
             newRed = truncate(pixelFactor + (qRed(rgb[x]) - pixelFactor)*saturationChange);
             newGreen = truncate(pixelFactor + (qGreen(rgb[x]) - pixelFactor)*saturationChange);
             newBlue = truncate(pixelFactor + (qBlue(rgb[x]) - pixelFactor)*saturationChange);
-            newImage.setPixel(x, y, qRgb(newRed,newGreen,newBlue));
+            newImage.setPixel(x, y, qRgb(newRed, newGreen, newBlue));
         }
     }
     return newImage;
@@ -195,7 +193,7 @@ void Image::printImageIntoPdf(QPainter &painter)
 {
     double img_width  = static_cast<double>(m_image.width());
     double img_height = static_cast<double>(m_image.height());
-    qDebug() << "visina" << img_height << "sirina" << img_width;
+    //qDebug() << "visina" << img_height << "sirina" << img_width;
 
     QRect source(0, 0, img_width, img_height);
     QPixmap imgPixmap = QPixmap::fromImage(m_image);
@@ -270,7 +268,6 @@ void Image::emptyUndoActions()
 
 void Image::emptyRedoActions()
 {
-
     while(!redoStack.empty()) {
         undoStack.pop();
     }
