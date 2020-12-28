@@ -2,12 +2,12 @@
 #define DIALOGMAIL_H
 
 #include <curl/curl.h>
+#include <iostream>
 #include <QDialog>
 #include <QString>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDebug>
-#include <iostream>
 
 namespace Ui {
 class DialogMail;
@@ -22,7 +22,6 @@ public:
     auto mailSender(QString& recipient, QString& subject, QString& message);
     ~DialogMail();
 
-    QString fileName;
     QStringList m_filePathsPdf;
 
 private slots:

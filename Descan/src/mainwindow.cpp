@@ -108,6 +108,8 @@ void MainWindow::on_pbImport_clicked()
         display->setImageInLabel();
         display->getLabel()->adjustSize();
     }
+
+    convertArg = "image has";
 }
 
 //ucitavanje vise slika
@@ -146,6 +148,8 @@ void MainWindow::on_pbImportMultiple_clicked()
          display->getLabel()->adjustSize();
          ui->pbRightImage->setDisabled(false);
     }
+
+    convertArg = "images have";
 }
 
 //skaliranje slike u zavisnosti od pozicije slajdera
@@ -566,7 +570,7 @@ void MainWindow::on_pbConvert_clicked()
         PDFHandler::convertImagesIntoPdf(newFileName, display->m_elements);
         filePathsPdf.append(newFileName);
         QMessageBox::information(this, tr("Convert to PDF"),
-                                       tr("Your images have been successfully converted!"));
+                                       tr("Your %1 been successfully converted!").arg(convertArg));
 
         //nakon konvertovanja, dodatne opcije su omogucene
         enableOptions();

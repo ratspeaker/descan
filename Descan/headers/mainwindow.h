@@ -60,6 +60,8 @@ public:
     PDFHandler *pdf;
     Drive *drive = nullptr;
 
+    QString convertArg;
+
 private slots:
     void showPreviousPage();
     void showNextPage();

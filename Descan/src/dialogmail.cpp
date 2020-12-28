@@ -27,10 +27,10 @@ void DialogMail::on_pbExit_clicked()
 
 void DialogMail::on_pbBrowse_clicked()
 {
-    fileName = QFileDialog::getOpenFileName(this, tr("Import Document"), "/home/");
-    fileName = fileName.right(fileName.size() - fileName.lastIndexOf('/') - 1);
-    ui->teAttach->append(fileName);
-    m_filePathsPdf.append(fileName);
+    QString browseFilePath = QFileDialog::getOpenFileName(this, tr("Import Document"), "/home/");
+    QString browseFileName = browseFilePath.right(browseFilePath.size() - browseFilePath.lastIndexOf('/') - 1);
+    ui->teAttach->append(browseFileName);
+    m_filePathsPdf.append(browseFilePath);
 }
 
 auto DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
