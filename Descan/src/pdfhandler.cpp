@@ -10,7 +10,7 @@ PDFHandler::~PDFHandler()
     PDFNet::Terminate();
 }
 
-void PDFHandler::convertImagesIntoPdf(QString& fileName, std::vector<Image*> &imageElements)
+void PDFHandler::convertImagesIntoPdf(QString &fileName, std::vector<Image*> &imageElements)
 {
     //instanciranje objekta za pravljenje pdfa i neka njegova podesavanja
     QPdfWriter pdfWriter(fileName);
@@ -84,7 +84,7 @@ QStringList PDFHandler::splitPdf()
 
     if (pageCount == 1) {
         QMessageBox::warning(this, tr("Split PDF"),
-                                   tr("Can't split single page document"),
+                                   tr("Can't split single page document."),
                                    QMessageBox::Cancel | QMessageBox::Ok,
                                    QMessageBox::Cancel);
     } else {
@@ -105,7 +105,7 @@ QStringList PDFHandler::splitPdf()
                     pages.push_back(indx);
                 } else {
                     QMessageBox::warning(this, tr("Split PDF"),
-                                                   tr("Entered page number out of range"),
+                                                   tr("Entered page number out of range."),
                                                    QMessageBox::Cancel | QMessageBox::Ok,
                                                    QMessageBox::Cancel);
                 }

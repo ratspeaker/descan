@@ -2,7 +2,6 @@
 #define DISPLAYAREA_H
 
 #include "headers/image.h"
-
 #include <iostream>
 #include <vector>
 #include <iterator>
