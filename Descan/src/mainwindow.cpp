@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
                              "For more information click");
     ui->lblLink->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
     ui->lblLink->setOpenExternalLinks(true);
-    ui->lblLink->setText("<a href=\"https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/07-descan/-/wikis/home\">here.</a>");
+    ui->lblLink->setText("<a href=\"https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/07-descan/-/raw/master/Presentation/video.mp4\">here.</a>");
 }
 
 MainWindow::~MainWindow()
