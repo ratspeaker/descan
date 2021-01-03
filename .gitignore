@@ -32,7 +32,7 @@ Makefile*
 *.qm
 *.prl
 PDFNetC64
-Descan/sifra.txt
+sifra.txt
 client_secret.json
 
 # Qt unit tests

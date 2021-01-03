@@ -56,7 +56,7 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         curl_mimepart *part;
 
         //citanje sifre iz fajla
-        QString path = QDir("../Descan").absoluteFilePath("sifra.txt");
+        QString path = QDir("..").absoluteFilePath("sifra.txt");
         QFile file(path);
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         auto password = file.readAll();
