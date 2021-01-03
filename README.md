@@ -1,4 +1,4 @@
-# Descan ![alt text](Descan/icons/skener.png "Scanner")
+# Descan ![alt text](Descan/resources/icons/skener.png "Scanner")
 
 Descan je studentski projekat rađen na kursu Razvoj Softvera u okviru [Matematičkog fakulteta u Beogradu](http://www.matf.bg.ac.rs/). Glavni cilj ovog softvera je da korisnik na veoma lak i brz način konvertuje svoje slike u pdf dokument. Osim ove osnovne funkcionalnosti, korisniku je omogućeno da slikama promeni dimenziju i da primeni razne efekte. Nakon toga korisnik može dodatno svoj pdf dokument da kompresuje (smanji njegovu veličinu), da pošalje na mejl ili da postavi na Google Drive. Osim rada sa slikama, omogućen je i rad sa pdf dokumentima i to spajanje više dokumenata u jedan, kao i razdvajanje jednog dokumenta u više različitih. 
 
