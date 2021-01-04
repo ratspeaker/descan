@@ -12,13 +12,13 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    src/dialogmail.cpp \
-    src/displayarea.cpp \
-    src/drive.cpp \
-    src/image.cpp \
-    src/main.cpp \
-    src/mainwindow.cpp \
-    src/pdfhandler.cpp
+    sources/dialogmail.cpp \
+    sources/displayarea.cpp \
+    sources/drive.cpp \
+    sources/image.cpp \
+    sources/main.cpp \
+    sources/mainwindow.cpp \
+    sources/pdfhandler.cpp
 
 HEADERS += \
     headers/displayarea.h \
@@ -37,7 +37,7 @@ INCLUDEPATH += ../PDFNetC64/Headers
 INCLUDEPATH += -I/usr/include/x86_64-linux-gnu/curl
 
 LIBS += -lcurl
-LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ #-lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
+LIBS+= -L../PDFNetC64/Lib -lPDFNetC -lstdc++ -lpthread -lm -lc -Wl,-rpath,../PDFNetC64/Lib -Wl,-rpath
 
 #LIBS += -L/usr/lib/x86_64-linux-gnu/ -lcurl
 
