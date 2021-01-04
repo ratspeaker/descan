@@ -68,7 +68,7 @@ QString PDFHandler::mergePdf()
         QMessageBox::information(this, tr("Merge PDF"), tr("Your files have been successfully merged!"));
     }
 
-    return outputFile;
+    return output;
 }
 
 QStringList PDFHandler::splitPdf()
