@@ -57,10 +57,14 @@ QString PDFHandler::mergePdf()
         PDFDoc newDocument;
         newDocument.InitSecurityHandler();
 
+        int index = 0;
         for (auto i = 0; i < inputFilesMerge.size(); i++) {
             QString inputFile(inputFilesMerge[i]);
             PDFDoc inDocument(inputFile.toStdString().c_str());
-            newDocument.InsertPages(i, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
+
+            qDebug() << index;
+            newDocument.InsertPages(index, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
+            index += (inDocument.GetPageCount() + 1);
         }
 
         newDocument.Save(output.toStdString().c_str(), SDFDoc::e_remove_unused, 0);
