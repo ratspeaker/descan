@@ -62,7 +62,7 @@ QString PDFHandler::mergePdf()
             QString inputFile(inputFilesMerge[i]);
             PDFDoc inDocument(inputFile.toStdString().c_str());
 
-            qDebug() << index;
+            //qDebug() << index;
             newDocument.InsertPages(index, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
             index += (inDocument.GetPageCount() + 1);
         }

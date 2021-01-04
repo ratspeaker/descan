@@ -604,6 +604,8 @@ void MainWindow::on_pbSplitPdf_clicked()
 void MainWindow::on_pbMergePdf_clicked()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
+    //qDebug() << fileNames;
+    fileNames.sort();
 
     if (!fileNames.isEmpty()) {
         pdf->setInputFilesMerge(fileNames);
