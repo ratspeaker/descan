@@ -4,7 +4,7 @@ Descan je studentski projekat rađen na kursu Razvoj softvera u okviru [Matemati
 
 ## Developers
 
-- [Jelena Milivojević, 4/2016](https://gitlab.com/ratspeaker)
 - [Anđela Milićević, 53/2016](https://gitlab.com/andjaam)
 - [Dušica Golubović, 119/2016](https://gitlab.com/golubovicd)
+- [Jelena Milivojević, 4/2016](https://gitlab.com/ratspeaker)
 - [Marija Marković, 76/2016](https://gitlab.com/marija.markovic)
