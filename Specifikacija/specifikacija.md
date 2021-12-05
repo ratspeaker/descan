@@ -1,44 +1,43 @@
 ## Dijagram slučajeva upotrebe
-___
 ![](dijagram_slucajeva_upotrebe.png) 
 ___
 
 ### Slučaj upotrebe Učitavanje slika
 Kratak opis: Korisnik bira da li će učitati jednu ili više slika sa svog računara.
 
-<br>Akteri: Korisnik
+Akteri: Korisnik
 
-<br>Preduslovi: Aplikacija je pokrenuta.
+Preduslovi: Aplikacija je pokrenuta.
 
-<br>Postuslovi: Slike su učitane – prikazuju se u aplikaciji i spremne su za editovanje.
+Postuslovi: Slike su učitane – prikazuju se u aplikaciji i spremne su za editovanje.
 
-<br>Osnovni tok:
+Osnovni tok:
 
-<br>Alternativni tokovi:
+Alternativni tokovi:
 
-<br>Podtokovi:
+Podtokovi:
 
-<br>Specijalni zahtevi:
+Specijalni zahtevi:
 
-<br>Dodatne informacije:
+Dodatne informacije:
 
 ___
 ### Slučaj upotrebe Editovanje slika
 Kratak opis: 
 
-<br>Akteri: 
+Akteri: 
 
-<br>Preduslovi:
+Preduslovi:
 
-<br>Postuslovi:
+Postuslovi:
 
-<br>Osnovni tok:
+Osnovni tok:
 
-<br>Alternativni tokovi:
+Alternativni tokovi:
 
-<br>Podtokovi:
+Podtokovi:
 
-<br>Specijalni zahtevi:
+Specijalni zahtevi:
 
-<br>Dodatne informacije:
+Dodatne informacije:
 ___
