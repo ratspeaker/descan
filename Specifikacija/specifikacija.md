@@ -3,23 +3,31 @@
 ___
 
 ### Slučaj upotrebe Učitavanje slika
-Kratak opis: Korisnik bira da li će učitati jednu ili više slika sa svog računara.
+<u>Kratak opis:</u> Korisnik bira da li će učitati jednu ili više slika sa svog računara.
 
-Akteri: Korisnik
+<u>Akteri:</u> Korisnik
 
-Preduslovi: Aplikacija je pokrenuta.
+<u>Preduslovi:</u> Aplikacija je pokrenuta.
 
-Postuslovi: Slike su učitane – prikazuju se u aplikaciji i spremne su za editovanje.
+<u>Postuslovi:</u> Slike su učitane – prikazuju se u aplikaciji i spremne su za editovanje.
 
-Osnovni tok:
+<u>Osnovni tok:</u>
+1. Korisnik bira dugme "Import image" ili dugme "Choose multiple images" iz glavnog menija.
+2. Aplikacija prikazuje dijalog za odabir slika.
+<br>2.1. Ako je korisnik odabrao da učita samo jednu sliku:
+<br>&emsp;2.1.1. Aplikacija mu dozvoljava da odabere tačno jedan fajl sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
+<br>2.2. Ako je korisnik odabrao da učita više slika:
+<br>&emsp;2.2.1. Aplikacija mu dozvoljava da odabere jedan ili više fajlova sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
+3. Aplikacija obaveštava korisnika da su slike uspešno učitane.
+4. Korisnik bira dugme "Next" i prelazi se na sluačaj upotrebe Editovanje slika.
 
-Alternativni tokovi:
+<u>Alternativni tokovi:</u>
 
-Podtokovi:
+<u>Podtokovi:</u>
 
-Specijalni zahtevi:
+<u>Specijalni zahtevi:</u>
 
-Dodatne informacije:
+<u>Dodatne informacije:</u>
 
 ___
 ### Slučaj upotrebe Editovanje slika
