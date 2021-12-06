@@ -14,41 +14,51 @@ _Postuslovi:_ Slike su učitane – prikazuju se u aplikaciji i spremne su za ed
 _Osnovni tok:_ 
 
 1. Korisnik bira dugme "Import image" ili dugme "Choose multiple images" iz glavnog menija.
-2. Aplikacija prikazuje dijalog za odabir slika.
-<br>2.1. Ako je korisnik odabrao da učita samo jednu sliku:
-<br>&emsp;2.1.1. Aplikacija mu dozvoljava da odabere tačno jedan fajl sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
-<br>&emsp;2.1.2. Prelazi se na korak 3.
-<br>2.2. Ako je korisnik odabrao da učita više slika:
-<br>&emsp;2.2.1. Aplikacija mu dozvoljava da odabere jedan ili više fajlova sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
-<br>&emsp;2.2.2. Prelazi se na korak 3.
-3. Aplikacija obaveštava korisnika da su slike uspešno učitane.
-4. Korisnik bira dugme "Next" i prelazi se na sluačaj upotrebe Editovanje slika.
+2. Aplikacija prikazuje dijalog za odabir fajlova.
+<br>&emsp; 2.1. Ako je korisnik odabrao da učita samo jednu sliku:
+<br>&emsp;&emsp; 2.1.1. Aplikacija mu dozvoljava da odabere tačno jedan fajl sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
+<br>&emsp;&emsp; 2.1.2. Prelazi se na korak 3.
+<br>&emsp; 2.2. Ako je korisnik odabrao da učita više slika:
+<br>&emsp;&emsp; 2.2.1. Aplikacija mu dozvoljava da odabere više fajlova sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
+<br>&emsp;&emsp; 2.2.2. Prelazi se na korak 3.
+3. Aplikacija proverava da li su odabrani fajlovi ispravni.
+<br>&emsp; 3.1. Ako su odabrani fajlovi ispravni:
+<br>&emsp;&emsp; 3.1.1. Aplikacija obaveštava korisnika da su slike uspešno učitane.
+<br>&emsp;&emsp; 3.1.2. Aplikacija omogućava korisniku da odabere dugme "Next".
+<br>&emsp;&emsp; 3.1.3. Korisnik bira dugme "Next" i prelazi u prozor za editovanje slika.
+<br>&emsp;&emsp; 3.1.4. Prelazi se na slučaj upotrebe Editovanje slika.
+<br>&emsp; 3.2. Ako odabrani fajlovi nisu ispravni:
+<br>&emsp;&emsp; 3.2.1. Aplikacija obaveštava korisnika da je nemoguće učitati slike.
+<br>&emsp;&emsp; 3.2.2. Prelazi se na korak 1.
 
 _Alternativni tokovi:_
+* A1: **Neočekivani izlaz iz aplikacije.** Ako u bilo kom koraku korisnik isključi aplikaciju, sve što je bilo učitano će se poništiti i aplikacija će završiti sa radom. Slučaj upotrebe se završava.
 
-_Podtokovi:_
+* A2: **Korisnik se predomislio.** Ako u 2. ili 3. koraku korisnik shvati da ne želi da učitava slike i konvertuje ih u PDF dokument, već želi da uradi split dokumenta/merge dokumenata, može odabrati dugme "Split PDF"/"Merge PDF" iz glavnog menija. Sve što je eventualno bilo učitano se poništava i prelazi se na slučaj upotrebe Split dokumenta/Merge dokumenata.
 
-_Specijalni zahtevi:_
+_Podtokovi:_ /
 
-_Dodatne informacije:_
+_Specijalni zahtevi:_ /
+
+_Dodatne informacije:_ /
 
 ___
-### Slučaj upotrebe Editovanje slika
-Kratak opis: 
+### Slučaj upotrebe 
+_Kratak opis_: 
 
-Akteri: 
+_Akteri_: 
 
-Preduslovi:
+_Preduslovi_:
 
-Postuslovi:
+_Postuslovi_:
 
-Osnovni tok:
+_Osnovni tok_:
 
-Alternativni tokovi:
+_Alternativni tokovi_:
 
-Podtokovi:
+_Podtokovi_:
 
-Specijalni zahtevi:
+_Specijalni zahtevi_:
 
-Dodatne informacije:
+_Dodatne informacije_:
 ___
