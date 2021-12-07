@@ -92,17 +92,16 @@ void MainWindow::on_pbImport_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Import Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp *.jpeg)"));
 
     if (!fileName.isEmpty()) {
-        ui->lblOneImage->setText("image added");
-        ui->lblMultiple->setText("");
-
         display->setElements(QStringList(fileName));
 
         QImage image = display->getElement()->getImage();
-
         if (image.isNull()) {
             QMessageBox::information(this, tr("Descan"), tr("Cannot load image."));
             return;
         }
+
+        ui->lblOneImage->setText("image added");
+        ui->lblMultiple->setText("");
 
         ui->pbNextEdit->setDisabled(false);
         display->setImageInLabel();
@@ -131,17 +130,19 @@ void MainWindow::on_pbImportMultiple_clicked()
     }
 
     if (!fileNames.isEmpty()) {
-         ui->lblMultiple->setText(tr("%1 images added").arg(fileNames.size()));
-         ui->lblOneImage->setText("");
-
          display->setElements(fileNames);
 
-         QImage image = display->getElement()->getImage();
-
-         if (image.isNull()) {
-             QMessageBox::information(this, tr("Descan"), tr("Cannot load images."));
-             return;
+         vector<Image*> images = display->getElements();
+         for (auto i=images.cbegin(); i != images.cend(); i++) {
+             QImage image = (*i)->getImage();
+             if (image.isNull()) {
+                 QMessageBox::information(this, tr("Descan"), tr("Cannot load images."));
+                 return;
+             }
          }
+
+         ui->lblMultiple->setText(tr("%1 images added").arg(fileNames.size()));
+         ui->lblOneImage->setText("");
 
          ui->pbNextEdit->setDisabled(false);
          display->setImageInLabel();
