@@ -593,11 +593,12 @@ void MainWindow::on_pbSplitPdf_clicked()
         pdf->setInputFileSplit(fileName);
         filePathsPdf = pdf->splitPdf();
 
-        ui->stackedWidget->setCurrentIndex(2);
-        ui->pbBackEdit->deleteLater();
-        ui->pbConvert->deleteLater();
-
-        enableOptions();
+        if (!filePathsPdf.isEmpty()) {
+            ui->stackedWidget->setCurrentIndex(2);
+            ui->pbBackEdit->deleteLater();
+            ui->pbConvert->deleteLater();
+            enableOptions();
+        }
     }
 }
 

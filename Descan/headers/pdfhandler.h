@@ -21,6 +21,7 @@ using namespace std;
 using namespace pdftron;
 using namespace SDF;
 using namespace PDF;
+using namespace Common;
 
 class PDFHandler  : public QWidget
 {

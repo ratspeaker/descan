@@ -82,40 +82,56 @@ QStringList PDFHandler::splitPdf()
     int size = inputFileSplit.length() - index - 4;
     QString fileName = inputFileSplit.mid(index, size);
 
-    PDFDoc inputDocument(inputFileSplit.toStdString().c_str());
-    inputDocument.InitSecurityHandler();
-    int pageCount = inputDocument.GetPageCount();
+    //provera da li je fajl ispravan
+    try {
+        PDFDoc inputDocument(inputFileSplit.toStdString().c_str());
+        inputDocument.InitSecurityHandler();
+        int pageCount = inputDocument.GetPageCount();
 
-    if (pageCount == 1) {
-        QMessageBox::warning(this, tr("Split PDF"),
-                                   tr("Can't split single page document."),
-                                   QMessageBox::Cancel | QMessageBox::Ok,
-                                   QMessageBox::Cancel);
-    } else {
-        bool ok;
-        QString input = QInputDialog::getText(this, tr("Split PDF"),
-                                                    tr("Split on pages:"),
-                                                    QLineEdit::Normal, "", &ok,
-                                                    Qt::Dialog);
+        //ako dokument ima samo jednu stranicu
+        if (pageCount == 1) {
+            QMessageBox::warning(this, tr("Split PDF"),
+                                       tr("Can't split single page document."),
+                                       QMessageBox::Cancel | QMessageBox::Ok,
+                                       QMessageBox::Cancel);
+            return pdfFiles;
+        }
+
+        bool ok = false;
+        QString input;
+        while (!ok) {
+            input = QInputDialog::getText(this, tr("Split PDF"),
+                                                tr("Split on pages:"),
+                                                QLineEdit::Normal, "", &ok,
+                                                Qt::Dialog);
+        }
+
+        //ako korisnik nije uneo broj stranice
+        if (input.isEmpty()) {
+            QMessageBox::warning(this, tr("Split PDF"),
+                                       tr("You have to enter page number."),
+                                       QMessageBox::Cancel | QMessageBox::Ok,
+                                       QMessageBox::Cancel);
+            return pdfFiles;
+        }
 
         vector<int> pages;
-        if (ok && !input.isEmpty()) {
-            QStringList list(input.split(","));
-
-            for (auto page = list.cbegin(); page != list.cend(); page++) {
-                int indx = (*page).toInt();
-
-                if (indx > 0 && indx <= pageCount) {
-                    pages.push_back(indx);
-                } else {
-                    QMessageBox::warning(this, tr("Split PDF"),
-                                                   tr("Entered page number out of range."),
-                                                   QMessageBox::Cancel | QMessageBox::Ok,
-                                                   QMessageBox::Cancel);
-                }
+        QStringList list(input.split(","));
+        for (auto page = list.cbegin(); page != list.cend(); page++) {
+            int indx = (*page).toInt();
+            if (indx > 0 && indx <= pageCount) {
+                pages.push_back(indx);
             }
-            pages.push_back(pageCount);
+            else {
+                //ako broj stranice nije validan
+                QMessageBox::warning(this, tr("Split PDF"),
+                                           tr("Entered page number out of range."),
+                                           QMessageBox::Cancel | QMessageBox::Ok,
+                                           QMessageBox::Cancel);
+                return pdfFiles;
+            }
         }
+        pages.push_back(pageCount);
 
         QString outputPath = QFileDialog::getExistingDirectory(this, tr("Save"), "/home/", QFileDialog::ShowDirsOnly);
 
@@ -143,6 +159,17 @@ QStringList PDFHandler::splitPdf()
             QMessageBox::information(this, tr("Split PDF"), tr("Your file has been successfully split!"));
         }
     }
+    catch(Common::Exception& e)
+    {
+        qDebug() << "Exception";
+        QMessageBox::information(this, tr("Descan"), tr("Cannot load document."));
+    }
+    catch(...)
+    {
+        qDebug() << "Unknown Exception";
+        QMessageBox::information(this, tr("Descan"), tr("Cannot load document."));
+    }
+
     return pdfFiles;
 }
 
