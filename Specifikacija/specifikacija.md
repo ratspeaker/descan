@@ -43,22 +43,46 @@ _Specijalni zahtevi:_ /
 _Dodatne informacije:_ /
 
 ___
-### Slučaj upotrebe 
-_Kratak opis_: 
+### Slučaj upotrebe Split dokumenta
+_Kratak opis_: Korisnik želi da podeli svoj dokument na određenim stranicama. 
 
-_Akteri_: 
+_Akteri_: Korisnik
 
-_Preduslovi_:
+_Preduslovi_: Aplikacija je pokrenuta.
 
-_Postuslovi_:
+_Postuslovi_: Dokument je podeljen u više novih dokumenata za koje korisnik sada ima nekoliko opcija. 
 
 _Osnovni tok_:
 
+1. Korisnik bira dugme "Split PDF" iz glavnog menija.
+2. Aplikacija prikazuje dijalog za odabir fajlova. Dozvoljava korisniku da odabere tačno jedan fajl sa ekstenzijom .pdf.
+3. Aplikacija proverava da li je odabran fajl ispravan.
+<br>&emsp; 3.1. Ako odabran fajl nije ispravan:
+<br>&emsp;&emsp;&emsp; 3.1.1. Aplikacija obaveštava korisnika da dokument nije ispravan.
+<br>&emsp;&emsp;&emsp; 3.1.2. Prelazi se na korak 1.
+<br>&emsp; 3.2. Ako odabran fajl jeste ispravan:
+<br>&emsp;&emsp;&emsp; 3.2.1. Ako je korisnik odabrao dokument koji ima samo jednu stranicu:
+<br>&emsp;&emsp;&emsp;&emsp;&emsp; 3.2.1.1. Aplikacija obaveštava korisnika da nije moguće podeliti takav dokument.
+<br>&emsp;&emsp;&emsp;&emsp;&emsp; 3.2.1.2. Prelazi se na korak 1.
+4. Aplikacija prikazuje dijalog za unos stranica na kojima će se podeliti dokument.
+<br>&emsp; 4.1. Ako korisnik nije uneo ni jedan broj stranice:
+<br>&emsp;&emsp;&emsp; 4.1.1. Aplikacija obaveštava korisnika da mora uneti broj stranice.
+<br>&emsp;&emsp;&emsp; 4.1.2. Prelazi se na korak 1.
+<br>&emsp; 4.2. Ako je korisnik uneo broj stranice koji nije validan:
+<br>&emsp;&emsp;&emsp; 4.2.1. Aplikacija obaveštava korisnika da broj stranice nije validan.
+<br>&emsp;&emsp;&emsp; 4.2.2. Prelazi se na korak 1.
+5. Prelazi se na slučaj upotrebe Čuvanje dokumenta. Po završetku se prelazi na korak 6.
+6. Aplikacija obaveštava korisnika da je njegov dokument uspešno podeljen.
+7. Prelazi se na slučaj upotrebe Dodatno korišćenje dokumenta.
+
 _Alternativni tokovi_:
+* A1: **Neočekivani izlaz iz aplikacije.** Ako u koracima 1-5 korisnik isključi aplikaciju, sve što je eventualno bilo učitano će se poništiti i aplikacija će završiti sa radom. Slučaj upotrebe se završava.
 
-_Podtokovi_:
+* A2: **Korisnik se predomislio.** Ako u koracima 1-5 korisnik shvati da ne želi da deli svoj dokument, već želi da konvertuje slike u PDF dokument ili objedini više dokumenata u jedan, može odabrati drugu opciju iz glavnog menija. Sve što je eventualno bilo učitano se poništava i prelazi se na slučaj upotrebe Učitavanje slika ili slučaj upotrebe Merge dokumenata.
 
-_Specijalni zahtevi_:
+_Podtokovi_: /
 
-_Dodatne informacije_:
+_Specijalni zahtevi_: /
+
+_Dodatne informacije_: /
 ___
