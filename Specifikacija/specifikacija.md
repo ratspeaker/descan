@@ -42,6 +42,10 @@ _Specijalni zahtevi:_ /
 
 _Dodatne informacije:_ /
 
+_Dijagram sekvenci:_
+
+![](dijagram_sekvenci_slike.png) 
+
 ___
 ### Slučaj upotrebe Split dokumenta
 _Kratak opis_: Korisnik želi da podeli svoj dokument na određenim stranicama. 
@@ -78,11 +82,13 @@ _Osnovni tok_:
 _Alternativni tokovi_:
 * A1: **Neočekivani izlaz iz aplikacije.** Ako u koracima 1-5 korisnik isključi aplikaciju, sve što je eventualno bilo učitano će se poništiti i aplikacija će završiti sa radom. Slučaj upotrebe se završava.
 
-* A2: **Korisnik se predomislio.** Ako u koracima 1-5 korisnik shvati da ne želi da deli svoj dokument, već želi da konvertuje slike u PDF dokument ili objedini više dokumenata u jedan, može odabrati drugu opciju iz glavnog menija. Sve što je eventualno bilo učitano se poništava i prelazi se na slučaj upotrebe Učitavanje slika ili slučaj upotrebe Merge dokumenata.
+* A2: **Korisnik se predomislio.** Ako u koracima 1-5 korisnik shvati da ne želi da deli svoj dokument, već želi da konvertuje slike u PDF dokument ili objedini više dokumenata u jedan, može odabrati drugu opciju iz glavnog menija. Sve što je eventualno bilo učitano se poništava i prelazi se na slučaj upotrebe Učitavanje slika, odnosno slučaj upotrebe Merge dokumenata.
 
 _Podtokovi_: /
 
 _Specijalni zahtevi_: /
 
 _Dodatne informacije_: /
+
+_Dijagram sekvenci:_
 ___
