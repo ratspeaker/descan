@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QPdfWriter>
 #include <QPainter>
+#include <unistd.h>
+#include <string>
 
 #include "../PDFNetC64/Headers/PDF/Optimizer.h"
 #include "../PDFNetC64/Headers/PDF/PDFNet.h"

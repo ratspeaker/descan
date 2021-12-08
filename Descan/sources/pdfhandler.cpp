@@ -133,10 +133,12 @@ QStringList PDFHandler::splitPdf()
         }
         pages.push_back(pageCount);
 
-        QString outputPath = QFileDialog::getExistingDirectory(this, tr("Save"), "/home/", QFileDialog::ShowDirsOnly);
+        QString username = QString::fromStdString(getlogin());
+        QString outputPath = QFileDialog::getExistingDirectory(this, tr("Save"), "/home/"+username, QFileDialog::ShowDirsOnly);
+        qDebug() << outputPath;
 
         int i = 1;
-        if (!outputPath.isEmpty()) {
+        //if (!outputPath.isEmpty()) {
             int prev = 1;
             for (auto it = pages.cbegin(); it != pages.cend(); it++)
             {
@@ -157,7 +159,7 @@ QStringList PDFHandler::splitPdf()
                 i++;
             }
             QMessageBox::information(this, tr("Split PDF"), tr("Your file has been successfully split!"));
-        }
+        //}
     }
     catch(Common::Exception& e)
     {
