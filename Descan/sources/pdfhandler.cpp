@@ -39,6 +39,7 @@ void PDFHandler::convertImagesIntoPdf(QString &fileName, std::vector<Image*> &im
     }
 }
 
+
 void PDFHandler::compressPDF(QString& fileName)
 {
     PDFDoc doc(fileName.toStdString().c_str());
@@ -47,13 +48,11 @@ void PDFHandler::compressPDF(QString& fileName)
     doc.Save(fileName.toStdString().c_str(), SDFDoc::e_linearized, NULL);
 }
 
+
 QString PDFHandler::mergePdf()
 {
-    QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/", tr("*.pdf"));
-    QString output = outputFile + ".pdf";
-
-    if (!outputFile.isEmpty()) {
-        qDebug() << "Spajanje više PDF-ova u jedan";
+    QString output;
+    try {
         PDFDoc newDocument;
         newDocument.InitSecurityHandler();
 
@@ -61,19 +60,30 @@ QString PDFHandler::mergePdf()
         for (auto i = 0; i < inputFilesMerge.size(); i++) {
             QString inputFile(inputFilesMerge[i]);
             PDFDoc inDocument(inputFile.toStdString().c_str());
-
-            //qDebug() << index;
             newDocument.InsertPages(index, inDocument, 1, inDocument.GetPageCount(), PDFDoc::e_none);
             index += (inDocument.GetPageCount() + 1);
         }
 
-        newDocument.Save(output.toStdString().c_str(), SDFDoc::e_remove_unused, 0);
+        QString username = QString::fromStdString(getlogin());
+        QString outputFile = QFileDialog::getSaveFileName(this, tr("Save"), "/home/"+username, tr("*.pdf"));
 
-        QMessageBox::information(this, tr("Merge PDF"), tr("Your files have been successfully merged!"));
+        if (!outputFile.isEmpty()) {
+            output = outputFile + ".pdf";
+            newDocument.Save(output.toStdString().c_str(), SDFDoc::e_remove_unused, 0);
+            QMessageBox::information(this, tr("Merge PDF"), tr("Your files have been successfully merged!"));
+        }
     }
-
+    catch(Common::Exception& e) {
+        qDebug() << "Exception";
+        QMessageBox::information(this, tr("Descan"), tr("Cannot load documents."));
+    }
+    catch(...) {
+        qDebug() << "Unknown Exception";
+        QMessageBox::information(this, tr("Descan"), tr("Cannot load documents."));
+    }
     return output;
 }
+
 
 QStringList PDFHandler::splitPdf()
 {
@@ -138,7 +148,7 @@ QStringList PDFHandler::splitPdf()
         qDebug() << outputPath;
 
         int i = 1;
-        //if (!outputPath.isEmpty()) {
+        if (!outputPath.isEmpty()) {
             int prev = 1;
             for (auto it = pages.cbegin(); it != pages.cend(); it++)
             {
@@ -159,7 +169,7 @@ QStringList PDFHandler::splitPdf()
                 i++;
             }
             QMessageBox::information(this, tr("Split PDF"), tr("Your file has been successfully split!"));
-        //}
+        }
     }
     catch(Common::Exception& e)
     {
@@ -174,6 +184,7 @@ QStringList PDFHandler::splitPdf()
 
     return pdfFiles;
 }
+
 
 void PDFHandler::setInputFilesMerge(const QStringList &fileName)
 {

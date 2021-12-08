@@ -562,12 +562,13 @@ void MainWindow::on_pbRightImage_clicked()
 //konvertovanje jedne ili vise slika u pdf
 void MainWindow::on_pbConvert_clicked()
 {
+    QString username = QString::fromStdString(getlogin());
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save PDF File As"),
-                                                          "/home/",
+                                                          "/home/"+username,
                                                           tr("PDF Files(*.pdf)"));
-    QString newFileName = fileName + ".pdf";
 
     if (!fileName.isEmpty()) {
+        QString newFileName = fileName + ".pdf";
         PDFHandler::convertImagesIntoPdf(newFileName, display->m_elements);
         filePathsPdf.append(newFileName);
         QMessageBox::information(this, tr("Convert to PDF"),
@@ -606,7 +607,6 @@ void MainWindow::on_pbSplitPdf_clicked()
 void MainWindow::on_pbMergePdf_clicked()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Import PDFs"), "/home/", tr("*.pdf"));
-    //qDebug() << fileNames;
     fileNames.sort();
 
     if (!fileNames.isEmpty()) {
@@ -614,11 +614,12 @@ void MainWindow::on_pbMergePdf_clicked()
         QString filePath = pdf->mergePdf();
         filePathsPdf.append(filePath);
 
-        ui->stackedWidget->setCurrentIndex(2);
-        ui->pbBackEdit->deleteLater();
-        ui->pbConvert->deleteLater();
-
-        enableOptions();
+        if (!filePath.isEmpty()) {
+            ui->stackedWidget->setCurrentIndex(2);
+            ui->pbBackEdit->deleteLater();
+            ui->pbConvert->deleteLater();
+            enableOptions();
+        }
     }
 }
 
