@@ -17,10 +17,10 @@ _Osnovni tok:_
 2. Aplikacija prikazuje dijalog za odabir fajlova.
 <br>&emsp; 2.1. Ako je korisnik odabrao da učita samo jednu sliku:
 <br>&emsp;&emsp;&emsp; 2.1.1. Aplikacija mu dozvoljava da odabere tačno jedan fajl sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
-<br>&emsp;&emsp;&emsp; 2.1.2. Prelazi se na korak 3.
+<br>&emsp;&emsp;&emsp; 2.1.2. Korisnik bira fajl.
 <br>&emsp; 2.2. Ako je korisnik odabrao da učita više slika:
 <br>&emsp;&emsp;&emsp; 2.2.1. Aplikacija mu dozvoljava da odabere više fajlova sa nekom od sledećih ekstenzija: .jpg, .jpeg, .png, .bmp.
-<br>&emsp;&emsp;&emsp; 2.2.2. Prelazi se na korak 3.
+<br>&emsp;&emsp;&emsp; 2.2.2. Korisnik bira fajlove.
 3. Aplikacija proverava da li su odabrani fajlovi ispravni.
 <br>&emsp; 3.1. Ako su odabrani fajlovi ispravni:
 <br>&emsp;&emsp;&emsp; 3.1.1. Aplikacija obaveštava korisnika da su slike uspešno učitane.
@@ -44,7 +44,7 @@ _Dodatne informacije:_ /
 
 _Dijagram sekvenci:_
 
-![](dijagram_sekvenci_slike.png) 
+![](dijagram_sekvenci_ucitavanje_slika.png) 
 
 ___
 ### Slučaj upotrebe Split dokumenta
