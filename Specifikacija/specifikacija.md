@@ -91,4 +91,6 @@ _Specijalni zahtevi_: /
 _Dodatne informacije_: /
 
 _Dijagram sekvenci:_
+
+![](dijagram_sekvenci_split_dokumenta.png)
 ___
