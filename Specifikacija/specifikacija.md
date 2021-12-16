@@ -1,3 +1,7 @@
+## Dijagram komponenti
+![](dijagram_komponenti.png)
+___
+
 ## Dijagram slučajeva upotrebe
 ![](dijagram_slucajeva_upotrebe.png) 
 ___
