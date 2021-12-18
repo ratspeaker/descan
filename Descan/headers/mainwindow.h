@@ -5,6 +5,7 @@
 #include "headers/displayarea.h"
 #include "headers/pdfhandler.h"
 #include "headers/drive.h"
+#include "dialogmail.h"
 #include <vector>
 #include <utility>
 #include <QWidget>
@@ -59,6 +60,7 @@ public:
     QStringList filePathsPdf;
     PDFHandler *pdf;
     Drive *drive = nullptr;
+    DialogMail *mail = nullptr;
 
     QString convertArg;
 

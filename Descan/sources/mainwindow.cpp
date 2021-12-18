@@ -63,6 +63,8 @@ MainWindow::~MainWindow()
     delete pdf;
     if (drive)
         delete drive;
+    if (mail)
+        delete mail;
     delete display;
     delete ui;
 }
@@ -643,9 +645,9 @@ void MainWindow::on_pbCompress_clicked()
 //dugme za slanje mejla
 void MainWindow::on_pbMail_clicked()
 {
-    DialogMail dialogMail(this, std::move(filePathsPdf));
-    dialogMail.setModal(true);
-    dialogMail.exec();
+    mail = new DialogMail(this, std::move(filePathsPdf));
+    mail->setModal(true);
+    mail->exec();
 }
 
 //dugme za postavljanje na drajv
