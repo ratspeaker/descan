@@ -1,9 +1,9 @@
 # Dijagram komponenti
-![](dijagram_komponenti.png)
+![dijagram komponenti](dijagram_komponenti.png)
 ___
 
 # Dijagram slučajeva upotrebe
-![](dijagram_slucajeva_upotrebe.png) 
+![dijagram slučajeva upotrebe](dijagram_slucajeva_upotrebe.png) 
 ___
 
 ### Slučaj upotrebe Učitavanje slika
@@ -48,7 +48,7 @@ _Dodatne informacije:_ /
 
 _Dijagram sekvenci:_
 
-![](dijagram_sekvenci_ucitavanje_slika.png) 
+![dijagram sekvenci slike](dijagram_sekvenci_slike.png) 
 
 ___
 ### Slučaj upotrebe Split dokumenta
@@ -96,8 +96,8 @@ _Dodatne informacije_: /
 
 _Dijagram sekvenci:_
 
-![](dijagram_sekvenci_split_dokumenta.png)
+![dijagram sekvenci split](dijagram_sekvenci_split.png)
 ___
 
 # Dijagram klasa
-![](dijagram_klasa.png)
+![dijagram klasa](dijagram_klasa.png)
