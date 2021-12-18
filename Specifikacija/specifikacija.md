@@ -1,7 +1,6 @@
 # Dijagram komponenti
 ![](dijagram_komponenti.png)
 ___
-<br>
 
 # Dijagram slučajeva upotrebe
 ![](dijagram_slucajeva_upotrebe.png) 
@@ -99,6 +98,6 @@ _Dijagram sekvenci:_
 
 ![](dijagram_sekvenci_split_dokumenta.png)
 ___
-<br>
 
 # Dijagram klasa
+![](dijagram_klasa.png)
