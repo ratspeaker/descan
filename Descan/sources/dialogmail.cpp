@@ -33,39 +33,81 @@ void DialogMail::on_pbBrowse_clicked()
     m_filePathsPdf.append(browseFilePath);
 }
 
+const QStringList DialogMail::mailContent(QString& recipient, QString& subject) {
+    return {tr("To: <%1>").arg(recipient),
+            "From: <descan.soft@gmail.com> Descan Soft",
+            "Message-ID: <dcd7cb36-21db-687a-9f3a-e657a9452efd@",
+            tr("Subject: %1").arg(subject),
+            nullptr};
+}
+
+std::string DialogMail::passwordReader() {
+    QString path = QDir("..").absoluteFilePath("sifra.txt");
+    QFile file(path);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    auto password = file.readAll();
+    file.close();
+    return password.toStdString();
+}
+
+void DialogMail::initSettings(CURL* curl, std::string password) {
+    curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
+    curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
+}
+
+void DialogMail::messageInit(curl_mime* &mime, curl_mime* &alt, CURL* curl) {
+    mime = curl_mime_init(curl);
+    alt = curl_mime_init(curl);
+}
+
+void DialogMail::messageText(curl_mimepart* &part, curl_mime* mime, curl_mime* alt, QString& message) {
+    part = curl_mime_addpart(alt);
+    curl_mime_data(part, message.toStdString().c_str(), CURL_ZERO_TERMINATED);
+    part = curl_mime_addpart(mime);
+    curl_mime_subparts(part, alt);
+    curl_mime_type(part, "multipart/alternative");
+}
+
+void DialogMail::addAttachment(curl_mimepart* &part, curl_mime* mime, CURL* curl) {
+    for (auto &path: m_filePathsPdf) {
+        part = curl_mime_addpart(mime);
+        curl_mime_encoder(part, "base64");
+        curl_mime_filedata(part, path.toStdString().c_str());
+        curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+    }
+}
+
+void DialogMail::initStructRecipients(struct curl_slist* recipients, QString& recipient, CURL* curl) {
+    recipients = curl_slist_append(recipients, recipient.toStdString().c_str());
+    curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+}
+
+void DialogMail::initStructHeaders(const QStringList content, struct curl_slist* headers, CURL* curl) {
+    for (auto &con: content) {
+        headers = curl_slist_append(headers, con.toStdString().c_str());
+    }
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+}
+
+void DialogMail::initStructSlist(struct curl_slist* slist, curl_mimepart* part) {
+    slist = curl_slist_append(NULL, "Content-Disposition: inline");
+    curl_mime_headers(part, slist, 1);
+}
+
 auto DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
 
-    const QStringList emailContent{tr("To: <%1>").arg(recipient),
-                                   "From: <descan.soft@gmail.com> Descan Soft",
-                                   "Message-ID: <dcd7cb36-21db-687a-9f3a-e657a9452efd@",
-                                   tr("Subject: %1").arg(subject),
-                                   nullptr};
+    const QStringList content = mailContent(recipient, subject);
 
-    CURL *curl;
-    CURLcode res = CURLE_OK;
-
-    //ovo mora da se prvo pozove i vraca hendler koji se koristi dole u funkcijama
+    CURL *curl = nullptr;
     curl = curl_easy_init();
 
+    CURLcode res = CURLE_OK;
+
     if (curl) {
-        struct curl_slist *headers = NULL;
-        struct curl_slist *recipients = NULL;
-        struct curl_slist *slist = NULL;
-        curl_mime *mime;
-        curl_mime *alt;
-        curl_mimepart *part;
+        std::string password = passwordReader();
 
-        //citanje sifre iz fajla
-        QString path = QDir("..").absoluteFilePath("sifra.txt");
-        QFile file(path);
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        auto password = file.readAll();
-        file.close();
-
-        //posiljalac, sifra i server se podesavaju
-        curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.toStdString().c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
+        initSettings(curl, password);
 
         #ifdef SKIP_PEER_VERIFICATION
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -77,36 +119,25 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
 
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, "<descan.soft@gmail.com>");
 
-        //ovde dodajemo primaoca
-        recipients = curl_slist_append(recipients, recipient.toStdString().c_str());
-        curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+        struct curl_slist *recipients = NULL;
+        initStructRecipients(recipients, recipient, curl);
 
-        //dodajemo u strukturu headers delove mejla koji se salje
-        for (auto &con: emailContent)
-            headers = curl_slist_append(headers, con.toStdString().c_str());
-
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        struct curl_slist *headers = NULL;
+        initStructHeaders(content, headers, curl);
 
         //inicijalizuje se poruka
-        mime = curl_mime_init(curl);
-        alt = curl_mime_init(curl);
+        curl_mime *mime = nullptr;
+        curl_mime *alt  = nullptr;
+        messageInit(mime, alt, curl);
 
         //dodaje se tekst poruke
-        part = curl_mime_addpart(alt);
-        curl_mime_data(part, message.toStdString().c_str(), CURL_ZERO_TERMINATED);
-        part = curl_mime_addpart(mime);
-        curl_mime_subparts(part, alt);
-        curl_mime_type(part, "multipart/alternative");
-        slist = curl_slist_append(NULL, "Content-Disposition: inline");
-        curl_mime_headers(part, slist, 1);
+        curl_mimepart *part = nullptr;
+        messageText(part, mime, alt, message);
 
-        for (auto &path: m_filePathsPdf) {
-            //dodaje se attachment
-            part = curl_mime_addpart(mime);
-            curl_mime_encoder(part, "base64");
-            curl_mime_filedata(part, path.toStdString().c_str());
-            curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
-        }
+        struct curl_slist *slist = NULL;
+        initStructSlist(slist, part);
+
+        addAttachment(part, mime, curl);
 
         //salje se poruka i kupi se rezultat
         res = curl_easy_perform(curl);
@@ -120,7 +151,7 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
         curl_mime_free(mime);
     }
 
-    qDebug() << static_cast<int>(res);
+    qDebug() << static_cast<int>(res); //0
     return res;
 }
 
@@ -132,7 +163,6 @@ void DialogMail::on_pbSend_clicked()
 
     auto res = mailSender(recipient, subject, message);
 
-    //proverava se da li je poruka poslata
     if (res != CURLE_OK) {
         std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res);
         QMessageBox::warning(this, "Email", "Email has not been sent!");
