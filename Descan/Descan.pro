@@ -16,11 +16,11 @@ SOURCES += \
     sources/displayarea.cpp \
     sources/drive.cpp \
     sources/image.cpp \
-    sources/main.cpp \
+    #sources/main.cpp \
     sources/mainwindow.cpp \
     sources/pdfhandler.cpp \
-    #tests/test_image.cpp \
-    #tests/test_mail.cpp
+    tests/test_image.cpp \
+    tests/test_mail.cpp
 
 HEADERS += \
     headers/displayarea.h \
@@ -29,7 +29,7 @@ HEADERS += \
     headers/mainwindow.h \
     headers/pdfhandler.h \
     headers/dialogmail.h \
-    #tests/catch.hpp
+    tests/catch.hpp
 
 FORMS += \
     forms/mainwindow.ui \

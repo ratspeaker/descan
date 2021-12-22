@@ -50,12 +50,6 @@ std::string DialogMail::passwordReader() {
     return password.toStdString();
 }
 
-void DialogMail::initSettings(CURL* curl, std::string password) {
-    curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
-    curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
-    curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
-}
-
 void DialogMail::messageInit(curl_mime* &mime, curl_mime* &alt, CURL* curl) {
     mime = curl_mime_init(curl);
     alt = curl_mime_init(curl);
@@ -78,24 +72,24 @@ void DialogMail::addAttachment(curl_mimepart* &part, curl_mime* mime, CURL* curl
     }
 }
 
-void DialogMail::initStructRecipients(struct curl_slist* recipients, QString& recipient, CURL* curl) {
+void DialogMail::initStructRecipients(struct curl_slist* &recipients, QString& recipient, CURL* curl) {
     recipients = curl_slist_append(recipients, recipient.toStdString().c_str());
     curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 }
 
-void DialogMail::initStructHeaders(const QStringList content, struct curl_slist* headers, CURL* curl) {
+void DialogMail::initStructHeaders(const QStringList content, struct curl_slist* &headers, CURL* curl) {
     for (auto &con: content) {
         headers = curl_slist_append(headers, con.toStdString().c_str());
     }
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-void DialogMail::initStructSlist(struct curl_slist* slist, curl_mimepart* part) {
+void DialogMail::initStructSlist(struct curl_slist* &slist, curl_mimepart* part) {
     slist = curl_slist_append(NULL, "Content-Disposition: inline");
     curl_mime_headers(part, slist, 1);
 }
 
-auto DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
+CURLcode DialogMail::mailSender(QString& recipient, QString& subject, QString& message) {
 
     const QStringList content = mailContent(recipient, subject);
 
@@ -107,7 +101,9 @@ auto DialogMail::mailSender(QString& recipient, QString& subject, QString& messa
     if (curl) {
         std::string password = passwordReader();
 
-        initSettings(curl, password);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, "descan.soft@gmail.com");
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, "smtps://smtp.gmail.com");
 
         #ifdef SKIP_PEER_VERIFICATION
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
