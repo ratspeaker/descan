@@ -66,30 +66,77 @@ TEST_CASE("Image", "[class]")
 
     SECTION("Metod size uspesno vraca velicinu slike")
     {
+        // Arrange
         const QString filePath = "../jojo.png";
         Image img = Image(filePath);
-        REQUIRE(img.size() == img.getImage().size());
+
+        // Act + Assert
+        REQUIRE(img.size() == QSize(1366, 768));
     }
 
     SECTION("Metod isNull uspesno proverava da li slika zapravo postoji")
     {
+        // Arrange
         const QString filePath = "../jojo.png";
         Image img = Image(filePath);
-        REQUIRE(img.isNull() == img.getImage().isNull());
+        const QString filePath2 = "../nePostoji.png";
+        Image img2 = Image(filePath2);
+
+        // Act + Assert
+        REQUIRE(!img.isNull());
+        REQUIRE(img2.isNull());
     }
 
     SECTION("Metod getScaleFactor uspesno vraca vrednost polja scaleFactor")
     {
+        // Arrange
         const QString filePath = "../jojo.png";
         Image img = Image(filePath);
+
+        // Act + Assert
         REQUIRE(img.getScaleFactor() == 0.0);
     }
 
     SECTION("Metod setScaleFactor uspesno postavlja vrednost polja scaleFactor")
     {
+        // Arrange
         const QString filePath = "../jojo.png";
         Image img = Image(filePath);
+
+        // Act
         img.setScaleFactor(1.0);
+
+        // Assert
         REQUIRE(img.getScaleFactor() == 1.0);
+    }
+
+    SECTION("Metod getSlider uspesno vraca vrednost polja sliders (vraca celu mapu)")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+        std::map<QString, int> ocekivanRezultat = {{"scale", 0}, {"hor", 0}, {"ver", 0},
+                                                   {"brigh", 0}, {"con", 0}, {"gam", 0}, {"sat", 0}};
+
+        // Act
+        std::map<QString, int> dobijenRezultat = img.getSlider();
+
+        // Assert
+        REQUIRE(dobijenRezultat == ocekivanRezultat);
+    }
+
+    SECTION("Metod setSlider uspesno postavlja vrednost polja sliders (postavlja vrednost jednog elementa mape)")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+
+        // Act
+        img.setSlider("scale", 1);
+        img.setSlider("brigh", 2);
+
+        // Assert
+        REQUIRE(img.getSlider()["scale"] == 1);
+        REQUIRE(img.getSlider()["brigh"] == 2);
     }
 }
