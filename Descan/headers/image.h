@@ -59,13 +59,13 @@ public:
     std::stack<std::pair<QImage, std::map<QString, int>>> undoStack;
     std::stack<std::pair<QImage, std::map<QString, int>>> redoStack;
 
-    std::map<QString, int>sliders =  {{"scale", 0}, {"hor", 0}, {"ver", 0},
+    std::map<QString, int> sliders = {{"scale", 0}, {"hor", 0}, {"ver", 0},
                                       {"brigh", 0}, {"con", 0}, {"gam", 0}, {"sat", 0}};
 
 private:
     QImage m_image;
-    QString m_filePath;
-    double scaleFactor;
+    QString m_filePath = "";
+    double scaleFactor = 0.0;
 };
 
 double truncate(double x);
