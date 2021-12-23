@@ -35,6 +35,9 @@ PDFNetC64
 sifra.txt
 client_secret.json
 Descan/tests/catch.hpp
+jojo.pdf
+jojo.png
+sneg.jpg
 
 # Qt unit tests
 target_wrapper.*
