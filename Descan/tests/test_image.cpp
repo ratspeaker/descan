@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../headers/image.h"
+#include "QGuiApplication"
 
 TEST_CASE("Image", "[class]")
 {
@@ -138,5 +139,74 @@ TEST_CASE("Image", "[class]")
         // Assert
         REQUIRE(img.getSlider()["scale"] == 1);
         REQUIRE(img.getSlider()["brigh"] == 2);
+    }
+
+    SECTION("Metod resizeImage uspesno menja dimenzije slike i vraca izmenjenu sliku")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+        double factor = 1.2;
+
+        // Act
+        QImage qimg1 = img.resizeImage(factor, 'w');
+        QImage qimg2 = img.resizeImage(factor, 'h');
+        QImage qimg3 = img.resizeImage(factor, 's');
+
+        // Assert
+        REQUIRE(qimg1.width() == static_cast<int>(1366 * factor));
+        REQUIRE(qimg2.height() == static_cast<int>(768 * factor));
+        REQUIRE(qimg3.size() == QSize(1366 * factor, 768 * factor));
+    }
+
+    SECTION("Metod changeBrightness uspesno menja osvetljenje slike i vraca izmenjenu sliku")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+        double factor = 80;
+
+        // Act
+        QImage qimg = img.changeBrightness(factor);
+
+        // Assert
+        REQUIRE(!qimg.isNull());
+        // da li se promenila boja random pixela
+        REQUIRE(qimg.pixel(1200, 120) != img.getImage().pixel(1200, 120));
+    }
+
+    SECTION("Metod width uspesno vraca sirinu slike")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+
+        // Act + Assert
+        REQUIRE(img.width() == 1366);
+    }
+
+    SECTION("Metod height uspesno vraca visinu slike")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+
+        // Act + Assert
+        REQUIRE(img.height() == 768);
+    }
+
+    SECTION("Metod printImagesIntoPdf uspesno iscrtava sliku 'na papiru'")
+    {
+        // Arrange
+        const QString filePath = "../jojo.png";
+        Image img = Image(filePath);
+        int x = 1;
+        QGuiApplication app(x, nullptr);
+        QPdfWriter pdfWriter("../jojo.pdf");
+        QPainter painter(&pdfWriter);
+
+        // Act + Assert
+        REQUIRE_NOTHROW(img.printImageIntoPdf(painter));
+        // pdf fajl se promenio, drugacije se stampa slika
     }
 }
