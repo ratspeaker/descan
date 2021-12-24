@@ -269,7 +269,7 @@ void Image::emptyUndoActions()
 void Image::emptyRedoActions()
 {
     while(!redoStack.empty()) {
-        undoStack.pop();
+        redoStack.pop();
     }
 }
 
